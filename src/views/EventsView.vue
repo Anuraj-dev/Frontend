@@ -18,11 +18,8 @@
           </h2>
         </div>
         <div
-          class="card-base rs"
+          class="card-base rs grid-2"
           style="
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
             align-items: center;
             border: 1px solid rgba(79, 142, 247, 0.3);
           ">
