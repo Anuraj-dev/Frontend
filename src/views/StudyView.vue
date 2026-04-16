@@ -518,12 +518,9 @@
       <div class="container">
         <div
           style="
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
             align-items: stretch;
           "
-          class="sc-contrib-grid">
+          class="sc-contrib-grid grid-2">
           <div
             class="card-base"
             style="

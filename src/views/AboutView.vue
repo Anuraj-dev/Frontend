@@ -161,12 +161,8 @@
           <h2 class="section-title-xl">Our <span class="tg">impact</span></h2>
         </div>
         <div
-          class="stats-band"
-          style="
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-          ">
+          class="stats-band grid-4"
+          style="gap: 1.5rem;">
           <div
             class="card-base"
             style="text-align: center"

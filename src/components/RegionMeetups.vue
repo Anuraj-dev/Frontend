@@ -452,4 +452,15 @@ export default {
   .past-photos .ph { height:140px; }
   .past-stats { grid-template-columns:1fr 1fr; }
 }
+@media (max-width: 480px) {
+  .hero-stats { flex-wrap: wrap; gap: 16px; }
+  .hstat-div { display: none; }
+  .stats-row { grid-template-columns: 1fr; }
+  .past-stats { grid-template-columns: 1fr; }
+  .upcoming-info { padding: 24px 16px; }
+  .upcoming-register { padding: 24px 16px; }
+  .past-card-head { padding: 24px 16px 0; }
+  .past-about { padding: 0 16px 18px; }
+  .past-card-footer { padding: 16px; flex-direction: column; align-items: flex-start; gap: 12px; }
+}
 </style>
