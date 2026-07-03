@@ -120,6 +120,45 @@
       </div>
     </section>
 
+    <!-- House Magazine -->
+    <section class="section rs">
+      <div class="container">
+        <div class="sec-hdr">
+          <div class="section-tag">House Magazine</div>
+          <h2 class="section-title-xl">
+            Read our <span class="tg">magazine on your phone</span>
+          </h2>
+          <p class="desc magazine-intro">
+            Browse the latest issue right here, or open it in a full-screen tab
+            for a more comfortable reading experience on mobile.
+          </p>
+        </div>
+
+        <div class="magazine-shell">
+          <div class="magazine-frame">
+            <iframe
+              :src="magazineEmbedUrl"
+              title="Sundarbans House Magazine"
+              loading="lazy"
+              allowfullscreen
+              allow="autoplay; clipboard-read; clipboard-write"
+            />
+          </div>
+
+          <div class="magazine-actions">
+            <a
+              class="magazine-open-link"
+              :href="magazineEmbedUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open in full screen
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Values -->
     <section class="section rs" style="background: var(--bg2)">
       <div class="container">
@@ -606,6 +645,9 @@ import PageHero from "../components/PageHero.vue";
 useScrollReveal();
 useCounters();
 
+const magazineEmbedUrl =
+  "https://player.flipsnack.com?hash=N0U3Nzg2RUQ3NUUrdTVzNGt1ZDJneA==";
+
 const values = [
   {
     icon: "🎓",
@@ -812,5 +854,76 @@ const leadership = [
 /* Show tooltip on hover for dimmed social buttons */
 span:hover > .sc-tip {
   opacity: 1 !important;
+}
+
+.magazine-intro {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.magazine-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.magazine-frame {
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(212, 160, 23, 0.18);
+  background:
+    radial-gradient(circle at top, rgba(212, 160, 23, 0.12), transparent 55%),
+    rgba(8, 7, 5, 0.92);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.magazine-frame iframe {
+  display: block;
+  width: 100%;
+  height: min(80vh, 900px);
+  min-height: 620px;
+  border: 0;
+}
+
+.magazine-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.magazine-open-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.85rem 1.35rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d4a017, #f0c040);
+  color: #161104;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 14px 28px rgba(212, 160, 23, 0.2);
+}
+
+.magazine-open-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px rgba(212, 160, 23, 0.28);
+}
+
+@media (max-width: 768px) {
+  .magazine-frame {
+    border-radius: 18px;
+  }
+
+  .magazine-frame iframe {
+    height: 78svh;
+    min-height: 540px;
+  }
+
+  .magazine-open-link {
+    width: 100%;
+  }
 }
 </style>
