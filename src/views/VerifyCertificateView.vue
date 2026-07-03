@@ -12,7 +12,7 @@
         <h1 class="verify-title animate-in">
           Verify
           <em class="verify-title-accent">Certificates</em>
-          <br />Instantly &amp; Securely
+          <br /> &amp; Securely
         </h1>
         <p class="verify-subtitle animate-in">
           Authenticate certificates issued under Sundarbans House.<br />
@@ -84,7 +84,10 @@
           </svg>
         </div>
         <div class="result-body">
-          <h3>Certificate Verified</h3>
+          <h3>
+            Certificate Verified
+            <span class="type-tag">{{ result.type === 'department' ? 'Department' : 'Event' }}</span>
+          </h3>
           <p class="result-desc">This is an authentic certificate issued by Sundarbans House.</p>
           <div class="result-grid">
             <div class="result-field">
@@ -95,9 +98,10 @@
               <span class="field-label">Recipient</span>
               <span class="field-value">{{ result.name }}</span>
             </div>
+
             <div class="result-field">
-              <span class="field-label">Event / Achievement</span>
-              <span class="field-value">{{ result.event }}</span>
+              <span class="field-label">Department</span>
+              <span class="field-value">{{ result.type === 'department' ? result.department : result.event }}</span>
             </div>
             <div class="result-field">
               <span class="field-label">Issue Date</span>
@@ -107,9 +111,13 @@
               <span class="field-label">Category</span>
               <span class="field-value">{{ result.category }}</span>
             </div>
-            <div class="result-field" v-if="result.rank">
-              <span class="field-label">Rank / Position</span>
-              <span class="field-value">{{ result.rank }}</span>
+            <div class="result-field" v-if="result.type === 'department' ? result.role : result.rank">
+              <span class="field-label">Rank / Role</span>
+              <span class="field-value">{{ result.type === 'department' ? result.role : result.rank }}</span>
+            </div>
+            <div class="result-field" v-if="result.tenure">
+              <span class="field-label">Tenure</span>
+              <span class="field-value">{{ result.tenure }}</span>
             </div>
           </div>
           <div class="cert-actions">
@@ -458,6 +466,22 @@ function downloadCertificate() {
   font-weight: 700;
   margin: 0 0 8px;
   color: #f0e8d0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.type-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d4a017;
+  background: rgba(212,160,23,0.12);
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 100px;
+  padding: 3px 10px;
 }
 
 .result-body p {
