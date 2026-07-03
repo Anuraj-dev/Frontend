@@ -150,43 +150,31 @@
     </section>
 
     <!-- House Magazine -->
-    <section class="section rs">
-      <div class="container">
-        <div class="sec-hdr">
-          <div class="section-tag">House Magazine</div>
-          <h2 class="section-title-xl">
-            Read our <span class="tg">magazine on your phone</span>
-          </h2>
-          <p class="desc magazine-intro">
-            Browse the latest issue right here, or open it in a full-screen tab
-            for a more comfortable reading experience on mobile.
-          </p>
-        </div>
-
-        <div class="magazine-shell">
-          <div class="magazine-frame">
-            <iframe
-              :src="magazineEmbedUrl"
-              title="Sundarbans House Magazine"
-              loading="lazy"
-              allowfullscreen
-              allow="autoplay; clipboard-read; clipboard-write"
-            />
-          </div>
-
-          <div class="magazine-actions">
-            <a
-              class="magazine-open-link"
-              :href="magazineEmbedUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open in full screen
-            </a>
-          </div>
-        </div>
-      </div>
+    <section class="magazine-entry rs">
+      <h2>Click to read our magazine</h2>
+      <button
+        class="magazine-preview"
+        type="button"
+        aria-label="Open The Delta Diaries magazine"
+        @click="openMagazine"
+      >
+        <img
+          :src="magazinePreview"
+          alt="The Delta Diaries, Sundarbans House annual magazine"
+        />
+      </button>
     </section>
+
+    <Teleport to="body">
+      <div v-if="isMagazineOpen" class="magazine-reader" role="dialog" aria-modal="true">
+        <iframe
+          :src="magazineEmbedUrl"
+          title="Sundarbans House Magazine"
+          allowfullscreen
+          allow="autoplay; clipboard-read; clipboard-write"
+        />
+      </div>
+    </Teleport>
 
     <!-- Values -->
     <section class="section rs" style="background: var(--bg2)">
@@ -669,13 +657,36 @@
 </template>
 
 <script setup>
+import { onBeforeUnmount, ref } from "vue";
 import { useScrollReveal, useCounters } from "../composables/useAnimations.js";
 import PageHero from "../components/PageHero.vue";
+import magazinePreview from "../assets/delta-diaries-preview.webp";
 useScrollReveal();
 useCounters();
 
 const magazineEmbedUrl =
   "https://player.flipsnack.com?hash=N0U3Nzg2RUQ3NUUrdTVzNGt1ZDJneA==";
+const isMagazineOpen = ref(false);
+
+function closeMagazine() {
+  isMagazineOpen.value = false;
+  document.body.style.overflow = "";
+}
+
+function openMagazine() {
+  isMagazineOpen.value = true;
+  document.body.style.overflow = "hidden";
+}
+
+function handleMagazineKeydown(event) {
+  if (event.key === "Escape" && isMagazineOpen.value) closeMagazine();
+}
+
+window.addEventListener("keydown", handleMagazineKeydown);
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleMagazineKeydown);
+  document.body.style.overflow = "";
+});
 
 const values = [
   {
@@ -885,74 +896,59 @@ span:hover > .sc-tip {
   opacity: 1 !important;
 }
 
-.magazine-intro {
-  max-width: 680px;
-  margin: 0 auto;
-}
-
-.magazine-shell {
+.magazine-entry {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3rem 1rem;
 }
 
-.magazine-frame {
-  overflow: hidden;
-  border-radius: 24px;
-  border: 1px solid rgba(212, 160, 23, 0.18);
-  background:
-    radial-gradient(circle at top, rgba(212, 160, 23, 0.12), transparent 55%),
-    rgba(8, 7, 5, 0.92);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+.magazine-entry h2 {
+  margin: 0;
+  color: var(--text);
+  font-family: Cinzel, serif;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  text-align: center;
 }
 
-.magazine-frame iframe {
+.magazine-preview {
+  display: block;
+  width: min(100%, 1000px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.magazine-preview img {
   display: block;
   width: 100%;
-  height: min(80vh, 900px);
-  min-height: 620px;
+  height: auto;
+}
+
+.magazine-preview:focus-visible {
+  outline: 3px solid #d4a017;
+  outline-offset: 5px;
+}
+
+.magazine-reader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.magazine-reader iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 
-.magazine-actions {
-  display: flex;
-  justify-content: center;
-}
-
-.magazine-open-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 0.85rem 1.35rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #d4a017, #f0c040);
-  color: #161104;
-  font-weight: 700;
-  text-decoration: none;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  box-shadow: 0 14px 28px rgba(212, 160, 23, 0.2);
-}
-
-.magazine-open-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 32px rgba(212, 160, 23, 0.28);
-}
-
-@media (max-width: 768px) {
-  .magazine-frame {
-    border-radius: 18px;
-  }
-
-  .magazine-frame iframe {
-    height: 78svh;
-    min-height: 540px;
-  }
-
-  .magazine-open-link {
-    width: 100%;
-  }
-}
 </style>
