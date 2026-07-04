@@ -8,33 +8,20 @@
       subtitle="Our story, mission, and the vibrant community that makes us unique"
     />
 
-    <!-- Flipbook Embed -->
-    <section class="section rs" style="padding-bottom: 0">
-      <div class="container">
-        <div
-          style="
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            max-height: 720px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-            position: relative;
-          ">
-          <iframe
-            src="https://937908f4-trial.flowpaper.com/Thedeltadiaries"
-            title="The Delta Diaries"
-            style="
-              width: 100%;
-              height: calc(100% + 56px);
-              margin-top: -56px;
-              border: 0;
-              display: block;
-            "
-            allow="fullscreen"
-            allowfullscreen></iframe>
-        </div>
-      </div>
+    <!-- House Magazine -->
+    <section class="magazine-entry rs">
+      <h2>Click to read our magazine</h2>
+      <button
+        class="magazine-preview"
+        type="button"
+        aria-label="Open The Delta Diaries magazine"
+        @click="openMagazine"
+      >
+        <img
+          :src="magazinePreview"
+          alt="The Delta Diaries, Sundarbans House annual magazine"
+        />
+      </button>
     </section>
 
     <!-- Our Story -->
@@ -147,22 +134,6 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- House Magazine -->
-    <section class="magazine-entry rs">
-      <h2>Click to read our magazine</h2>
-      <button
-        class="magazine-preview"
-        type="button"
-        aria-label="Open The Delta Diaries magazine"
-        @click="openMagazine"
-      >
-        <img
-          :src="magazinePreview"
-          alt="The Delta Diaries, Sundarbans House annual magazine"
-        />
-      </button>
     </section>
 
     <Teleport to="body">
