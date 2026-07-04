@@ -86,7 +86,7 @@
         <div class="result-body">
           <h3>
             Certificate Verified
-            <span class="type-tag">{{ result.type === 'department' ? 'Department' : 'Event' }}</span>
+            <span class="type-tag">{{ certType === 'department' ? 'Department' : 'Event' }}</span>
           </h3>
           <p class="result-desc">This is an authentic certificate issued by Sundarbans House.</p>
           <div class="result-grid">
@@ -100,8 +100,8 @@
             </div>
 
             <div class="result-field">
-              <span class="field-label">Department</span>
-              <span class="field-value">{{ result.type === 'department' ? result.department : result.event }}</span>
+              <span class="field-label">{{ certType === 'department' ? 'Department' : 'Event' }}</span>
+              <span class="field-value">{{ certType === 'department' ? result.department : result.event }}</span>
             </div>
             <div class="result-field">
               <span class="field-label">Issue Date</span>
@@ -111,9 +111,9 @@
               <span class="field-label">Category</span>
               <span class="field-value">{{ result.category }}</span>
             </div>
-            <div class="result-field" v-if="result.type === 'department' ? result.role : result.rank">
+            <div class="result-field" v-if="certType === 'department' ? result.rank : result.role">
               <span class="field-label">Rank / Role</span>
-              <span class="field-value">{{ result.type === 'department' ? result.role : result.rank }}</span>
+              <span class="field-value">{{ certType === 'department' ? result.rank : result.role }}</span>
             </div>
             <div class="result-field" v-if="result.tenure">
               <span class="field-label">Tenure</span>
@@ -188,12 +188,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const certificateId = ref('')
 const loading = ref(false)
 const result = ref(null)
 const errorMsg = ref('')
+
+// certificates.json does not store an explicit "type" field.
+// Infer it from which fields are actually present on the record,
+// so old records without "type" still classify correctly.
+const certType = computed(() => {
+  if (!result.value) return null
+  if (result.value.type) return result.value.type
+  return result.value.event ? 'event' : 'department'
+})
 
 async function verifyCertificate() {
   const id = certificateId.value.trim().toUpperCase()
