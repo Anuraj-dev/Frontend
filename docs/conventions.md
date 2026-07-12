@@ -1,0 +1,12 @@
+# Conventions — Sundarbans House
+- Stack: Vue 3 (SFC) · vue-router 4 (hash history) · Vite 6 · no backend, no TypeScript, no test suite
+- Run the app: `npm run dev`
+- Build: `npm run build` · Preview build: `npm run preview`
+- Run tests: none configured — verify changes by running the app
+- Naming / structure notes:
+  - Page-level components live in `src/views/` and are named `*View.vue`; region meetup pages in `src/views/meetups/`.
+  - Shared components in `src/components/`; dashboard widgets in `src/components/dashboard/`.
+  - All routes are declared in one file: `src/router/index.js`.
+  - `src/assets/` = assets processed/bundled by Vite (import them); `public/` = served as-is at the root URL.
+  - Static data as JSON/CSV/JS in `src/data/`, `public/data/`, and per-region export folders under `src/views/meetups/`.
+- Workflow: changes land via GitHub PRs (repo `Anuraj-dev/Frontend`, branch `main`).
