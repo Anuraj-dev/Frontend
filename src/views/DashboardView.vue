@@ -167,7 +167,7 @@ import '../assets/dashboard.css';
 const router = useRouter();
 onMounted(() => {
   const token = localStorage.getItem('sundarbans_auth_token');
-  if (!token) { router.push('/members'); return; }
+  if (!token) { router.push('/login'); return; }
 });
 
 // Confetti engine
