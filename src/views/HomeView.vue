@@ -377,7 +377,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onBeforeUnmount, onUnmounted } from "vue";
 
 import { useScrollReveal, useCounters } from "../composables/useAnimations.js";
 import DailyNotifications from "../components/DailyNotifications.vue";
@@ -440,14 +440,55 @@ function updateCountdown() {
 }
 
 // Hero scroll canvas animation
+// Frames are fetched lazily: frame 1 eagerly, then a bounded window around the
+// current scroll position. Whatever frame loaded most recently keeps being
+// painted until the frame for the current position arrives, so the canvas never
+// goes blank.
+// Frames average ~39 kB, so a 12-frame window costs ~0.45 MB in flight; at the
+// ~28 px of page scroll per frame that is roughly three wheel ticks of runway.
+// The opening frames are the heaviest in the sequence (100-178 kB), so the
+// window right after load is the most expensive one.
+const HERO_FRAME_COUNT = 240;
+const HERO_LOOK_AHEAD = 10;
+const HERO_LOOK_BEHIND = 2; // small cushion so scrolling back up is covered
+
 function initHeroScrollAnimation(canvas) {
-  if (!canvas) return;
+  if (!canvas) return null;
   const ctx = canvas.getContext("2d");
-  const frameCount = 240;
-  const currentFrame = (i) =>
+  const frameSrc = (i) =>
     `/assets/frames/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
-  const images = [];
-  let framesLoaded = 0;
+  const images = new Array(HERO_FRAME_COUNT).fill(null);
+  const ready = new Array(HERO_FRAME_COUNT).fill(false);
+  let lastReady = null; // most recent frame that actually finished loading
+  let sized = false;
+  let rafId = 0;
+  let disposed = false;
+
+  function schedule() {
+    if (disposed || rafId) return;
+    rafId = requestAnimationFrame(render);
+  }
+
+  function loadFrame(i) {
+    if (disposed || i < 0 || i >= HERO_FRAME_COUNT || images[i]) return;
+    const img = new Image();
+    images[i] = img;
+    img.onload = () => {
+      if (disposed) return;
+      ready[i] = true;
+      if (!sized) {
+        sized = true;
+        resizeCanvas();
+      } else {
+        schedule();
+      }
+    };
+    img.onerror = () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+    img.src = frameSrc(i);
+  }
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -455,53 +496,80 @@ function initHeroScrollAnimation(canvas) {
     render();
   }
 
-  for (let i = 0; i < frameCount; i++) {
-    const img = new Image();
-    img.src = currentFrame(i);
-    img.onload = () => {
-      framesLoaded++;
-      if (framesLoaded === 1) resizeCanvas();
-    };
-    images.push(img);
-  }
-
-  window.addEventListener("resize", resizeCanvas);
-
   function render() {
-    if (!images[0] || !images[0].complete) return;
+    rafId = 0;
+    if (disposed) return;
     const maxScroll = Math.max(
       1,
       document.documentElement.scrollHeight - window.innerHeight,
     );
     const scrollFraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
     const frameIndex = Math.min(
-      frameCount - 1,
-      Math.floor(scrollFraction * frameCount),
+      HERO_FRAME_COUNT - 1,
+      Math.floor(scrollFraction * HERO_FRAME_COUNT),
     );
-    const img = images[frameIndex];
-    if (img && img.complete) {
-      const cw = canvas.width,
-        ch = canvas.height;
-      const iw = img.width || cw,
-        ih = img.height || ch;
-      const ratio = Math.max(cw / iw, ch / ih);
-      const zw = iw * ratio * 1.15,
-        zh = ih * ratio * 1.15;
-      const cx = (cw - zw) / 2,
-        cy = (ch - zh) / 2;
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, 0, 0, iw, ih, cx, cy, zw, zh);
+
+    for (
+      let i = frameIndex - HERO_LOOK_BEHIND;
+      i <= frameIndex + HERO_LOOK_AHEAD;
+      i++
+    ) {
+      loadFrame(i);
     }
+
+    if (ready[frameIndex]) lastReady = images[frameIndex];
+    const img = lastReady;
+    if (!img) return;
+    const cw = canvas.width,
+      ch = canvas.height;
+    const iw = img.width || cw,
+      ih = img.height || ch;
+    const ratio = Math.max(cw / iw, ch / ih);
+    const zw = iw * ratio * 1.15,
+      zh = ih * ratio * 1.15;
+    const cx = (cw - zw) / 2,
+      cy = (ch - zh) / 2;
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.drawImage(img, 0, 0, iw, ih, cx, cy, zw, zh);
   }
 
-  window.addEventListener("scroll", () => requestAnimationFrame(render));
+  window.addEventListener("resize", resizeCanvas);
+  window.addEventListener("scroll", schedule);
+
+  loadFrame(0); // frame 1 is eager: the canvas is never empty on arrival
+  schedule(); // prime the look-ahead around the current scroll position
+
+  return function dispose() {
+    disposed = true;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
+    window.removeEventListener("resize", resizeCanvas);
+    window.removeEventListener("scroll", schedule);
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i];
+      if (!img) continue;
+      img.onload = null;
+      img.onerror = null;
+      if (!ready[i]) img.removeAttribute("src"); // abort in-flight fetch
+      images[i] = null;
+    }
+    ready.fill(false);
+    lastReady = null;
+  };
 }
+
+let disposeHeroScroll = null;
 
 onMounted(() => {
   document.body.classList.add("video-bg-mode");
   updateCountdown();
   countTimer = setInterval(updateCountdown, 60000);
-  initHeroScrollAnimation(heroCanvas.value);
+  disposeHeroScroll = initHeroScrollAnimation(heroCanvas.value);
+});
+
+onBeforeUnmount(() => {
+  if (disposeHeroScroll) disposeHeroScroll();
+  disposeHeroScroll = null;
 });
 
 onUnmounted(() => {
