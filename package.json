@@ -1,4 +1,4 @@
- {
+{
   "name": "sundarbans-house",
   "private": true,
   "version": "1.0.0",
@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": "^22"
   },
   "dependencies": {
     "vue": "^3.4.0",
@@ -14,6 +20,11 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
+    "eslint": "10.8.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-vue": "10.10.0",
+    "globals": "17.8.0",
+    "prettier": "3.9.6",
     "vite": "^6.0.0"
   }
 }
