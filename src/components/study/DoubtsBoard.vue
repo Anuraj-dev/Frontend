@@ -396,9 +396,30 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped src="./study-shared.css"></style>
-
 <style scoped>
+/* Restated rather than pulled in from study-shared.css: this section uses two
+   of that file's thirteen rules, and a scoped `src` import re-stamps all
+   thirteen with this component's scope id, shipping eleven dead ones. The
+   selectors below are the .db- arms of the shared pill-button base and active
+   rules, so specificity and cascade position are unchanged. */
+.db-filter,
+.db-upvote {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  border-radius: 99px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.db-filter.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
 .db-filter {
   padding: 0.4rem 1rem;
   font-size: 0.8rem;

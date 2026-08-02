@@ -6,7 +6,9 @@
  * so every importing component still stamps them with its own scope id — the
  * exact behaviour they had when the whole page was one scoped block.
  *
- * Used by: ResourceBrowser.vue, DoubtsBoard.vue, ExamCities.vue
+ * Used by: ResourceBrowser.vue, ExamCities.vue. DoubtsBoard needs only two of
+ * these rules, so it restates its .db- arms locally instead of importing the
+ * whole file and shipping eleven rules that match nothing in its template.
  */
 
 /* ResourceBrowser + ExamCities */
@@ -82,11 +84,9 @@
   font-size: 1rem;
 }
 
-/* Pill-button base — ResourceBrowser (.sc-back-btn/.sc-tab/.sc-subj-badge),
-   DoubtsBoard (.db-filter/.db-upvote) and ExamCities (.sc-back-btn) */
+/* Pill-button base — ResourceBrowser (.sc-back-btn/.sc-tab/.sc-subj-badge) and
+   ExamCities (.sc-back-btn). DoubtsBoard restates the .db- arms locally. */
 .sc-back-btn,
-.db-filter,
-.db-upvote,
 .sc-tab,
 .sc-subj-badge {
   background: none;
@@ -104,8 +104,7 @@
 }
 
 .sc-subj-badge.active,
-.sc-tab.active,
-.db-filter.active {
+.sc-tab.active {
   background: var(--accent);
   border-color: var(--accent);
   color: #000;
