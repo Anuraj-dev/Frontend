@@ -124,10 +124,9 @@ const messageType = computed(() => {
 
 async function checkMembershipRemote(normalizedEmail) {
   const endpoint = import.meta.env.VITE_MEMBERSHIP_CHECK_URL;
-  const res = await fetch(
-    `${endpoint}?email=${encodeURIComponent(normalizedEmail)}`,
-    { redirect: 'follow' },
-  );
+  const res = await fetch(`${endpoint}?email=${encodeURIComponent(normalizedEmail)}`, {
+    redirect: 'follow',
+  });
   if (!res.ok) throw new Error('membership check failed');
   const data = await res.json();
   return data.ok === true && data.allowed === true;
@@ -143,13 +142,12 @@ async function grantOrDenyAccess(rawEmail) {
       allowed = await checkMembershipRemote(normalized);
     } catch (err) {
       googleLoading.value = false;
-      message.value =
-        "Couldn't reach the membership server. Check your connection and try again.";
+      message.value = "Couldn't reach the membership server. Check your connection and try again.";
       return false;
     }
   } else {
     console.warn(
-      '[login] VITE_MEMBERSHIP_CHECK_URL is not set; falling back to local members.json.',
+      '[login] VITE_MEMBERSHIP_CHECK_URL is not set; falling back to local members.json.'
     );
     allowed = membersData.members.includes(normalized);
   }

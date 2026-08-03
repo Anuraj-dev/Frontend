@@ -21,7 +21,7 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
   - `VITE_MEMBERSHIP_CHECK_URL` — Apps Script `/exec` URL that validates member
     emails. Required for production login; when unset, the app falls back to the
     local `src/data/members.json` list so local dev still works.
-  Without them the rest of the site still runs; OAuth sign-in will not.
+    Without them the rest of the site still runs; OAuth sign-in will not.
 
 ## 2. Setup
 
