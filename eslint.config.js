@@ -4,13 +4,20 @@ import prettierConfig from 'eslint-config-prettier/flat'
 
 export default [
   {
-    ignores: ['dist/**', 'public/**', 'src/data/scData_generated.js'],
+    // Keep lint from walking nested worktrees, build output, static assets, generated data.
+    ignores: [
+      '.claude/**',
+      'dist/**',
+      'public/**',
+      'src/data/scData_generated.js',
+    ],
   },
 
   // Vue 3 essential rules (all at "error"), plus the SFC parser/processor setup.
   ...pluginVue.configs['flat/essential'],
 
-  // The app itself is browser-only: no bundler/Node globals in src/.
+  // Browser app sources: declare browser globals and enforce no-undef so those
+  // declarations are actually checked (globals alone do not enable any rules).
   {
     files: ['**/*.js', '**/*.vue'],
     languageOptions: {
@@ -20,11 +27,14 @@ export default [
         ...globals.browser,
       },
     },
+    rules: {
+      'no-undef': 'error',
+    },
   },
 
   // Tooling configs run in Node, not the browser.
   {
-    files: ['vite.config.js', 'eslint.config.js', 'prettier.config.js'],
+    files: ['vite.config.js', 'eslint.config.js'],
     languageOptions: {
       globals: {
         ...globals.node,
