@@ -36,19 +36,23 @@
             class="meme-cand-v"
             :class="{ 'fire-voted': votes[c.id] === 'fire' }"
             @click="memeVote(c.id, 'fire')"
-          >🔥 {{ c.fire }}</button>
+          >
+            🔥 {{ c.fire }}
+          </button>
           <button
             class="meme-cand-v"
             :class="{ 'dead-voted': votes[c.id] === 'dead' }"
             @click="memeVote(c.id, 'dead')"
-          >💀 {{ c.dead }}</button>
+          >
+            💀 {{ c.dead }}
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Meme upload preview -->
     <div class="meme-preview" v-show="previewSrc">
-      <img :src="previewSrc" alt="Your meme preview"/>
+      <img :src="previewSrc" alt="Your meme preview" />
     </div>
 
     <!-- Drag-and-drop / click-to-browse upload zone -->
@@ -66,10 +70,7 @@
         Drag &amp; drop your meme or <strong>click to browse</strong>
       </div>
     </div>
-    <div
-      class="meme-drop-zone"
-      v-else
-    >
+    <div class="meme-drop-zone" v-else>
       <div class="meme-drop-icon">✅</div>
       <div class="meme-drop-text"><strong>Meme received!</strong> Judges are reviewing…</div>
     </div>
@@ -78,10 +79,10 @@
     <input
       type="file"
       ref="fileInputRef"
-      style="display:none"
+      style="display: none"
       accept="image/*"
       @change="handleFileChange"
-    >
+    />
 
     <div class="meme-submit-msg" v-show="uploaded">
       ✓ Your meme is queued for judging this week!
@@ -94,14 +95,37 @@ import { computed, ref } from 'vue';
 import { save, load } from '../../composables/useLocalStorage.js';
 
 const props = defineProps({
-  config: { type: Object, default: null }
+  config: { type: Object, default: null },
 });
 
-const CANDS = props.config ? props.config.candidates.map(c => ({ ...c })) : [
-  { id:1, emoji:'📖😭', title:'When you realise Stats has calculus in it', author:'anon_24f', fire:34, dead:12 },
-  { id:2, emoji:'🐱💻', title:'My laptop at 1AM during submission week',   author:'anon_22f', fire:28, dead:45 },
-  { id:3, emoji:'🧠✨', title:'Brain 10 mins before vs during an exam',    author:'anon_23f', fire:61, dead:8  }
-];
+const CANDS = props.config
+  ? props.config.candidates.map((c) => ({ ...c }))
+  : [
+      {
+        id: 1,
+        emoji: '📖😭',
+        title: 'When you realise Stats has calculus in it',
+        author: 'anon_24f',
+        fire: 34,
+        dead: 12,
+      },
+      {
+        id: 2,
+        emoji: '🐱💻',
+        title: 'My laptop at 1AM during submission week',
+        author: 'anon_22f',
+        fire: 28,
+        dead: 45,
+      },
+      {
+        id: 3,
+        emoji: '🧠✨',
+        title: 'Brain 10 mins before vs during an exam',
+        author: 'anon_23f',
+        fire: 61,
+        dead: 8,
+      },
+    ];
 
 const candidates = ref(CANDS);
 const votes = ref(load('sb_meme_votes', {}));
@@ -114,7 +138,7 @@ const totalCandidateVotes = computed(() => {
 });
 
 function memeVote(id, type) {
-  const c = candidates.value.find(x => x.id === id);
+  const c = candidates.value.find((x) => x.id === id);
   if (!c) return;
 
   const prev = votes.value[id];

@@ -51,19 +51,17 @@
       </div>
     </div>
 
-    <button class="btn btn-gold buddy-find-btn" @click="findBuddy">
-      Find My Buddy ✨
-    </button>
+    <button class="btn btn-gold buddy-find-btn" @click="findBuddy">Find My Buddy ✨</button>
 
     <!-- Match result card -->
     <div class="buddy-result" :class="{ show: showResult }">
       <div class="buddy-result-header">
         <div class="buddy-avatar">{{ matchInitial }}</div>
-        <div style="flex:1">
+        <div style="flex: 1">
           <div class="buddy-name-lbl">{{ matchName }}</div>
           <div class="buddy-roll-lbl">{{ matchRoll }}</div>
         </div>
-        <div style="text-align:right">
+        <div style="text-align: right">
           <div class="buddy-match-pct">{{ matchPct }}%</div>
           <div class="buddy-match-sub">match</div>
         </div>
@@ -92,18 +90,46 @@ import { ref, reactive } from 'vue';
 
 const props = defineProps({
   pool: { type: Array, default: null },
-  options: { type: Object, default: null }
+  options: { type: Object, default: null },
 });
 
 const POOL = props.pool || [
-  { name:'Aditi Sharma',  roll:'23f1000052', tags:['Night Owl','Explains Well','Speed Runner']    },
-  { name:'Rohan Verma',   roll:'22f1000119', tags:['Silent Mode','Topper Energy','Note Sharer']   },
-  { name:'Mehak Singh',   roll:'24f1000093', tags:['Discussion Queen','Mock Test Fan','Patient']  },
-  { name:'Dev Patel',     roll:'23f2000114', tags:['Problem Solver','Early Riser','Flashcard Pro']},
-  { name:'Priya Nair',    roll:'24f2000050', tags:['Chill Vibes','Group Study','Mentor Mode']     },
-  { name:'Arjun Mehra',   roll:'23f3000021', tags:['Competitive','CP Grinder','Deadline Chaser']  },
-  { name:'Sneha Iyer',    roll:'24f1000078', tags:['Structured Notes','Pomodoro Fan','Consistent']},
-  { name:'Karan Joshi',   roll:'23f4000031', tags:['Visual Learner','Diagram Lover','Calm Energy']}
+  {
+    name: 'Aditi Sharma',
+    roll: '23f1000052',
+    tags: ['Night Owl', 'Explains Well', 'Speed Runner'],
+  },
+  {
+    name: 'Rohan Verma',
+    roll: '22f1000119',
+    tags: ['Silent Mode', 'Topper Energy', 'Note Sharer'],
+  },
+  {
+    name: 'Mehak Singh',
+    roll: '24f1000093',
+    tags: ['Discussion Queen', 'Mock Test Fan', 'Patient'],
+  },
+  {
+    name: 'Dev Patel',
+    roll: '23f2000114',
+    tags: ['Problem Solver', 'Early Riser', 'Flashcard Pro'],
+  },
+  { name: 'Priya Nair', roll: '24f2000050', tags: ['Chill Vibes', 'Group Study', 'Mentor Mode'] },
+  {
+    name: 'Arjun Mehra',
+    roll: '23f3000021',
+    tags: ['Competitive', 'CP Grinder', 'Deadline Chaser'],
+  },
+  {
+    name: 'Sneha Iyer',
+    roll: '24f1000078',
+    tags: ['Structured Notes', 'Pomodoro Fan', 'Consistent'],
+  },
+  {
+    name: 'Karan Joshi',
+    roll: '23f4000031',
+    tags: ['Visual Learner', 'Diagram Lover', 'Calm Energy'],
+  },
 ];
 
 const subjects = props.options ? props.options.subjects : [];
@@ -127,12 +153,25 @@ let lastIdx = -1;
 
 function findBuddy() {
   let valid = true;
-  if (!selectedSub.value)   { errors.sub = true;   setTimeout(() => errors.sub = false, 2000);   valid = false; }
-  if (!selectedTime.value)  { errors.time = true;   setTimeout(() => errors.time = false, 2000);  valid = false; }
-  if (!selectedStyle.value) { errors.style = true;  setTimeout(() => errors.style = false, 2000); valid = false; }
+  if (!selectedSub.value) {
+    errors.sub = true;
+    setTimeout(() => (errors.sub = false), 2000);
+    valid = false;
+  }
+  if (!selectedTime.value) {
+    errors.time = true;
+    setTimeout(() => (errors.time = false), 2000);
+    valid = false;
+  }
+  if (!selectedStyle.value) {
+    errors.style = true;
+    setTimeout(() => (errors.style = false), 2000);
+    valid = false;
+  }
   if (!valid) return;
 
-  let idx, attempts = 0;
+  let idx,
+    attempts = 0;
   do {
     idx = Math.floor(Math.random() * POOL.length);
     attempts++;

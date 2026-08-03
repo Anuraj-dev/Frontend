@@ -13,7 +13,8 @@
               :key="level.key"
               class="sc-sidebar-card"
               :class="{ active: currentLevel === level.key }"
-              @click="loadLevel(level.key)">
+              @click="loadLevel(level.key)"
+            >
               <div class="sc-sidebar-card-top">
                 <span class="sc-sidebar-emoji">{{ level.emoji }}</span>
                 <div class="sc-sidebar-meta">
@@ -22,9 +23,7 @@
                 </div>
               </div>
               <div class="sc-card-stats">
-                <span class="sc-stat-badge"
-                  >{{ (scData[level.key] || []).length }} subjects</span
-                >
+                <span class="sc-stat-badge">{{ (scData[level.key] || []).length }} subjects</span>
                 <span class="sc-stat-badge">Notes + PYQs</span>
               </div>
               <div class="sc-sidebar-arrow">
@@ -34,7 +33,8 @@
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2.5">
+                  stroke-width="2.5"
+                >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </div>
@@ -51,7 +51,8 @@
                 v-model="search"
                 type="text"
                 placeholder="Search subjects, notes, PYQs..."
-                class="form-input sc-mid-search-input" />
+                class="form-input sc-mid-search-input"
+              />
               <svg
                 class="sc-mid-search-icon"
                 width="16"
@@ -59,7 +60,8 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2">
+                stroke-width="2"
+              >
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
               </svg>
@@ -80,12 +82,8 @@
               <!-- Subject strip -->
               <div class="sc-subject-strip" id="scSubjectStrip">
                 <div class="sc-strip-header">
-                  <span class="sc-strip-label"
-                    >{{ currentLevelLabel }} — Subjects</span
-                  >
-                  <button class="sc-back-btn" @click="resetLevel">
-                    &larr; Clear
-                  </button>
+                  <span class="sc-strip-label">{{ currentLevelLabel }} — Subjects</span>
+                  <button class="sc-back-btn" @click="resetLevel">&larr; Clear</button>
                 </div>
                 <div class="sc-badges-row" id="scSubjectList">
                   <button
@@ -93,7 +91,8 @@
                     :key="subject.code"
                     class="sc-subj-badge"
                     :class="{ active: currentSubject?.code === subject.code }"
-                    @click="selectSubject(subject)">
+                    @click="selectSubject(subject)"
+                  >
                     {{ subject.subject }}
                   </button>
                 </div>
@@ -106,12 +105,7 @@
                     <div class="section-tag" style="margin-bottom: 0.5rem">
                       {{ currentSubject.code }}
                     </div>
-                    <p
-                      style="
-                        font-size: 0.8rem;
-                        color: var(--text3);
-                        letter-spacing: 0.03em;
-                      ">
+                    <p style="font-size: 0.8rem; color: var(--text3); letter-spacing: 0.03em">
                       {{ currentSubject.description }}
                     </p>
                   </div>
@@ -120,58 +114,56 @@
                     <button
                       class="sc-tab"
                       :class="{ active: currentResourceType === 'lectures' }"
-                      @click="currentResourceType = 'lectures'">
+                      @click="currentResourceType = 'lectures'"
+                    >
                       📺 Lectures
                     </button>
                     <button
                       class="sc-tab"
                       :class="{ active: currentResourceType === 'notes' }"
-                      @click="currentResourceType = 'notes'">
+                      @click="currentResourceType = 'notes'"
+                    >
                       📝 Notes
                     </button>
                     <button
                       class="sc-tab"
                       :class="{ active: currentResourceType === 'pyq' }"
-                      @click="currentResourceType = 'pyq'">
+                      @click="currentResourceType = 'pyq'"
+                    >
                       📄 PYQs
                     </button>
                   </div>
 
-                  <template
-                    v-if="currentResourceType === 'notes' && groupedNotes.length">
+                  <template v-if="currentResourceType === 'notes' && groupedNotes.length">
                     <div
                       class="sc-author-card"
                       v-for="(group, index) in groupedNotes"
-                      :key="group.author">
+                      :key="group.author"
+                    >
                       <div class="sc-author-header" @click="toggleAuthor(index)">
                         <span class="sc-author-name"
                           >✦ {{ group.author }}
                           <span class="sc-author-count"
                             >({{ group.items.length }}
-                            {{
-                              group.items.length === 1 ? "note" : "notes"
-                            }})</span
+                            {{ group.items.length === 1 ? 'note' : 'notes' }})</span
                           >
                         </span>
                         <svg
                           class="sc-author-chevron"
                           :style="{
-                            transform: openAuthors[index]
-                              ? 'rotate(180deg)'
-                              : 'rotate(0deg)',
+                            transform: openAuthors[index] ? 'rotate(180deg)' : 'rotate(0deg)',
                           }"
                           width="16"
                           height="16"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          stroke-width="2">
+                          stroke-width="2"
+                        >
                           <path d="M6 9l6 6 6-6" />
                         </svg>
                       </div>
-                      <div
-                        class="sc-author-body"
-                        :class="{ open: openAuthors[index] }">
+                      <div class="sc-author-body" :class="{ open: openAuthors[index] }">
                         <div class="sc-author-notes">
                           <a
                             v-for="item in group.items"
@@ -179,17 +171,11 @@
                             :href="item.link"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="sc-resource-item">
+                            class="sc-resource-item"
+                          >
                             <span>{{ cleanTitle(item.title) }}</span>
-                            <div
-                              style="
-                                display: flex;
-                                align-items: center;
-                                gap: 0.75rem;
-                              ">
-                              <span v-if="item.badge" class="sc-badge">{{
-                                item.badge
-                              }}</span>
+                            <div style="display: flex; align-items: center; gap: 0.75rem">
+                              <span v-if="item.badge" class="sc-badge">{{ item.badge }}</span>
                               <svg
                                 width="14"
                                 height="14"
@@ -197,7 +183,8 @@
                                 fill="none"
                                 stroke="currentColor"
                                 stroke-width="2"
-                                style="color: var(--text3)">
+                                style="color: var(--text3)"
+                              >
                                 <path d="M5 12h14M12 5l7 7-7 7" />
                               </svg>
                             </div>
@@ -207,22 +194,14 @@
                     </div>
                   </template>
 
-                  <template
-                    v-else-if="currentResourceType === 'pyq' && groupedPyq.length">
-                    <div
-                      class="sc-year-group"
-                      v-for="group in groupedPyq"
-                      :key="group.year">
+                  <template v-else-if="currentResourceType === 'pyq' && groupedPyq.length">
+                    <div class="sc-year-group" v-for="group in groupedPyq" :key="group.year">
                       <div class="sc-year-label">
-                        {{ group.year === "Google Drive Folder" ? "🗂️" : "📅" }}
+                        {{ group.year === 'Google Drive Folder' ? '🗂️' : '📅' }}
                         {{ group.year }}
                         <span class="sc-year-count"
                           >({{ group.items.length }}
-                          {{
-                            group.year === "Google Drive Folder"
-                              ? "folder"
-                              : "papers"
-                          }})</span
+                          {{ group.year === 'Google Drive Folder' ? 'folder' : 'papers' }})</span
                         >
                       </div>
                       <a
@@ -231,7 +210,8 @@
                         :href="item.link"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="sc-resource-item">
+                        class="sc-resource-item"
+                      >
                         <span>{{ cleanTitle(item.title) }}</span>
                         <svg
                           width="14"
@@ -240,7 +220,8 @@
                           fill="none"
                           stroke="currentColor"
                           stroke-width="2"
-                          style="color: var(--text3)">
+                          style="color: var(--text3)"
+                        >
                           <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
                       </a>
@@ -254,17 +235,11 @@
                       :href="item.link"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="sc-resource-item">
+                      class="sc-resource-item"
+                    >
                       <span>{{ cleanTitle(item.title) }}</span>
-                      <div
-                        style="
-                          display: flex;
-                          align-items: center;
-                          gap: 0.75rem;
-                        ">
-                        <span v-if="item.badge" class="sc-badge">{{
-                          item.badge
-                        }}</span>
+                      <div style="display: flex; align-items: center; gap: 0.75rem">
+                        <span v-if="item.badge" class="sc-badge">{{ item.badge }}</span>
                         <svg
                           width="14"
                           height="14"
@@ -272,7 +247,8 @@
                           fill="none"
                           stroke="currentColor"
                           stroke-width="2"
-                          style="color: var(--text3)">
+                          style="color: var(--text3)"
+                        >
                           <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
                       </div>
@@ -287,9 +263,7 @@
 
                 <div v-else class="sc-empty">
                   <div style="font-size: 3rem">📖</div>
-                  <p style="font-size: 0.9rem">
-                    Select a subject above to view resources
-                  </p>
+                  <p style="font-size: 0.9rem">Select a subject above to view resources</p>
                 </div>
               </div>
               <!-- /sc-resource-panel -->
@@ -303,109 +277,86 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch } from 'vue';
 
-import scData from "../../data/scData_generated.js";
+import scData from '../../data/scData_generated.js';
 
 // Shared with the doubts board, so the view owns it.
-const search = defineModel("search", { type: String, default: "" });
+const search = defineModel('search', { type: String, default: '' });
 
-const tabs = ["All Levels", "Foundation", "Diploma", "BS Degree"];
-const activeTab = ref("All Levels");
+const tabs = ['All Levels', 'Foundation', 'Diploma', 'BS Degree'];
+const activeTab = ref('All Levels');
 
 const levelMeta = [
   {
-    key: "foundation",
-    emoji: "🌱",
-    title: "Foundation Level",
-    description:
-      "Maths, English, Computational Thinking, Statistics, Python basics",
+    key: 'foundation',
+    emoji: '🌱',
+    title: 'Foundation Level',
+    description: 'Maths, English, Computational Thinking, Statistics, Python basics',
   },
   {
-    key: "diploma",
-    emoji: "📐",
-    title: "Diploma Level",
-    description: "DSA, DBMS, Machine Learning, App Development, Java and more",
+    key: 'diploma',
+    emoji: '📐',
+    title: 'Diploma Level',
+    description: 'DSA, DBMS, Machine Learning, App Development, Java and more',
   },
   {
-    key: "bs",
-    emoji: "🎓",
-    title: "BS Degree Level",
-    description: "Deep Learning, LLMs, NLP, CV, MLOps and more electives",
+    key: 'bs',
+    emoji: '🎓',
+    title: 'BS Degree Level',
+    description: 'Deep Learning, LLMs, NLP, CV, MLOps and more electives',
   },
 ];
 
 const tabToLevel = {
-  Foundation: "foundation",
-  Diploma: "diploma",
-  "BS Degree": "bs",
+  Foundation: 'foundation',
+  Diploma: 'diploma',
+  'BS Degree': 'bs',
 };
 
 const visibleLevels = computed(() => {
-  if (activeTab.value === "All Levels") return levelMeta;
+  if (activeTab.value === 'All Levels') return levelMeta;
   const key = tabToLevel[activeTab.value];
   return levelMeta.filter((l) => l.key === key);
 });
 
 const currentLevel = ref(null);
 const currentSubjectCode = ref(null);
-const currentResourceType = ref("notes");
+const currentResourceType = ref('notes');
 const openAuthors = ref({});
 
 const driveLinks = {
-  foundationPyq:
-    "https://drive.google.com/drive/folders/1Fq3vpXmmN3moEFa9TdBqkBfkMfjaPyh-",
-  diplomaPyq:
-    "https://drive.google.com/drive/folders/1FnI9uXbnSGqMBRLWyWPD5839R9xXjS5I",
+  foundationPyq: 'https://drive.google.com/drive/folders/1Fq3vpXmmN3moEFa9TdBqkBfkMfjaPyh-',
+  diplomaPyq: 'https://drive.google.com/drive/folders/1FnI9uXbnSGqMBRLWyWPD5839R9xXjS5I',
   notes: {
-    BSMA1001:
-      "https://drive.google.com/drive/folders/1SuT80Mt_1mhgeDb8_PF5nE2f626wI-5C",
-    BSMA1002:
-      "https://drive.google.com/drive/folders/1TVvNKumzi1tD5rRPR4B_SHfR6KyHXgkv",
-    BSHS1001:
-      "https://drive.google.com/drive/folders/1TJ_i7aNmcKBk_DAA7EmzCKTJ5fEBYWOD",
-    BSCS1001:
-      "https://drive.google.com/drive/folders/15BrCrZ0cBxcOOhDFwavZX9WJnwXu149O",
-    BSMA1003:
-      "https://drive.google.com/drive/folders/1T0Vk5wWuGlhKhCv1qGYnS7T5_mmceeFy",
-    BSMA1004:
-      "https://drive.google.com/drive/folders/1TNS9WHBWUKInU2Jey23DRwzNySeRjB3O",
-    BSHS1002:
-      "https://drive.google.com/drive/folders/1z68X9eGokOfrzlaCKV3v16bSpgInneKd",
-    BSCS1002:
-      "https://drive.google.com/drive/folders/1O7w1hXO6d0uptWs1U4BCMGVEdfSDxNWo",
-    BSCS2001:
-      "https://drive.google.com/drive/folders/1PtqrInqJV0ZcZbis2hFndmOM08lMmoS_",
-    BSCS2005:
-      "https://drive.google.com/drive/folders/1Q-FPcyrurSml35qHizU6An3_c7f8_xie",
-    BSCS2003:
-      "https://drive.google.com/drive/folders/1MbGGvTyRM0-27le2He5TKdhw8HSPfC0j",
-    BSCS2006:
-      "https://drive.google.com/drive/folders/1Pl7g4i6e9HRR5ZQLYaJlbj6BQ-16ZtDK",
-    BSCS2002:
-      "https://drive.google.com/drive/folders/1Pn7Zaa8tfXbXIBbiX9WYg_WcfIVMHCdG",
-    BSSE2001:
-      "https://drive.google.com/drive/folders/1PsMUC0fAMCNVB5HVgZ_TZQC3CWhT5K3g",
-    BSMS2002:
-      "https://drive.google.com/drive/folders/1UTximp3FWwJV6_5nBmJlISPIbzvMu8s0",
-    BSMS2001:
-      "https://drive.google.com/drive/folders/1UIjX4MUeJBQnSJqRnO5XI8SFm50XDPml",
-    BSCS2004:
-      "https://drive.google.com/drive/folders/1ODZY3E2PcsaFrzIHPo5lUhQZaBszZxxS",
-    BSCS2008:
-      "https://drive.google.com/drive/folders/1UIVGGZYEldx98djyOI6aR18ec-07Qies",
-    BSCS2007:
-      "https://drive.google.com/drive/folders/1UFpj7Lauj4l_YvA8U6tR0dqubv4K0gwy",
-    BSSE2002:
-      "https://drive.google.com/drive/folders/1UK3pOkccniwBm1-YfpQgjrEfXFMrOtVy",
+    BSMA1001: 'https://drive.google.com/drive/folders/1SuT80Mt_1mhgeDb8_PF5nE2f626wI-5C',
+    BSMA1002: 'https://drive.google.com/drive/folders/1TVvNKumzi1tD5rRPR4B_SHfR6KyHXgkv',
+    BSHS1001: 'https://drive.google.com/drive/folders/1TJ_i7aNmcKBk_DAA7EmzCKTJ5fEBYWOD',
+    BSCS1001: 'https://drive.google.com/drive/folders/15BrCrZ0cBxcOOhDFwavZX9WJnwXu149O',
+    BSMA1003: 'https://drive.google.com/drive/folders/1T0Vk5wWuGlhKhCv1qGYnS7T5_mmceeFy',
+    BSMA1004: 'https://drive.google.com/drive/folders/1TNS9WHBWUKInU2Jey23DRwzNySeRjB3O',
+    BSHS1002: 'https://drive.google.com/drive/folders/1z68X9eGokOfrzlaCKV3v16bSpgInneKd',
+    BSCS1002: 'https://drive.google.com/drive/folders/1O7w1hXO6d0uptWs1U4BCMGVEdfSDxNWo',
+    BSCS2001: 'https://drive.google.com/drive/folders/1PtqrInqJV0ZcZbis2hFndmOM08lMmoS_',
+    BSCS2005: 'https://drive.google.com/drive/folders/1Q-FPcyrurSml35qHizU6An3_c7f8_xie',
+    BSCS2003: 'https://drive.google.com/drive/folders/1MbGGvTyRM0-27le2He5TKdhw8HSPfC0j',
+    BSCS2006: 'https://drive.google.com/drive/folders/1Pl7g4i6e9HRR5ZQLYaJlbj6BQ-16ZtDK',
+    BSCS2002: 'https://drive.google.com/drive/folders/1Pn7Zaa8tfXbXIBbiX9WYg_WcfIVMHCdG',
+    BSSE2001: 'https://drive.google.com/drive/folders/1PsMUC0fAMCNVB5HVgZ_TZQC3CWhT5K3g',
+    BSMS2002: 'https://drive.google.com/drive/folders/1UTximp3FWwJV6_5nBmJlISPIbzvMu8s0',
+    BSMS2001: 'https://drive.google.com/drive/folders/1UIjX4MUeJBQnSJqRnO5XI8SFm50XDPml',
+    BSCS2004: 'https://drive.google.com/drive/folders/1ODZY3E2PcsaFrzIHPo5lUhQZaBszZxxS',
+    BSCS2008: 'https://drive.google.com/drive/folders/1UIVGGZYEldx98djyOI6aR18ec-07Qies',
+    BSCS2007: 'https://drive.google.com/drive/folders/1UFpj7Lauj4l_YvA8U6tR0dqubv4K0gwy',
+    BSSE2002: 'https://drive.google.com/drive/folders/1UK3pOkccniwBm1-YfpQgjrEfXFMrOtVy',
   },
 };
 
 const currentLevelLabel = computed(() => {
-  if (currentLevel.value === "foundation") return "🌱 Foundation";
-  if (currentLevel.value === "diploma") return "📐 Diploma";
-  if (currentLevel.value === "bs") return "🎓 BS Degree";
-  return "Subjects";
+  if (currentLevel.value === 'foundation') return '🌱 Foundation';
+  if (currentLevel.value === 'diploma') return '📐 Diploma';
+  if (currentLevel.value === 'bs') return '🎓 BS Degree';
+  return 'Subjects';
 });
 
 const levelSubjects = computed(() => {
@@ -417,18 +368,18 @@ function subjectMatchesSearch(subject, query) {
   const q = query.toLowerCase();
   if (subject.subject.toLowerCase().includes(q)) return true;
   if (
-    String(subject.code || "")
+    String(subject.code || '')
       .toLowerCase()
       .includes(q)
   )
     return true;
   const resources = subject.resources || {};
-  return ["lectures", "notes", "pyq"].some((type) =>
+  return ['lectures', 'notes', 'pyq'].some((type) =>
     (resources[type] || []).some((item) =>
-      String(item.title || "")
+      String(item.title || '')
         .toLowerCase()
-        .includes(q),
-    ),
+        .includes(q)
+    )
   );
 }
 
@@ -436,9 +387,9 @@ const filteredSubjects = computed(() => {
   const q = search.value.trim().toLowerCase();
 
   let baseSubjects = [];
-  if (activeTab.value === "All Levels" && q) {
+  if (activeTab.value === 'All Levels' && q) {
     // Collect all subjects from all levels for global search
-    ["foundation", "diploma", "bs"].forEach((lvl) => {
+    ['foundation', 'diploma', 'bs'].forEach((lvl) => {
       (scData[lvl] || []).forEach((sub) => {
         baseSubjects.push({ ...sub, levelKey: lvl });
       });
@@ -457,47 +408,45 @@ const filteredSubjects = computed(() => {
 });
 
 const currentSubject = computed(
-  () =>
-    levelSubjects.value.find((s) => s.code === currentSubjectCode.value) || null,
+  () => levelSubjects.value.find((s) => s.code === currentSubjectCode.value) || null
 );
 
 const filteredResources = computed(() => {
   if (!currentSubject.value) return [];
-  const source =
-    currentSubject.value.resources?.[currentResourceType.value] || [];
+  const source = currentSubject.value.resources?.[currentResourceType.value] || [];
   const q = search.value.trim().toLowerCase();
   if (!q) return source;
   return source.filter((item) =>
-    String(item.title || "")
+    String(item.title || '')
       .toLowerCase()
-      .includes(q),
+      .includes(q)
   );
 });
 
 function parseAuthor(title) {
   const match = String(title).match(/\(by\s+(.+?)\)\s*$/i);
-  return match ? match[1].trim() : "Unknown";
+  return match ? match[1].trim() : 'Unknown';
 }
 
 function cleanTitle(title) {
-  let cleaned = String(title || "")
-    .replace(/\s*\(by\s+.+?\)\s*$/i, "")
+  let cleaned = String(title || '')
+    .replace(/\s*\(by\s+.+?\)\s*$/i, '')
     .trim();
-  cleaned = cleaned.replace(/^[\s\-–:]+/, "");
-  return cleaned || String(title || "Untitled");
+  cleaned = cleaned.replace(/^[\s\-–:]+/, '');
+  return cleaned || String(title || 'Untitled');
 }
 
 function parsePYQYear(title) {
   const monthYear = String(title).match(
-    /(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})/i,
+    /(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})/i
   );
   if (monthYear) return monthYear[2];
   const yearOnly = String(title).match(/\b(20\d{2})\b/);
-  return yearOnly ? yearOnly[1] : "Other";
+  return yearOnly ? yearOnly[1] : 'Other';
 }
 
 const groupedNotes = computed(() => {
-  if (currentResourceType.value !== "notes") return [];
+  if (currentResourceType.value !== 'notes') return [];
   const map = new Map();
   filteredResources.value.forEach((item) => {
     const author = parseAuthor(item.title);
@@ -506,8 +455,8 @@ const groupedNotes = computed(() => {
   });
   const groups = Array.from(map.entries())
     .sort((a, b) => {
-      if (a[0] === "Unknown") return 1;
-      if (b[0] === "Unknown") return -1;
+      if (a[0] === 'Unknown') return 1;
+      if (b[0] === 'Unknown') return -1;
       return a[0].localeCompare(b[0]);
     })
     .map(([author, items]) => ({ author, items }));
@@ -518,13 +467,13 @@ const groupedNotes = computed(() => {
     if (
       !driveLink &&
       currentSubject.value.subject &&
-      currentSubject.value.subject.toLowerCase().includes("analytics")
+      currentSubject.value.subject.toLowerCase().includes('analytics')
     ) {
-      driveLink = driveLinks.notes["BSMS2002"];
+      driveLink = driveLinks.notes['BSMS2002'];
     }
     if (driveLink) {
       groups.unshift({
-        author: "Google Drive Folder",
+        author: 'Google Drive Folder',
         items: [
           {
             title: `Subject Wise Notes - ${currentSubject.value.subject}`,
@@ -539,7 +488,7 @@ const groupedNotes = computed(() => {
 });
 
 const groupedPyq = computed(() => {
-  if (currentResourceType.value !== "pyq") return [];
+  if (currentResourceType.value !== 'pyq') return [];
   const map = new Map();
   filteredResources.value.forEach((item) => {
     const year = parsePYQYear(item.title);
@@ -548,8 +497,8 @@ const groupedPyq = computed(() => {
   });
   const groups = Array.from(map.entries())
     .sort((a, b) => {
-      if (a[0] === "Other") return 1;
-      if (b[0] === "Other") return -1;
+      if (a[0] === 'Other') return 1;
+      if (b[0] === 'Other') return -1;
       return Number(b[0]) - Number(a[0]);
     })
     .map(([year, items]) => ({ year, items }));
@@ -557,25 +506,21 @@ const groupedPyq = computed(() => {
   if (currentSubject.value) {
     const subjectCode = currentSubject.value.code;
     const isFoundation =
-      currentLevel.value === "foundation" ||
-      (String(subjectCode).startsWith("BS") &&
-        String(subjectCode).includes("10"));
+      currentLevel.value === 'foundation' ||
+      (String(subjectCode).startsWith('BS') && String(subjectCode).includes('10'));
     const isDiploma =
-      currentLevel.value === "diploma" ||
-      (String(subjectCode).startsWith("BS") &&
-        String(subjectCode).includes("20"));
+      currentLevel.value === 'diploma' ||
+      (String(subjectCode).startsWith('BS') && String(subjectCode).includes('20'));
 
     if (isFoundation) {
       groups.unshift({
-        year: "Google Drive Folder",
-        items: [
-          { title: "Foundation End term PYQs", link: driveLinks.foundationPyq },
-        ],
+        year: 'Google Drive Folder',
+        items: [{ title: 'Foundation End term PYQs', link: driveLinks.foundationPyq }],
       });
     } else if (isDiploma) {
       groups.unshift({
-        year: "Google Drive Folder",
-        items: [{ title: "Diploma ET PYQs", link: driveLinks.diplomaPyq }],
+        year: 'Google Drive Folder',
+        items: [{ title: 'Diploma ET PYQs', link: driveLinks.diplomaPyq }],
       });
     }
   }
@@ -592,7 +537,7 @@ function toggleAuthor(index) {
 
 function loadLevel(level) {
   currentLevel.value = level;
-  currentResourceType.value = "notes";
+  currentResourceType.value = 'notes';
   openAuthors.value = {};
   const first = (scData[level] || [])[0];
   currentSubjectCode.value = first ? first.code : null;
@@ -603,19 +548,19 @@ function selectSubject(subject) {
     currentLevel.value = subject.levelKey;
   }
   currentSubjectCode.value = subject.code;
-  currentResourceType.value = "notes";
+  currentResourceType.value = 'notes';
   openAuthors.value = {};
 }
 
 function resetLevel() {
   currentLevel.value = null;
   currentSubjectCode.value = null;
-  currentResourceType.value = "notes";
+  currentResourceType.value = 'notes';
   openAuthors.value = {};
 }
 
 watch(activeTab, (newTab) => {
-  if (newTab === "All Levels") return;
+  if (newTab === 'All Levels') return;
   const key = tabToLevel[newTab];
   if (key) loadLevel(key);
 });

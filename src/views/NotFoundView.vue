@@ -28,7 +28,8 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2.5">
+            stroke-width="2.5"
+          >
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
@@ -43,7 +44,8 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+          >
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </router-link>
@@ -60,8 +62,7 @@
   </section>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped>
 .notfound-section {
@@ -103,8 +104,12 @@
 }
 
 @keyframes glow-drift {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(40px, -30px) scale(1.15); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(40px, -30px) scale(1.15);
+  }
 }
 
 .notfound-content {
@@ -134,7 +139,7 @@
 
 /* Giant 404 */
 .notfound-code {
-  font-family: "Cinzel", serif;
+  font-family: 'Cinzel', serif;
   font-weight: 900;
   font-size: clamp(7rem, 18vw, 14rem);
   line-height: 1;
@@ -154,13 +159,18 @@
 }
 
 @keyframes num-pulse {
-  0%, 100% { filter: drop-shadow(0 0 40px rgba(212, 160, 23, 0.2)); }
-  50% { filter: drop-shadow(0 0 80px rgba(212, 160, 23, 0.4)); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 40px rgba(212, 160, 23, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 80px rgba(212, 160, 23, 0.4));
+  }
 }
 
 /* Subtitle */
 .notfound-title {
-  font-family: "Cinzel", serif;
+  font-family: 'Cinzel', serif;
   font-weight: 700;
   font-size: clamp(1.4rem, 3.5vw, 2.2rem);
   color: var(--text);

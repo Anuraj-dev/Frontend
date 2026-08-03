@@ -48,10 +48,10 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
 These are the only scripts that exist in `package.json`. Do not invent or reference others —
 `npm run serve` in particular does **not** exist here.
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Start the Vite dev server with hot reload |
-| `npm run build` | Production build (output to `dist/`) |
+| Command           | What it does                                                    |
+| ----------------- | --------------------------------------------------------------- |
+| `npm run dev`     | Start the Vite dev server with hot reload                       |
+| `npm run build`   | Production build (output to `dist/`)                            |
 | `npm run preview` | Serve the built `dist/` output locally, to sanity-check a build |
 
 There is currently no `lint` script and no test suite. A lint script and a CI workflow are being

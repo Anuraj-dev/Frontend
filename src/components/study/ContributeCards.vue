@@ -9,11 +9,10 @@
             display: flex;
             flex-direction: column;
             border-color: rgba(212, 160, 23, 0.2);
-          ">
+          "
+        >
           <div style="font-size: 2rem; margin-bottom: 1rem">📤</div>
-          <div
-            class="section-tag"
-            style="margin-bottom: 1rem; align-self: flex-start">
+          <div class="section-tag" style="margin-bottom: 1rem; align-self: flex-start">
             Student Contribution
           </div>
           <h3
@@ -22,15 +21,11 @@
               font-weight: 700;
               font-size: 1.4rem;
               margin-bottom: 0.5rem;
-            ">
+            "
+          >
             Share Your Notes
           </h3>
-          <p
-            style="
-              color: var(--text2);
-              font-size: 0.9rem;
-              margin-bottom: 1.25rem;
-            ">
+          <p style="color: var(--text2); font-size: 0.9rem; margin-bottom: 1.25rem">
             <strong style="color: var(--text)">Purpose:</strong>
             Community-driven academic content
           </p>
@@ -42,7 +37,8 @@
               display: flex;
               flex-direction: column;
               gap: 0.6rem;
-            ">
+            "
+          >
             <li
               style="
                 display: flex;
@@ -50,9 +46,9 @@
                 gap: 0.6rem;
                 font-size: 0.88rem;
                 color: var(--text2);
-              ">
-              <span style="color: var(--accent); font-size: 0.9rem">✦</span
-              >Upload notes & resources
+              "
+            >
+              <span style="color: var(--accent); font-size: 0.9rem">✦</span>Upload notes & resources
             </li>
             <li
               style="
@@ -61,9 +57,9 @@
                 gap: 0.6rem;
                 font-size: 0.88rem;
                 color: var(--text2);
-              ">
-              <span style="color: var(--accent); font-size: 0.9rem">✦</span
-              >Help juniors & peers
+              "
+            >
+              <span style="color: var(--accent); font-size: 0.9rem">✦</span>Help juniors & peers
             </li>
             <li
               style="
@@ -72,9 +68,10 @@
                 gap: 0.6rem;
                 font-size: 0.88rem;
                 color: var(--text2);
-              ">
-              <span style="color: var(--accent); font-size: 0.9rem">✦</span
-              >WebOps review ensures quality
+              "
+            >
+              <span style="color: var(--accent); font-size: 0.9rem">✦</span>WebOps review ensures
+              quality
             </li>
           </ul>
           <a
@@ -94,11 +91,10 @@
             display: flex;
             flex-direction: column;
             border-color: rgba(212, 160, 23, 0.2);
-          ">
+          "
+        >
           <div style="font-size: 2rem; margin-bottom: 1rem">🎯</div>
-          <div
-            class="section-tag"
-            style="margin-bottom: 1rem; align-self: flex-start">
+          <div class="section-tag" style="margin-bottom: 1rem; align-self: flex-start">
             Resource Request
           </div>
           <h3
@@ -107,15 +103,11 @@
               font-weight: 700;
               font-size: 1.4rem;
               margin-bottom: 0.5rem;
-            ">
+            "
+          >
             Request a Resource
           </h3>
-          <p
-            style="
-              color: var(--text2);
-              font-size: 0.9rem;
-              margin-bottom: 1.25rem;
-            ">
+          <p style="color: var(--text2); font-size: 0.9rem; margin-bottom: 1.25rem">
             <strong style="color: var(--text)">Purpose:</strong>
             Identify missing academic needs
           </p>
@@ -127,7 +119,8 @@
               display: flex;
               flex-direction: column;
               gap: 0.6rem;
-            ">
+            "
+          >
             <li
               style="
                 display: flex;
@@ -135,9 +128,9 @@
                 gap: 0.6rem;
                 font-size: 0.88rem;
                 color: var(--text2);
-              ">
-              <span style="color: var(--accent); font-size: 0.9rem">✦</span
-              >Request missing topics
+              "
+            >
+              <span style="color: var(--accent); font-size: 0.9rem">✦</span>Request missing topics
             </li>
             <li
               style="
@@ -146,9 +139,9 @@
                 gap: 0.6rem;
                 font-size: 0.88rem;
                 color: var(--text2);
-              ">
-              <span style="color: var(--accent); font-size: 0.9rem">✦</span
-              >Exam-focused content
+              "
+            >
+              <span style="color: var(--accent); font-size: 0.9rem">✦</span>Exam-focused content
             </li>
             <li
               style="
@@ -157,9 +150,9 @@
                 gap: 0.6rem;
                 font-size: 0.88rem;
                 color: var(--text2);
-              ">
-              <span style="color: var(--accent); font-size: 0.9rem">✦</span
-              >Helps WebOps prioritize
+              "
+            >
+              <span style="color: var(--accent); font-size: 0.9rem">✦</span>Helps WebOps prioritize
             </li>
           </ul>
           <a

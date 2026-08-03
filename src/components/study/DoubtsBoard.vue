@@ -3,12 +3,8 @@
     <div class="container">
       <div class="sec-hdr">
         <div class="section-tag">Community</div>
-        <h2 class="section-title-xl">
-          Anonymous <span class="tg">Doubts Board</span>
-        </h2>
-        <p class="sec-sub">
-          Community-answered doubts. Ask anonymously, learn together.
-        </p>
+        <h2 class="section-title-xl">Anonymous <span class="tg">Doubts Board</span></h2>
+        <p class="sec-sub">Community-answered doubts. Ask anonymously, learn together.</p>
       </div>
 
       <div
@@ -18,60 +14,70 @@
           flex-wrap: wrap;
           justify-content: center;
           margin-bottom: 2.5rem;
-        ">
+        "
+      >
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'all' }"
-          @click="setDbFilter('all')">
+          @click="setDbFilter('all')"
+        >
           All Subjects
         </button>
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'Math' }"
-          @click="setDbFilter('Math')">
+          @click="setDbFilter('Math')"
+        >
           Mathematics
         </button>
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'Stats' }"
-          @click="setDbFilter('Stats')">
+          @click="setDbFilter('Stats')"
+        >
           Statistics
         </button>
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'Python' }"
-          @click="setDbFilter('Python')">
+          @click="setDbFilter('Python')"
+        >
           Python
         </button>
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'DBMS' }"
-          @click="setDbFilter('DBMS')">
+          @click="setDbFilter('DBMS')"
+        >
           DBMS
         </button>
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'DSA' }"
-          @click="setDbFilter('DSA')">
+          @click="setDbFilter('DSA')"
+        >
           DSA
         </button>
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'ML' }"
-          @click="setDbFilter('ML')">
+          @click="setDbFilter('ML')"
+        >
           Machine Learning
         </button>
         <button
           v-if="myDoubtsCount > 0"
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'my-doubts' }"
-          @click="setDbFilter('my-doubts')">
+          @click="setDbFilter('my-doubts')"
+        >
           My Doubts ({{ myDoubtsCount }})
         </button>
         <button
           class="db-filter"
           :class="{ active: dbCurrentFilter === 'answer-doubts' }"
-          @click="setDbFilter('answer-doubts')">
+          @click="setDbFilter('answer-doubts')"
+        >
           Answer Doubts
         </button>
       </div>
@@ -84,16 +90,19 @@
             <div class="db-answer" v-if="d.answer">{{ d.answer }}</div>
             <div
               v-if="dbCurrentFilter === 'answer-doubts' && !d.answer"
-              style="margin: 0.75rem 0 0.5rem">
+              style="margin: 0.75rem 0 0.5rem"
+            >
               <textarea
                 v-model="dbDraftAnswers[d.id]"
                 class="db-input"
                 rows="3"
-                placeholder="Write an answer for the community..."></textarea>
+                placeholder="Write an answer for the community..."
+              ></textarea>
               <button
                 class="submit-btn"
                 style="margin-top: 0.55rem; padding: 0.4rem 0.9rem"
-                @click="postAnswer(d.id)">
+                @click="postAnswer(d.id)"
+              >
                 Post Answer
               </button>
             </div>
@@ -102,38 +111,30 @@
               <button
                 class="db-upvote"
                 :disabled="Boolean(dbVoted[d.id])"
-                @click="upvoteDoubt(d.id)">
-                {{
-                  dbVoted[d.id]
-                    ? "✓ Voted"
-                    : `👍 ${d.upvotes + (dbVoted[d.id] ? 1 : 0)}`
-                }}
+                @click="upvoteDoubt(d.id)"
+              >
+                {{ dbVoted[d.id] ? '✓ Voted' : `👍 ${d.upvotes + (dbVoted[d.id] ? 1 : 0)}` }}
               </button>
             </div>
           </div>
         </template>
-        <p
-          v-else
-          style="text-align: center; color: var(--text3); padding: 2rem">
+        <p v-else style="text-align: center; color: var(--text3); padding: 2rem">
           {{ emptyDoubtsLabel }}
         </p>
       </div>
 
       <div
         class="card-base"
-        style="
-          max-width: 820px;
-          margin: 0 auto;
-          padding: 2.5rem 2rem;
-          text-align: center;
-        ">
+        style="max-width: 820px; margin: 0 auto; padding: 2.5rem 2rem; text-align: center"
+      >
         <h3
           style="
             font-family: Cinzel, serif;
             font-weight: 700;
             font-size: 1.4rem;
             margin-bottom: 1rem;
-          ">
+          "
+        >
           Have a Doubt?
         </h3>
         <p
@@ -144,16 +145,18 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-          ">
-          Submit your doubts anonymously using our Google form. Community members
-          or WebOps will review and post answers on the board.
+          "
+        >
+          Submit your doubts anonymously using our Google form. Community members or WebOps will
+          review and post answers on the board.
         </p>
         <a
           href="https://forms.gle/vZox3LpVrXti74UH7"
           target="_blank"
           rel="noopener noreferrer"
           class="submit-btn"
-          style="display: inline-block; text-decoration: none">
+          style="display: inline-block; text-decoration: none"
+        >
           Open Doubts Form
         </a>
       </div>
@@ -162,32 +165,32 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from 'vue';
 
 // The page-level search box lives in the resource browser; the board filters
 // against the same query, so the view passes it down.
 const props = defineProps({
-  search: { type: String, default: "" },
+  search: { type: String, default: '' },
 });
 
-const DB_JSON_PATH = "/data/doubts.json";
-const DB_STUDENT_KEY = "sb_student_doubts_v1";
-const DB_VOTED_KEY = "sb_voted_doubts_v1";
-const DB_ANSWERS_KEY = "sb_doubt_answers_v1";
+const DB_JSON_PATH = '/data/doubts.json';
+const DB_STUDENT_KEY = 'sb_student_doubts_v1';
+const DB_VOTED_KEY = 'sb_voted_doubts_v1';
+const DB_ANSWERS_KEY = 'sb_doubt_answers_v1';
 
-const dbCurrentFilter = ref("all");
+const dbCurrentFilter = ref('all');
 const dbDoubts = ref([]);
 const dbVoted = ref({});
 const dbAnswers = ref({});
 const dbDraftAnswers = reactive({});
 
 const dbForm = reactive({
-  subject: "",
-  question: "",
+  subject: '',
+  question: '',
 });
 
-const dbMessage = ref("");
-const dbMessageType = ref("success");
+const dbMessage = ref('');
+const dbMessageType = ref('success');
 
 function dbStorageGet(key, fallback) {
   try {
@@ -211,85 +214,77 @@ function dbStorageSet(key, value) {
 function dbNowLabel() {
   const now = new Date();
   return now.toLocaleString([], {
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
+    day: '2-digit',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
   });
 }
 
 function normalizeSubject(subject) {
-  const value = String(subject || "")
+  const value = String(subject || '')
     .trim()
     .toLowerCase();
   const map = {
-    math: "Math",
-    mathematics: "Math",
-    stats: "Stats",
-    statistics: "Stats",
-    python: "Python",
-    dbms: "DBMS",
-    dsa: "DSA",
-    ml: "ML",
-    "machine learning": "ML",
-    other: "Other",
-    "my-doubts": "my-doubts",
-    "answer-doubts": "answer-doubts",
-    all: "all",
+    math: 'Math',
+    mathematics: 'Math',
+    stats: 'Stats',
+    statistics: 'Stats',
+    python: 'Python',
+    dbms: 'DBMS',
+    dsa: 'DSA',
+    ml: 'ML',
+    'machine learning': 'ML',
+    other: 'Other',
+    'my-doubts': 'my-doubts',
+    'answer-doubts': 'answer-doubts',
+    all: 'all',
   };
-  return map[value] || String(subject || "Other");
+  return map[value] || String(subject || 'Other');
 }
 
-function hydrateDoubt(d, index = 0, prefix = "plh") {
+function hydrateDoubt(d, index = 0, prefix = 'plh') {
   const subject = normalizeSubject(d.subject);
-  const question = String(d.question || "").trim();
+  const question = String(d.question || '').trim();
   if (!question) return null;
   const id = d.id || `${prefix}-${subject.toLowerCase()}-${index + 1}`;
-  const savedAnswer = dbAnswers.value[id]
-    ? String(dbAnswers.value[id].answer || "").trim()
-    : "";
+  const savedAnswer = dbAnswers.value[id] ? String(dbAnswers.value[id].answer || '').trim() : '';
   return {
     id,
     subject,
     question,
-    answer: savedAnswer || String(d.answer || "").trim(),
-    time: String(d.time || "Recently"),
+    answer: savedAnswer || String(d.answer || '').trim(),
+    time: String(d.time || 'Recently'),
     upvotes: Number.isFinite(Number(d.upvotes)) ? Number(d.upvotes) : 0,
     isStudent: Boolean(d.isStudent),
   };
 }
 
-const myDoubtsCount = computed(
-  () => dbDoubts.value.filter((d) => d.isStudent).length,
-);
+const myDoubtsCount = computed(() => dbDoubts.value.filter((d) => d.isStudent).length);
 
 const filteredDoubts = computed(() => {
   const active = normalizeSubject(dbCurrentFilter.value);
   let list = dbDoubts.value;
-  if (active === "my-doubts") list = list.filter((d) => d.isStudent);
-  else if (active === "answer-doubts")
-    list = list.filter((d) => !String(d.answer || "").trim());
-  else if (active !== "all")
-    list = list.filter((d) => normalizeSubject(d.subject) === active);
+  if (active === 'my-doubts') list = list.filter((d) => d.isStudent);
+  else if (active === 'answer-doubts') list = list.filter((d) => !String(d.answer || '').trim());
+  else if (active !== 'all') list = list.filter((d) => normalizeSubject(d.subject) === active);
 
   const q = props.search.trim().toLowerCase();
   if (!q) return list;
   return list.filter(
     (d) =>
       d.question.toLowerCase().includes(q) ||
-      String(d.answer || "")
+      String(d.answer || '')
         .toLowerCase()
         .includes(q) ||
-      d.subject.toLowerCase().includes(q),
+      d.subject.toLowerCase().includes(q)
   );
 });
 
 const emptyDoubtsLabel = computed(() => {
-  if (dbCurrentFilter.value === "my-doubts")
-    return "You have not posted any doubts yet.";
-  if (dbCurrentFilter.value === "answer-doubts")
-    return "No unanswered doubts right now.";
-  return "No doubts in this subject yet.";
+  if (dbCurrentFilter.value === 'my-doubts') return 'You have not posted any doubts yet.';
+  if (dbCurrentFilter.value === 'answer-doubts') return 'No unanswered doubts right now.';
+  return 'No doubts in this subject yet.';
 });
 
 function setDbFilter(filter) {
@@ -307,9 +302,8 @@ function submitDoubt() {
   const question = dbForm.question.trim();
 
   if (!dbForm.subject || question.length < 10) {
-    dbMessageType.value = "error";
-    dbMessage.value =
-      "⚠ Please select a subject and write at least 10 characters.";
+    dbMessageType.value = 'error';
+    dbMessage.value = '⚠ Please select a subject and write at least 10 characters.';
     return;
   }
 
@@ -318,13 +312,13 @@ function submitDoubt() {
       id: `stu-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       subject,
       question,
-      answer: "",
+      answer: '',
       time: dbNowLabel(),
       upvotes: 0,
       isStudent: true,
     },
     0,
-    "stu",
+    'stu'
   );
 
   if (!newDoubt) return;
@@ -333,20 +327,19 @@ function submitDoubt() {
   const saved = dbStorageGet(DB_STUDENT_KEY, []);
   dbStorageSet(DB_STUDENT_KEY, [newDoubt, ...saved]);
 
-  dbForm.subject = "";
-  dbForm.question = "";
+  dbForm.subject = '';
+  dbForm.question = '';
   dbCurrentFilter.value = subject;
-  dbMessageType.value = "success";
-  dbMessage.value =
-    "✓ Your doubt has been submitted! Also visible in My Doubts.";
+  dbMessageType.value = 'success';
+  dbMessage.value = '✓ Your doubt has been submitted! Also visible in My Doubts.';
 
   setTimeout(() => {
-    dbMessage.value = "";
+    dbMessage.value = '';
   }, 3000);
 }
 
 function postAnswer(id) {
-  const answer = String(dbDraftAnswers[id] || "").trim();
+  const answer = String(dbDraftAnswers[id] || '').trim();
   if (answer.length < 8) return;
 
   dbAnswers.value = {
@@ -358,10 +351,8 @@ function postAnswer(id) {
   };
   dbStorageSet(DB_ANSWERS_KEY, dbAnswers.value);
 
-  dbDoubts.value = dbDoubts.value.map((d) =>
-    d.id === id ? { ...d, answer } : d,
-  );
-  dbDraftAnswers[id] = "";
+  dbDoubts.value = dbDoubts.value.map((d) => (d.id === id ? { ...d, answer } : d));
+  dbDraftAnswers[id] = '';
 }
 
 async function initDoubts() {
@@ -370,12 +361,12 @@ async function initDoubts() {
 
   const studentDoubtsRaw = dbStorageGet(DB_STUDENT_KEY, []);
   const studentDoubts = Array.isArray(studentDoubtsRaw)
-    ? studentDoubtsRaw.map((d, i) => hydrateDoubt(d, i, "stu")).filter(Boolean)
+    ? studentDoubtsRaw.map((d, i) => hydrateDoubt(d, i, 'stu')).filter(Boolean)
     : [];
 
   let placeholderRaw = [];
   try {
-    const response = await fetch(DB_JSON_PATH, { cache: "no-store" });
+    const response = await fetch(DB_JSON_PATH, { cache: 'no-store' });
     if (response.ok) {
       const data = await response.json();
       if (Array.isArray(data)) placeholderRaw = data;
@@ -384,9 +375,7 @@ async function initDoubts() {
     placeholderRaw = [];
   }
 
-  const placeholders = placeholderRaw
-    .map((d, i) => hydrateDoubt(d, i, "plh"))
-    .filter(Boolean);
+  const placeholders = placeholderRaw.map((d, i) => hydrateDoubt(d, i, 'plh')).filter(Boolean);
 
   dbDoubts.value = [...studentDoubts, ...placeholders];
 }

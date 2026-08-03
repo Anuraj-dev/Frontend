@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import RegionMeetups from '@/components/RegionMeetups.vue'
-import { regionConfigs } from './regionConfigs'
+import RegionMeetups from '@/components/RegionMeetups.vue';
+import { regionConfigs } from './regionConfigs';
 
 export default {
   name: 'ChandigarhMeetups',
@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       config: regionConfigs.chandigarh,
-    }
+    };
   },
-}
+};
 </script>

@@ -1,7 +1,7 @@
 <template>
   <!-- Empty state when every upcoming event has passed -->
-  <div v-if="events.length === 0" style="text-align:center;padding:3rem 0;color:var(--text2);">
-    <p style="font-size:1.1rem;">{{ emptyText }}</p>
+  <div v-if="events.length === 0" style="text-align: center; padding: 3rem 0; color: var(--text2)">
+    <p style="font-size: 1.1rem">{{ emptyText }}</p>
   </div>
   <div v-else class="events-grid">
     <div v-for="event in events" :key="event.id" class="event-card">
@@ -17,7 +17,13 @@
           <span>🕐 {{ event.time }}</span>
           <span>📍 {{ event.venue }}</span>
         </div>
-        <a :href="event.registerLink || '#'" target="_blank" rel="noopener noreferrer" class="register-btn">Register Now</a>
+        <a
+          :href="event.registerLink || '#'"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="register-btn"
+          >Register Now</a
+        >
       </div>
     </div>
   </div>

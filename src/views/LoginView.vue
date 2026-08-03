@@ -3,13 +3,14 @@
     <canvas ref="canvasEl" id="bg-canvas"></canvas>
     <div class="grain"></div>
 
-      <div class="layout">
+    <div class="layout">
       <div class="left-panel">
         <div class="heading-block">
           <div class="heading-label">Member Portal</div>
           <h1>Welcome<br /><em>back.</em></h1>
           <p class="sub-text">
-            Access the Sundarbans House Lounge.<br />Exclusive to SUNDARBANS HOUSE members.<br /> Log in with Student E-mail ID
+            Access the Sundarbans House Lounge.<br />Exclusive to SUNDARBANS HOUSE members.<br />
+            Log in with Student E-mail ID
           </p>
         </div>
 
@@ -18,18 +19,30 @@
             type="button"
             class="google-btn"
             :class="{ loading: googleLoading }"
-            @click="loginWithGoogle">
+            @click="loginWithGoogle"
+          >
             <svg class="google-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-              <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.12-.84 2.07-1.8 2.71v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.61z" />
-              <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.55-1.85.87-3.04.87-2.34 0-4.32-1.58-5.03-3.71H.96v2.33C2.44 15.98 5.48 18 9 18z" />
-              <path fill="#FBBC05" d="M3.97 10.72c-.18-.55-.28-1.13-.28-1.72s.1-1.17.28-1.72V4.95H.96A8.996 8.996 0 0 0 0 9c0 1.45.35 2.83.96 4.05l3.01-2.33z" />
-              <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.42 0 9 0 5.48 0 2.44 2.02.96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z" />
+              <path
+                fill="#4285F4"
+                d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.12-.84 2.07-1.8 2.71v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.61z"
+              />
+              <path
+                fill="#34A853"
+                d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.55-1.85.87-3.04.87-2.34 0-4.32-1.58-5.03-3.71H.96v2.33C2.44 15.98 5.48 18 9 18z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M3.97 10.72c-.18-.55-.28-1.13-.28-1.72s.1-1.17.28-1.72V4.95H.96A8.996 8.996 0 0 0 0 9c0 1.45.35 2.83.96 4.05l3.01-2.33z"
+              />
+              <path
+                fill="#EA4335"
+                d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.42 0 9 0 5.48 0 2.44 2.02.96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"
+              />
             </svg>
-            <span>{{ googleLoading ? "Connecting..." : "Continue with Google" }}</span>
+            <span>{{ googleLoading ? 'Connecting...' : 'Continue with Google' }}</span>
           </button>
           <p class="message" :class="messageType">{{ message }}</p>
         </div>
-
       </div>
 
       <div class="right-panel">
@@ -44,30 +57,24 @@
               r="160"
               stroke="rgba(201,168,76,0.15)"
               stroke-width="1"
-              stroke-dasharray="6 10" />
-            <circle
-              cx="170"
-              cy="170"
-              r="140"
-              stroke="rgba(201,168,76,0.08)"
-              stroke-width="1" />
+              stroke-dasharray="6 10"
+            />
+            <circle cx="170" cy="170" r="140" stroke="rgba(201,168,76,0.08)" stroke-width="1" />
             <circle
               cx="170"
               cy="170"
               r="120"
               stroke="rgba(201,168,76,0.2)"
               stroke-width="0.5"
-              stroke-dasharray="3 6" />
+              stroke-dasharray="3 6"
+            />
             <defs>
               <path
                 id="ring-path"
-                d="M 170,170 m -150,0 a 150,150 0 1,1 300,0 a 150,150 0 1,1 -300,0" />
+                d="M 170,170 m -150,0 a 150,150 0 1,1 300,0 a 150,150 0 1,1 -300,0"
+              />
             </defs>
-            <text
-              font-family="Outfit"
-              font-size="9"
-              fill="rgba(201,168,76,0.6)"
-              letter-spacing="8">
+            <text font-family="Outfit" font-size="9" fill="rgba(201,168,76,0.6)" letter-spacing="8">
               <textPath href="#ring-path">
                 SUNDARBANS HOUSE · IIT MADRAS · EXCLUSIVE MEMBERS PORTAL ·
               </textPath>
@@ -103,29 +110,29 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import membersData from "../data/members.json";
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import membersData from '../data/members.json';
 
-const message = ref("");
+const message = ref('');
 const router = useRouter();
 
 const messageType = computed(() => {
-  if (!message.value) return "";
-  return message.value.toLowerCase().includes("welcome") ? "success" : "error";
+  if (!message.value) return '';
+  return message.value.toLowerCase().includes('welcome') ? 'success' : 'error';
 });
 
 function grantOrDenyAccess(rawEmail) {
   const normalized = rawEmail.trim().toLowerCase();
   if (membersData.members.includes(normalized)) {
-    message.value = "Welcome to the Members Lounge. Redirecting...";
-    localStorage.setItem("sundarbans_auth_token", normalized);
+    message.value = 'Welcome to the Members Lounge. Redirecting...';
+    localStorage.setItem('sundarbans_auth_token', normalized);
     setTimeout(() => {
-      router.push("/lounge");
+      router.push('/lounge');
     }, 500);
     return true;
   }
-  message.value = "Access denied. Email not found in member registry.";
+  message.value = 'Access denied. Email not found in member registry.';
   return false;
 }
 
@@ -140,7 +147,7 @@ let googleInitAttempts = 0;
 
 function initGoogle() {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  if (!clientId || clientId.includes("your-client-id")) return;
+  if (!clientId || clientId.includes('your-client-id')) return;
 
   if (!window.google?.accounts?.oauth2) {
     googleInitAttempts += 1;
@@ -150,11 +157,11 @@ function initGoogle() {
 
   tokenClient = window.google.accounts.oauth2.initTokenClient({
     client_id: clientId,
-    scope: "openid email profile",
+    scope: 'openid email profile',
     callback: handleGoogleToken,
     error_callback: () => {
       googleLoading.value = false;
-      message.value = "Google sign-in was cancelled or failed.";
+      message.value = 'Google sign-in was cancelled or failed.';
     },
   });
 }
@@ -162,18 +169,18 @@ function initGoogle() {
 async function handleGoogleToken(tokenResponse) {
   if (!tokenResponse?.access_token) {
     googleLoading.value = false;
-    message.value = "Google sign-in failed. Please try again.";
+    message.value = 'Google sign-in failed. Please try again.';
     return;
   }
   try {
-    const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
     });
-    if (!res.ok) throw new Error("userinfo request failed");
+    if (!res.ok) throw new Error('userinfo request failed');
     const profile = await res.json();
     googleLoading.value = false;
     if (!profile.email) {
-      message.value = "Could not read your Google account email.";
+      message.value = 'Could not read your Google account email.';
       return;
     }
     grantOrDenyAccess(profile.email);
@@ -184,15 +191,15 @@ async function handleGoogleToken(tokenResponse) {
 }
 
 function loginWithGoogle() {
-  message.value = "";
+  message.value = '';
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-  if (!clientId || clientId.includes("your-client-id")) {
+  if (!clientId || clientId.includes('your-client-id')) {
     message.value = "Google sign-in isn't configured yet (missing client ID).";
     return;
   }
   if (!tokenClient) {
-    message.value = "Google sign-in is still loading. Try again in a second.";
+    message.value = 'Google sign-in is still loading. Try again in a second.';
     return;
   }
   googleLoading.value = true;
@@ -206,7 +213,7 @@ let particles = [];
 function initCanvas() {
   const canvas = canvasEl.value;
   if (!canvas) return;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
 
   const resize = () => {
     canvas.width = window.innerWidth;
@@ -219,7 +226,7 @@ function initCanvas() {
       vx: (Math.random() - 0.5) * 0.15,
       vy: -Math.random() * 0.2 - 0.05,
       alpha: Math.random() * 0.5 + 0.1,
-      color: Math.random() > 0.6 ? "201,168,76" : "61,122,61",
+      color: Math.random() > 0.6 ? '201,168,76' : '61,122,61',
     }));
   };
 
@@ -244,11 +251,11 @@ function initCanvas() {
   };
 
   resize();
-  window.addEventListener("resize", resize);
+  window.addEventListener('resize', resize);
   draw();
 
   onUnmounted(() => {
-    window.removeEventListener("resize", resize);
+    window.removeEventListener('resize', resize);
     cancelAnimationFrame(rafId);
   });
 }
@@ -303,7 +310,7 @@ onMounted(() => {
   margin-bottom: 18px;
 }
 h1 {
-  font-family: "Cinzel", serif;
+  font-family: 'Cinzel', serif;
   font-weight: 300;
   font-size: clamp(48px, 5.5vw, 72px);
   line-height: 1.05;
@@ -343,7 +350,9 @@ h1 em {
   font-size: 13px;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 .google-btn:hover {
   border-color: rgba(201, 168, 76, 0.5);
@@ -438,7 +447,7 @@ h1 em {
   padding: 20px;
 }
 .info-card-num {
-  font-family: "Cinzel", serif;
+  font-family: 'Cinzel', serif;
   font-size: 36px;
   color: #e8c97a;
 }

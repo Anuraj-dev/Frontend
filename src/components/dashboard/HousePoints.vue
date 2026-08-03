@@ -1,10 +1,15 @@
 <template>
   <div class="widget w-6" id="widget-points" ref="widgetRef">
-    <div class="widget-glow"
-         style="width:320px;height:320px;
-                background:radial-gradient(circle,rgba(201,168,76,.14),transparent);
-                top:-100px;left:-80px">
-    </div>
+    <div
+      class="widget-glow"
+      style="
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(201, 168, 76, 0.14), transparent);
+        top: -100px;
+        left: -80px;
+      "
+    ></div>
 
     <div class="widget-label">Live Total</div>
     <div class="widget-title">House Points</div>
@@ -29,7 +34,10 @@
           <div class="points-cat-bar">
             <div
               class="points-cat-fill"
-              :style="{ background: c.color, width: animFired ? Math.round(c.points / c.max * 100) + '%' : '0%' }"
+              :style="{
+                background: c.color,
+                width: animFired ? Math.round((c.points / c.max) * 100) + '%' : '0%',
+              }"
             ></div>
           </div>
         </div>
@@ -43,19 +51,21 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({
-  config: { type: Object, default: null }
+  config: { type: Object, default: null },
 });
 
-const cats = props.config ? props.config.categories : [
-  { name:'Academic',  icon:'📚', points:312, max:400, color:'#e8c97a' },
-  { name:'Cultural',  icon:'🎭', points:198, max:400, color:'#b07ae0' },
-  { name:'Sports',    icon:'🏏', points:241, max:400, color:'#4caf50' },
-  { name:'Community', icon:'🤝', points:167, max:400, color:'#7ab0e0' }
-];
+const cats = props.config
+  ? props.config.categories
+  : [
+      { name: 'Academic', icon: '📚', points: 312, max: 400, color: '#e8c97a' },
+      { name: 'Cultural', icon: '🎭', points: 198, max: 400, color: '#b07ae0' },
+      { name: 'Sports', icon: '🏏', points: 241, max: 400, color: '#4caf50' },
+      { name: 'Community', icon: '🤝', points: 167, max: 400, color: '#7ab0e0' },
+    ];
 
 const TOTAL = cats.reduce((s, c) => s + c.points, 0);
 const leadingCategory = computed(() => {
-  return cats.reduce((lead, cat) => cat.points > lead.points ? cat : lead, cats[0]);
+  return cats.reduce((lead, cat) => (cat.points > lead.points ? cat : lead), cats[0]);
 });
 
 const displayTotal = ref(0);
@@ -75,14 +85,17 @@ function animateCount(target, dur) {
 }
 
 onMounted(() => {
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting && !animFired.value) {
-        animFired.value = true;
-        animateCount(TOTAL, 2000);
-      }
-    });
-  }, { threshold: 0.3 });
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting && !animFired.value) {
+          animFired.value = true;
+          animateCount(TOTAL, 2000);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
 
   if (widgetRef.value) {
     observer.observe(widgetRef.value);

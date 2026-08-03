@@ -1,18 +1,14 @@
 <template>
   <section class="section rs daily-notif-section">
     <div class="container">
-
       <!-- Section Header -->
       <div class="sec-hdr">
         <div class="section-tag">What's Happening</div>
-        <h2 class="section-title-xl">
-          Daily <span class="tg">Updates</span>
-        </h2>
+        <h2 class="section-title-xl">Daily <span class="tg">Updates</span></h2>
       </div>
 
       <!-- Notification Card Rotator -->
       <div class="notif-stage" v-if="sorted.length">
-
         <!-- Progress dots -->
         <div class="notif-dots">
           <button
@@ -59,12 +55,7 @@
 
                   <!-- Footer: link + counter -->
                   <div class="notif-footer">
-                    <a
-                      v-if="active.link"
-                      :href="active.link"
-                      target="_blank"
-                      class="notif-link"
-                    >
+                    <a v-if="active.link" :href="active.link" target="_blank" class="notif-link">
                       Learn More →
                     </a>
                     <span v-else class="notif-spacer" />
@@ -83,9 +74,23 @@
 
         <!-- Prev / Next controls -->
         <div class="notif-controls">
-          <button class="notif-btn" @click="prev" :disabled="sorted.length <= 1" aria-label="Previous">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
+          <button
+            class="notif-btn"
+            @click="prev"
+            :disabled="sorted.length <= 1"
+            aria-label="Previous"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
 
@@ -96,55 +101,67 @@
           >
             <!-- Play icon -->
             <svg v-if="!autoPlay" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"/>
+              <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
             <!-- Pause icon -->
             <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+              <rect x="6" y="4" width="4" height="16" />
+              <rect x="14" y="4" width="4" height="16" />
             </svg>
           </button>
 
           <button class="notif-btn" @click="next" :disabled="sorted.length <= 1" aria-label="Next">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
         </div>
 
         <!-- Auto-play progress bar -->
         <div class="notif-progress-wrap" v-if="autoPlay">
-          <div class="notif-progress-bar" :style="{ animationDuration: `${interval}ms` }" :key="progressKey" />
+          <div
+            class="notif-progress-bar"
+            :style="{ animationDuration: `${interval}ms` }"
+            :key="progressKey"
+          />
         </div>
-
       </div>
 
       <!-- Empty state -->
       <div v-else class="notif-empty">
-        <div style="font-size:2rem;margin-bottom:0.5rem">📭</div>
-        <p class="desc" style="margin:0">No notifications right now. Check back soon.</p>
+        <div style="font-size: 2rem; margin-bottom: 0.5rem">📭</div>
+        <p class="desc" style="margin: 0">No notifications right now. Check back soon.</p>
       </div>
-
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
-import rawNotifs from "../data/notifications.json";
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import rawNotifs from '../data/notifications.json';
 
 // ─── Config ───────────────────────────────────────────────────
 const interval = 4500; // ms between auto-rotations
 
 // ─── State ────────────────────────────────────────────────────
-const current   = ref(0);
-const autoPlay  = ref(true);
+const current = ref(0);
+const autoPlay = ref(true);
 const progressKey = ref(0);
-let   timer     = null;
+let timer = null;
 
 // ─── Sort: today's birthdays first, then rest in order ────────
 const sorted = computed(() => {
   const todayBirthdays = rawNotifs.filter(
-    (n) => n.type === "birthday" && n.date && isToday(n.date)
+    (n) => n.type === 'birthday' && n.date && isToday(n.date)
   );
   const rest = rawNotifs.filter((n) => !todayBirthdays.includes(n));
   return [...todayBirthdays, ...rest];
@@ -183,8 +200,10 @@ function resetProgress() {
 }
 
 watch(autoPlay, (val) => {
-  if (val) { startTimer(); progressKey.value++; }
-  else     stopTimer();
+  if (val) {
+    startTimer();
+    progressKey.value++;
+  } else stopTimer();
 });
 
 onMounted(() => startTimer());
@@ -195,23 +214,20 @@ function isToday(dateStr) {
   const now = new Date();
   const date = new Date(dateStr);
 
-  return (
-    now.getDate() === date.getDate() &&
-    now.getMonth() === date.getMonth()
-  );
+  return now.getDate() === date.getDate() && now.getMonth() === date.getMonth();
 }
 
 function formatDate(dateStr) {
   const date = new Date(dateStr);
 
-  return date.toLocaleDateString("en-IN", {
-    month: "short",
-    day: "numeric"
+  return date.toLocaleDateString('en-IN', {
+    month: 'short',
+    day: 'numeric',
   });
 }
 
 function typeIcon(type) {
-  return { birthday: "🎂", event: "📢", achievement: "🏆", alert: "⚠️" }[type] ?? "📌";
+  return { birthday: '🎂', event: '📢', achievement: '🏆', alert: '⚠️' }[type] ?? '📌';
 }
 </script>
 
@@ -245,7 +261,9 @@ function typeIcon(type) {
   border: none;
   cursor: pointer;
   background: rgba(212, 160, 23, 0.2);
-  transition: background 0.25s, transform 0.2s;
+  transition:
+    background 0.25s,
+    transform 0.2s;
   padding: 0;
 }
 .notif-dot.active {
@@ -304,23 +322,41 @@ function typeIcon(type) {
 }
 
 /* Type-specific border tints */
-.notif-card.type-birthday  { border-color: rgba(240, 100, 150, 0.25); }
-.notif-card.type-event     { border-color: rgba(80, 180, 255, 0.2); }
-.notif-card.type-achievement { border-color: rgba(80, 220, 140, 0.2); }
-.notif-card.type-alert     { border-color: rgba(255, 180, 50, 0.25); }
+.notif-card.type-birthday {
+  border-color: rgba(240, 100, 150, 0.25);
+}
+.notif-card.type-event {
+  border-color: rgba(80, 180, 255, 0.2);
+}
+.notif-card.type-achievement {
+  border-color: rgba(80, 220, 140, 0.2);
+}
+.notif-card.type-alert {
+  border-color: rgba(255, 180, 50, 0.25);
+}
 
 /* ─── Accent bar (left edge) ───────────────────────────────── */
 .notif-accent-bar {
   position: absolute;
-  left: 0; top: 0; bottom: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
   width: 4px;
   border-radius: 1rem 0 0 1rem;
   background: linear-gradient(180deg, #d4a017, #f0c040);
 }
-.type-birthday  .notif-accent-bar { background: linear-gradient(180deg, #f06496, #ff9cc0); }
-.type-event     .notif-accent-bar { background: linear-gradient(180deg, #50b4ff, #a0d4ff); }
-.type-achievement .notif-accent-bar { background: linear-gradient(180deg, #50dc8c, #a0f0c0); }
-.type-alert     .notif-accent-bar { background: linear-gradient(180deg, #ffb432, #ffd280); }
+.type-birthday .notif-accent-bar {
+  background: linear-gradient(180deg, #f06496, #ff9cc0);
+}
+.type-event .notif-accent-bar {
+  background: linear-gradient(180deg, #50b4ff, #a0d4ff);
+}
+.type-achievement .notif-accent-bar {
+  background: linear-gradient(180deg, #50dc8c, #a0f0c0);
+}
+.type-alert .notif-accent-bar {
+  background: linear-gradient(180deg, #ffb432, #ffd280);
+}
 
 /* ─── Top row ──────────────────────────────────────────────── */
 .notif-top-row {
@@ -344,12 +380,30 @@ function typeIcon(type) {
   color: #d4a017;
   border: 1px solid rgba(212, 160, 23, 0.25);
 }
-.tag-birthday    { background: rgba(240, 100, 150, 0.1); color: #f06496; border-color: rgba(240,100,150,0.25); }
-.tag-event       { background: rgba(80, 180, 255, 0.1);  color: #50b4ff; border-color: rgba(80,180,255,0.2); }
-.tag-achievement { background: rgba(80, 220, 140, 0.1);  color: #50dc8c; border-color: rgba(80,220,140,0.2); }
-.tag-alert       { background: rgba(255, 180, 50, 0.1);  color: #ffb432; border-color: rgba(255,180,50,0.2); }
+.tag-birthday {
+  background: rgba(240, 100, 150, 0.1);
+  color: #f06496;
+  border-color: rgba(240, 100, 150, 0.25);
+}
+.tag-event {
+  background: rgba(80, 180, 255, 0.1);
+  color: #50b4ff;
+  border-color: rgba(80, 180, 255, 0.2);
+}
+.tag-achievement {
+  background: rgba(80, 220, 140, 0.1);
+  color: #50dc8c;
+  border-color: rgba(80, 220, 140, 0.2);
+}
+.tag-alert {
+  background: rgba(255, 180, 50, 0.1);
+  color: #ffb432;
+  border-color: rgba(255, 180, 50, 0.2);
+}
 
-.notif-tag-icon { font-style: normal; }
+.notif-tag-icon {
+  font-style: normal;
+}
 
 .notif-date-chip {
   font-size: 0.72rem;
@@ -364,7 +418,7 @@ function typeIcon(type) {
 .notif-date-chip.upcoming {
   background: transparent;
   color: var(--text2);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ─── Content ──────────────────────────────────────────────── */
@@ -400,8 +454,12 @@ function typeIcon(type) {
   letter-spacing: 0.04em;
   transition: opacity 0.2s;
 }
-.notif-link:hover { opacity: 0.7; }
-.notif-spacer { flex: 1; }
+.notif-link:hover {
+  opacity: 0.7;
+}
+.notif-spacer {
+  flex: 1;
+}
 .notif-counter {
   font-size: 0.78rem;
   color: var(--text2);
@@ -426,13 +484,18 @@ function typeIcon(type) {
   background: rgba(212, 160, 23, 0.06);
   color: #d4a017;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 .notif-btn:hover:not(:disabled) {
   background: rgba(212, 160, 23, 0.18);
   border-color: rgba(212, 160, 23, 0.4);
 }
-.notif-btn:disabled { opacity: 0.3; cursor: default; }
+.notif-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
 .play-btn {
   width: 40px;
   height: 40px;
@@ -456,8 +519,12 @@ function typeIcon(type) {
   animation: progress-fill linear forwards;
 }
 @keyframes progress-fill {
-  from { width: 0%; }
-  to   { width: 100%; }
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 /* ─── Card transition ──────────────────────────────────────── */
