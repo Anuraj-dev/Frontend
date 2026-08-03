@@ -14,7 +14,10 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/) — this project is developed against **Node v22**. Use
   [nvm](https://github.com/nvm-sh/nvm) or similar if you need to manage versions.
-- No backend, no database, no `.env` to configure — the app is fully client-side.
+- No backend and no database — the app is fully client-side. Optional env: copy
+  `.env.example` to `.env` if you need Google OAuth login. The only variable is
+  `VITE_GOOGLE_CLIENT_ID` (see `.env.example`). Without it the rest of the site
+  still runs; OAuth sign-in will not.
 
 ## 2. Setup
 
@@ -28,7 +31,13 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
    ```bash
    npm install
    ```
-4. Start the dev server:
+4. (Optional) Set up OAuth env if you need login:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` only if you have your own Google client ID; the example value is
+   fine for local exploration of non-OAuth pages.
+5. Start the dev server:
    ```bash
    npm run dev
    ```
@@ -61,16 +70,22 @@ reference commands that don't exist yet.
    ```bash
    npm run build
    ```
-4. Commit with a clear, descriptive message and push to your fork:
+4. Stage and commit with a clear, descriptive message:
    ```bash
-   git push origin your-feature-branch
+   git add .
+   git commit -m "Describe your change clearly"
    ```
-5. Open a pull request from your fork/branch against `Anuraj-dev/Frontend`'s `main`. Describe what
+5. Push the branch to your fork (first push sets upstream):
+   ```bash
+   git push -u origin your-feature-branch
+   ```
+6. Open a pull request from your fork/branch against `Anuraj-dev/Frontend`'s `main`. Describe what
    changed and why.
-6. A repo owner reviews and approves. Contributors do not merge their own PRs and never push
+7. A repo owner reviews and approves. Contributors do not merge their own PRs and never push
    directly to `main` — everything goes through fork -> branch -> PR -> owner approval.
-7. **CI must be green before merge.** A red CI check blocks merging, no exceptions — fix the build
-   rather than merging around it.
+8. **When CI is set up** (planned; there is no GitHub Actions workflow on `main` yet), merges
+   must wait for a green CI check — fix the build rather than merging around a red status. Until
+   CI lands, treat a clean local `npm run build` as the gate.
 
 ## 5. SFC convention
 
@@ -98,8 +113,3 @@ it's being actively slimmed down. Follow this policy for anything new:
   and check whether an issue is already assigned before picking it up.
 - Bug reports should include a clear description and steps to reproduce.
 - Feature ideas should be opened as an issue for discussion before a large PR.
-
-## Code of Conduct
-
-This project and everyone participating in it are governed by our
-[Code of Conduct](CODE_OF_CONDUCT.md). By participating, you're expected to uphold it.
