@@ -33,43 +33,11 @@ const routes = [
     component: () => import('../views/ESportsView.vue'),
   },
 
-  // Meetups + region sub-pages
+  // Meetups + single param route for all regions (slug map in RegionMeetupsView)
   { path: '/meetups', component: () => import('../views/MeetupsView.vue') },
   {
-    path: '/meetups/delhi-ncr',
-    component: () => import('../views/meetups/DelhiMeetups.vue'),
-  },
-  {
-    path: '/meetups/mumbai',
-    component: () => import('../views/meetups/MumbaiMeetups.vue'),
-  },
-  {
-    path: '/meetups/bangalore',
-    component: () => import('../views/meetups/BangaloreMeetups.vue'),
-  },
-  {
-    path: '/meetups/kolkata',
-    component: () => import('../views/meetups/KolkataMeetups.vue'),
-  },
-  {
-    path: '/meetups/hyderabad',
-    component: () => import('../views/meetups/HyderabadMeetups.vue'),
-  },
-  {
-    path: '/meetups/patna',
-    component: () => import('../views/meetups/PatnaMeetups.vue'),
-  },
-  {
-    path: '/meetups/chandigarh',
-    component: () => import('../views/meetups/ChandigarhMeetups.vue'),
-  },
-  {
-    path: '/meetups/chennai',
-    component: () => import('../views/meetups/ChennaiMeetups.vue'),
-  },
-  {
-    path: '/meetups/lucknow',
-    component: () => import('../views/meetups/LucknowMeetups.vue'),
+    path: '/meetups/:region',
+    component: () => import('../views/meetups/RegionMeetupsView.vue'),
   },
 
   // Certificate verification (public)
