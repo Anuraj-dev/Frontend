@@ -166,7 +166,11 @@
             </div>
           </div>
           <div class="cert-actions">
-            <button class="download-btn view-btn" @click="viewCertificate" v-if="result.pdf">
+            <button
+              class="download-btn view-btn"
+              @click="viewCertificate"
+              v-if="hasCertificateFile"
+            >
               <svg
                 width="16"
                 height="16"
@@ -180,7 +184,7 @@
               </svg>
               View Certificate
             </button>
-            <button class="download-btn" @click="downloadCertificate" v-if="result.pdf">
+            <button class="download-btn" @click="downloadCertificate" v-if="hasCertificateFile">
               <svg
                 width="16"
                 height="16"
@@ -195,7 +199,9 @@
               </svg>
               Open &amp; Download
             </button>
-            <p class="no-download-msg" v-if="!result.pdf">Certificate file not yet uploaded.</p>
+            <p class="no-download-msg" v-if="!hasCertificateFile">
+              Certificate file not yet uploaded.
+            </p>
           </div>
         </div>
       </div>
@@ -285,6 +291,38 @@ const certType = computed(() => {
   return result.value.event ? 'event' : 'department';
 });
 
+/** True when we can open a PDF (Drive URL preferred, else bundled file). */
+const hasCertificateFile = computed(() => {
+  const c = result.value;
+  if (!c) return false;
+  return Boolean(c.driveUrl || c.pdf);
+});
+
+/** Prefer Google Drive (T-16); fall back to local /certificates/{id}.pdf. */
+function certificateViewUrl(cert) {
+  if (!cert) return null;
+  if (cert.driveUrl) return cert.driveUrl;
+  if (cert.pdf && cert.id) return `/certificates/${cert.id}.pdf`;
+  return null;
+}
+
+/** Direct download: Drive export when we have a file id; else same as view URL. */
+function certificateDownloadUrl(cert) {
+  if (!cert) return null;
+  if (cert.driveFileId) {
+    return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(cert.driveFileId)}`;
+  }
+  if (cert.driveUrl) {
+    const m = String(cert.driveUrl).match(/\/file\/d\/([^/]+)/);
+    if (m) {
+      return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(m[1])}`;
+    }
+    return cert.driveUrl;
+  }
+  if (cert.pdf && cert.id) return `/certificates/${cert.id}.pdf`;
+  return null;
+}
+
 async function verifyCertificate() {
   const id = certificateId.value.trim().toUpperCase();
   if (!id) return;
@@ -311,15 +349,26 @@ async function verifyCertificate() {
 }
 
 function viewCertificate() {
-  if (!result.value?.pdf) return;
-  window.open(`/certificates/${result.value.id}.pdf`, '_blank');
+  const url = certificateViewUrl(result.value);
+  if (!url) return;
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 function downloadCertificate() {
-  if (!result.value?.pdf) return;
+  const cert = result.value;
+  const url = certificateDownloadUrl(cert);
+  if (!url) return;
+
+  // Drive export opens in a new tab (cross-origin; cannot force a download attr).
+  if (url.startsWith('http')) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    return;
+  }
+
   const a = document.createElement('a');
-  a.href = `/certificates/${result.value.id}.pdf`;
-  a.download = `${result.value.id}.pdf`;
+  a.href = url;
+  a.download = `${cert.id}.pdf`;
+  a.rel = 'noopener';
   a.click();
 }
 </script>
