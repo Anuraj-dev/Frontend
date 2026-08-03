@@ -5,6 +5,12 @@ scratch/
 .env
 .env.local
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # Ignore raw CSV exports and manifest CSVs
 **/*.csv
 src/views/meetups/region_exports_json_and_csv/csv/

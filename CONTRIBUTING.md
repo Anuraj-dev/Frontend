@@ -48,16 +48,15 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
 These are the only scripts that exist in `package.json`. Do not invent or reference others —
 `npm run serve` in particular does **not** exist here.
 
-| Command           | What it does                                                    |
-| ----------------- | --------------------------------------------------------------- |
-| `npm run dev`     | Start the Vite dev server with hot reload                       |
-| `npm run build`   | Production build (output to `dist/`)                            |
-| `npm run preview` | Serve the built `dist/` output locally, to sanity-check a build |
-
-There is currently no `lint` script and no test suite. A lint script and a CI workflow are being
-added — once they land, this file (and the table above) will be updated, and running lint/CI green
-locally before opening a PR will be expected the same way `build` is today. Until then, don't
-reference commands that don't exist yet.
+| Command                | What it does                                                      |
+| ---------------------- | ----------------------------------------------------------------- |
+| `npm run dev`          | Start the Vite dev server with hot reload                         |
+| `npm run build`        | Production build (output to `dist/`)                              |
+| `npm run preview`      | Serve the built `dist/` output locally, to sanity-check a build   |
+| `npm run lint`         | ESLint over the repo                                              |
+| `npm run format`       | Prettier write                                                    |
+| `npm run format:check` | Prettier check (no write)                                         |
+| `npm run test:smoke`   | Playwright route smoke (needs a prior `npm run build` + Chromium) |
 
 ## 4. Making a change
 
@@ -66,9 +65,13 @@ reference commands that don't exist yet.
    git checkout -b your-feature-branch
    ```
 2. Make your change. See **SFC convention** below before touching `.vue` files.
-3. Run a production build to make sure nothing is broken:
+3. Run the local gates (same checks CI runs):
    ```bash
+   npm run format:check
+   npm run lint
    npm run build
+   # first time only: npx playwright install chromium
+   npm run test:smoke
    ```
 4. Stage and commit with a clear, descriptive message:
    ```bash
@@ -83,9 +86,8 @@ reference commands that don't exist yet.
    changed and why.
 7. A repo owner reviews and approves. Contributors do not merge their own PRs and never push
    directly to `main` — everything goes through fork -> branch -> PR -> owner approval.
-8. **When CI is set up** (planned; there is no GitHub Actions workflow on `main` yet), merges
-   must wait for a green CI check — fix the build rather than merging around a red status. Until
-   CI lands, treat a clean local `npm run build` as the gate.
+8. **Merges require green CI.** Do not merge around a red status — fix format, lint, build, or
+   route smoke failures first. Locally, the commands in step 3 match what GitHub Actions runs.
 
 ## 5. SFC convention
 
