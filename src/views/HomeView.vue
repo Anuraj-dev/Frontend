@@ -448,6 +448,12 @@ function updateCountdown() {
 // ~28 px of page scroll per frame that is roughly three wheel ticks of runway.
 // The opening frames are the heaviest in the sequence (100-178 kB), so the
 // window right after load is the most expensive one.
+//
+// Prioritization: on every paint we (1) drop in-flight loads outside the active
+// window so fast scroll cannot leave a long FIFO of stale frames under the
+// browser's per-origin connection throttle, then (2) request CURRENT first,
+// then look-ahead (near → far), then look-behind. Cleanup of in-flight bytes is
+// best-effort (clearing img.src aborts when the browser allows).
 const HERO_FRAME_COUNT = 240;
 const HERO_LOOK_AHEAD = 10;
 const HERO_LOOK_BEHIND = 2; // small cushion so scrolling back up is covered
@@ -469,12 +475,23 @@ function initHeroScrollAnimation(canvas) {
     rafId = requestAnimationFrame(render);
   }
 
+  function abortFrame(i) {
+    const img = images[i];
+    if (!img) return;
+    img.onload = null;
+    img.onerror = null;
+    // Best-effort: clearing src cancels the network fetch in modern browsers.
+    if (!ready[i]) img.removeAttribute("src");
+    images[i] = null;
+    ready[i] = false;
+  }
+
   function loadFrame(i) {
     if (disposed || i < 0 || i >= HERO_FRAME_COUNT || images[i]) return;
     const img = new Image();
     images[i] = img;
     img.onload = () => {
-      if (disposed) return;
+      if (disposed || images[i] !== img) return;
       ready[i] = true;
       if (!sized) {
         sized = true;
@@ -484,10 +501,33 @@ function initHeroScrollAnimation(canvas) {
       }
     };
     img.onerror = () => {
+      if (images[i] !== img) return;
       img.onload = null;
       img.onerror = null;
+      images[i] = null;
+      ready[i] = false;
     };
     img.src = frameSrc(i);
+  }
+
+  // Drop pending loads outside [frameIndex - behind, frameIndex + ahead] so a
+  // fast scrub never piles a long queue of frames the user already passed.
+  function dropStaleOutsideWindow(frameIndex) {
+    const lo = frameIndex - HERO_LOOK_BEHIND;
+    const hi = frameIndex + HERO_LOOK_AHEAD;
+    for (let i = 0; i < HERO_FRAME_COUNT; i++) {
+      if (!images[i] || ready[i]) continue;
+      if (i < lo || i > hi) abortFrame(i);
+    }
+  }
+
+  // Always kick the CURRENT frame first, then ahead (near→far), then behind.
+  // Order of img.src assignment is the browser's request order under throttle.
+  function ensureWindow(frameIndex) {
+    dropStaleOutsideWindow(frameIndex);
+    loadFrame(frameIndex);
+    for (let d = 1; d <= HERO_LOOK_AHEAD; d++) loadFrame(frameIndex + d);
+    for (let d = 1; d <= HERO_LOOK_BEHIND; d++) loadFrame(frameIndex - d);
   }
 
   function resizeCanvas() {
@@ -509,13 +549,7 @@ function initHeroScrollAnimation(canvas) {
       Math.floor(scrollFraction * HERO_FRAME_COUNT),
     );
 
-    for (
-      let i = frameIndex - HERO_LOOK_BEHIND;
-      i <= frameIndex + HERO_LOOK_AHEAD;
-      i++
-    ) {
-      loadFrame(i);
-    }
+    ensureWindow(frameIndex);
 
     if (ready[frameIndex]) lastReady = images[frameIndex];
     const img = lastReady;
@@ -545,15 +579,7 @@ function initHeroScrollAnimation(canvas) {
     rafId = 0;
     window.removeEventListener("resize", resizeCanvas);
     window.removeEventListener("scroll", schedule);
-    for (let i = 0; i < images.length; i++) {
-      const img = images[i];
-      if (!img) continue;
-      img.onload = null;
-      img.onerror = null;
-      if (!ready[i]) img.removeAttribute("src"); // abort in-flight fetch
-      images[i] = null;
-    }
-    ready.fill(false);
+    for (let i = 0; i < images.length; i++) abortFrame(i);
     lastReady = null;
   };
 }
