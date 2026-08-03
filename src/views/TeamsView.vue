@@ -79,7 +79,7 @@
                 ></a>
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -315,10 +315,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -333,7 +330,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="LinkedIn not available"
+                  aria-hidden="true"
                   title="LinkedIn not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -343,7 +340,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -375,10 +372,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -393,7 +387,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="LinkedIn not available"
+                  aria-hidden="true"
                   title="LinkedIn not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -403,7 +397,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -435,10 +429,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -453,7 +444,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="LinkedIn not available"
+                  aria-hidden="true"
                   title="LinkedIn not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -463,7 +454,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -495,10 +486,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -589,7 +577,7 @@
                 ></a>
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -632,10 +620,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -650,7 +635,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="LinkedIn not available"
+                  aria-hidden="true"
                   title="LinkedIn not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -660,7 +645,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -772,7 +757,7 @@
                 ></a>
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="LinkedIn not available"
+                  aria-hidden="true"
                   title="LinkedIn not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -941,10 +926,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -971,7 +953,7 @@
                 ></a>
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -1032,7 +1014,7 @@
                 ></a>
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -1063,10 +1045,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -1081,7 +1060,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="LinkedIn not available"
+                  aria-hidden="true"
                   title="LinkedIn not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -1091,7 +1070,7 @@
                 >
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -1185,10 +1164,7 @@
             <div class="tm-info">
               <div class="tm-level">Diploma · Data Science</div>
               <div class="tm-socials">
-                <span
-                  class="tm-soc tm-soc-disabled"
-                  aria-label="Email not available"
-                  title="Email not available"
+                <span class="tm-soc tm-soc-disabled" aria-hidden="true" title="Email not available"
                   ><svg
                     width="13"
                     height="13"
@@ -1215,7 +1191,7 @@
                 ></a>
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="Instagram not available"
+                  aria-hidden="true"
                   title="Instagram not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path
@@ -1405,7 +1381,7 @@
                 ></a>
                 <span
                   class="tm-soc tm-soc-disabled"
-                  aria-label="LinkedIn not available"
+                  aria-hidden="true"
                   title="LinkedIn not available"
                   ><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
                     <path

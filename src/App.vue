@@ -133,10 +133,11 @@
           @click="menuOpen = !menuOpen"
           :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
           :aria-expanded="menuOpen"
+          aria-controls="main-nav"
         >
           <span></span><span></span><span></span>
         </button>
-        <nav class="nav-links" :class="{ open: menuOpen }">
+        <nav id="main-nav" class="nav-links" :class="{ open: menuOpen }">
           <router-link to="/" class="nav-link" @click="menuOpen = false"
             ><span>Home</span></router-link
           >
