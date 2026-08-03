@@ -78,7 +78,7 @@
                 <span class="upcoming-badge-dot"></span>
                 Upcoming
               </div>
-              <h3 class="event-name" v-html="config.upcoming.name"></h3>
+              <h3 class="event-name">{{ config.upcoming.name }}</h3>
               <div class="event-chips">
                 <div class="chip">📅 {{ config.upcoming.date }}</div>
                 <div class="chip">⏰ {{ config.upcoming.time }}</div>
