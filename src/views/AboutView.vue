@@ -70,13 +70,13 @@
               <div class="about-img-main">
                 <img
                   src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80&auto=format&fit=crop"
-                  alt="Team"
+                  alt="Students collaborating as a team"
                 />
               </div>
               <div class="about-img-secondary">
                 <img
                   src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&q=80&auto=format&fit=crop"
-                  alt="Study"
+                  alt="Students in a study session"
                 />
               </div>
               <div class="about-img-badge">
@@ -129,7 +129,21 @@
     </section>
 
     <Teleport to="body">
-      <div v-if="isMagazineOpen" class="magazine-reader" role="dialog" aria-modal="true">
+      <div
+        v-if="isMagazineOpen"
+        class="magazine-reader"
+        role="dialog"
+        aria-modal="true"
+        aria-label="The Delta Diaries magazine"
+      >
+        <button
+          type="button"
+          class="magazine-close"
+          aria-label="Close magazine"
+          @click="closeMagazine"
+        >
+          ✕
+        </button>
         <iframe
           :src="magazineEmbedUrl"
           title="Sundarbans House Magazine"
@@ -1021,6 +1035,30 @@ span:hover > .sc-tip {
   height: 100dvh;
   overflow: hidden;
   background: #fff;
+}
+
+.magazine-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.magazine-close:focus-visible {
+  outline: 3px solid #d4a017;
+  outline-offset: 3px;
 }
 
 .magazine-reader iframe {

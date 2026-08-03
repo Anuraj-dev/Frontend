@@ -140,7 +140,7 @@
                 </td>
                 <td>
                   <div class="lboard-member">
-                    <img v-if="m.img" :src="m.img" alt="" class="lboard-avatar" />
+                    <img v-if="m.img" :src="m.img" :alt="m.name" class="lboard-avatar" />
                     <div v-else class="lboard-avatar-placeholder">{{ m.initial }}</div>
                     <div>
                       <div class="lboard-name">{{ m.name }}</div>

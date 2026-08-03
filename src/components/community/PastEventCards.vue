@@ -3,7 +3,7 @@
     <div v-for="event in events" :key="event.id" class="past-event-card">
       <div class="past-event-img-wrap">
         <!-- Blurred backdrop fills the frame so letterboxed art has no black bars -->
-        <img :src="event.image" class="past-event-img-blur" aria-hidden="true" />
+        <img :src="event.image" alt="" class="past-event-img-blur" aria-hidden="true" />
         <img :src="event.image" :alt="event.title" class="past-event-img" />
         <div class="past-event-overlay">
           <span class="past-event-date">{{ event.date }}</span>

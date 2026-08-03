@@ -78,7 +78,7 @@
             class="notif-btn"
             @click="prev"
             :disabled="sorted.length <= 1"
-            aria-label="Previous"
+            aria-label="Previous notification"
           >
             <svg
               width="18"
@@ -110,7 +110,12 @@
             </svg>
           </button>
 
-          <button class="notif-btn" @click="next" :disabled="sorted.length <= 1" aria-label="Next">
+          <button
+            class="notif-btn"
+            @click="next"
+            :disabled="sorted.length <= 1"
+            aria-label="Next notification"
+          >
             <svg
               width="18"
               height="18"

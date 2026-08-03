@@ -225,7 +225,12 @@
               </div>
               <div class="past-photos" v-if="meetup.photos && meetup.photos.length > 0">
                 <div v-for="(photo, index) in meetup.photos" :key="index" class="ph">
-                  <img :src="photo" alt="" loading="lazy" referrerpolicy="no-referrer" />
+                  <img
+                    :src="photo"
+                    :alt="`Photo from ${meetup.title || 'meetup'}`"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                  />
                   <div class="ph-ov"></div>
                 </div>
               </div>
