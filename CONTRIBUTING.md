@@ -15,9 +15,13 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
 - [Node.js](https://nodejs.org/) — this project is developed against **Node v22**. Use
   [nvm](https://github.com/nvm-sh/nvm) or similar if you need to manage versions.
 - No backend and no database — the app is fully client-side. Optional env: copy
-  `.env.example` to `.env` if you need Google OAuth login. The only variable is
-  `VITE_GOOGLE_CLIENT_ID` (see `.env.example`). Without it the rest of the site
-  still runs; OAuth sign-in will not.
+  `.env.example` to `.env` if you need Google OAuth login. Variables (see
+  `.env.example`):
+  - `VITE_GOOGLE_CLIENT_ID` — Google OAuth client ID.
+  - `VITE_MEMBERSHIP_CHECK_URL` — Apps Script `/exec` URL that validates member
+    emails. Required for production login; when unset, the app falls back to the
+    local `src/data/members.json` list so local dev still works.
+    Without them the rest of the site still runs; OAuth sign-in will not.
 
 ## 2. Setup
 
@@ -36,7 +40,8 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
    cp .env.example .env
    ```
    Edit `.env` only if you have your own Google client ID; the example value is
-   fine for local exploration of non-OAuth pages.
+   fine for local exploration of non-OAuth pages. Set `VITE_MEMBERSHIP_CHECK_URL`
+   too if you want the real membership check (empty means local `members.json`).
 5. Start the dev server:
    ```bash
    npm run dev
