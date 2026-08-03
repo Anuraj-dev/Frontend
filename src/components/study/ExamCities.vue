@@ -4,25 +4,21 @@
     <div class="container">
       <div class="sec-hdr">
         <div class="section-tag">Exam Info</div>
-        <h2 class="section-title-xl">
-          IITM BS <span class="tg">Exam Cities</span>
-        </h2>
+        <h2 class="section-title-xl">IITM BS <span class="tg">Exam Cities</span></h2>
         <p class="sec-sub">
-          Find your nearest exam centre. Cities are organized by state across
-          India.
+          Find your nearest exam centre. Cities are organized by state across India.
         </p>
       </div>
 
       <!-- Search -->
       <div class="ec-search-wrap">
-        <div
-          class="sc-search-input-wrap"
-          style="max-width: 420px; margin: 0 auto 1.5rem">
+        <div class="sc-search-input-wrap" style="max-width: 420px; margin: 0 auto 1.5rem">
           <input
             v-model="citySearch"
             type="text"
             placeholder="Search city or state..."
-            class="form-input sc-mid-search-input" />
+            class="form-input sc-mid-search-input"
+          />
           <svg
             class="sc-mid-search-icon"
             width="16"
@@ -30,7 +26,8 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+          >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
@@ -41,9 +38,7 @@
         <!-- LEFT: Region sidebar -->
         <div class="ec-sidebar">
           <div class="sc-sidebar-hdr">
-            <div class="section-tag" style="margin-bottom: 0">
-              Choose Region
-            </div>
+            <div class="section-tag" style="margin-bottom: 0">Choose Region</div>
           </div>
           <div class="ec-sidebar-cards">
             <div
@@ -51,7 +46,8 @@
               :key="region.key"
               class="ec-sidebar-card"
               :class="{ active: activeRegion === region.key }"
-              @click="selectExamRegion(region.key)">
+              @click="selectExamRegion(region.key)"
+            >
               <div class="ec-sidebar-card-top">
                 <span class="ec-sidebar-emoji">{{ region.emoji }}</span>
                 <div class="ec-sidebar-meta">
@@ -69,7 +65,8 @@
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2.5">
+                  stroke-width="2.5"
+                >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </div>
@@ -88,28 +85,18 @@
 
           <div v-else class="ec-panel-body">
             <div class="ec-strip-header">
-              <span class="sc-strip-label"
-                >{{ activeRegion }} — Exam Cities</span
-              >
-              <button class="sc-back-btn" @click="resetExamRegion">
-                &larr; Clear
-              </button>
+              <span class="sc-strip-label">{{ activeRegion }} — Exam Cities</span>
+              <button class="sc-back-btn" @click="resetExamRegion">&larr; Clear</button>
             </div>
 
             <div class="ec-cities-scroll">
               <div class="ec-grid">
-                <div
-                  v-for="row in filteredExamCities"
-                  :key="row.state"
-                  class="ec-card card-base">
+                <div v-for="row in filteredExamCities" :key="row.state" class="ec-card card-base">
                   <div class="ec-state">{{ row.state }}</div>
                   <div class="ec-cities-list">
-                    <span
-                      v-for="city in row.cities"
-                      :key="city"
-                      class="ec-city-tag"
-                      >{{ city }}</span
-                    >
+                    <span v-for="city in row.cities" :key="city" class="ec-city-tag">{{
+                      city
+                    }}</span>
                   </div>
                 </div>
               </div>
@@ -127,199 +114,184 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue';
 
 // ─── Exam Cities ─────────────────────────────────────────────────────────────
-const citySearch = ref("");
+const citySearch = ref('');
 const activeRegion = ref(null);
 
 const examCitiesData = [
   {
-    state: "Andaman & Nicobar Islands",
-    region: "Kolkata",
-    cities: ["Port Blair"],
+    state: 'Andaman & Nicobar Islands',
+    region: 'Kolkata',
+    cities: ['Port Blair'],
   },
   {
-    state: "Andhra Pradesh",
-    region: "Hyderabad",
+    state: 'Andhra Pradesh',
+    region: 'Hyderabad',
     cities: [
-      "Anantapur",
-      "Bhimavaram",
-      "Guntur",
-      "Kadapa",
-      "Kurnool",
-      "Rajahmundry",
-      "Tirupathi",
-      "Vijayawada",
-      "Vishakhapatnam",
+      'Anantapur',
+      'Bhimavaram',
+      'Guntur',
+      'Kadapa',
+      'Kurnool',
+      'Rajahmundry',
+      'Tirupathi',
+      'Vijayawada',
+      'Vishakhapatnam',
     ],
   },
-  { state: "Arunachal Pradesh", region: "Kolkata", cities: ["Naharlagun"] },
+  { state: 'Arunachal Pradesh', region: 'Kolkata', cities: ['Naharlagun'] },
   {
-    state: "Assam",
-    region: "Kolkata",
-    cities: ["Dibrugarh", "Guwahati", "Silchar", "Tezpur"],
+    state: 'Assam',
+    region: 'Kolkata',
+    cities: ['Dibrugarh', 'Guwahati', 'Silchar', 'Tezpur'],
   },
   {
-    state: "Bihar",
-    region: "Patna",
-    cities: ["Patna", "Bhagalpur", "Gaya", "Muzaffarpur", "Darbhanga"],
+    state: 'Bihar',
+    region: 'Patna',
+    cities: ['Patna', 'Bhagalpur', 'Gaya', 'Muzaffarpur', 'Darbhanga'],
   },
-  { state: "Chhattisgarh", region: "Patna", cities: ["Raipur"] },
-  { state: "Delhi", region: "Delhi", cities: ["Delhi"] },
-  { state: "Goa", region: "Mumbai", cities: ["Panaji"] },
+  { state: 'Chhattisgarh', region: 'Patna', cities: ['Raipur'] },
+  { state: 'Delhi', region: 'Delhi', cities: ['Delhi'] },
+  { state: 'Goa', region: 'Mumbai', cities: ['Panaji'] },
   {
-    state: "Gujarat",
-    region: "Mumbai",
-    cities: ["Ahmedabad", "Anand", "Rajkot", "Surat", "Vadodara"],
-  },
-  {
-    state: "Haryana",
-    region: "Chandigarh",
-    cities: ["Faridabad", "Gurgaon", "Kurukshetra"],
+    state: 'Gujarat',
+    region: 'Mumbai',
+    cities: ['Ahmedabad', 'Anand', 'Rajkot', 'Surat', 'Vadodara'],
   },
   {
-    state: "Himachal Pradesh",
-    region: "Chandigarh",
-    cities: ["Hamirpur", "Shimla"],
+    state: 'Haryana',
+    region: 'Chandigarh',
+    cities: ['Faridabad', 'Gurgaon', 'Kurukshetra'],
   },
   {
-    state: "Jammu & Kashmir",
-    region: "Chandigarh",
-    cities: ["Jammu", "Srinagar"],
+    state: 'Himachal Pradesh',
+    region: 'Chandigarh',
+    cities: ['Hamirpur', 'Shimla'],
   },
   {
-    state: "Jharkhand",
-    region: "Patna",
-    cities: ["Dhanbad", "Jamshedpur", "Ranchi"],
+    state: 'Jammu & Kashmir',
+    region: 'Chandigarh',
+    cities: ['Jammu', 'Srinagar'],
   },
   {
-    state: "Karnataka",
-    region: "Bengaluru",
+    state: 'Jharkhand',
+    region: 'Patna',
+    cities: ['Dhanbad', 'Jamshedpur', 'Ranchi'],
+  },
+  {
+    state: 'Karnataka',
+    region: 'Bengaluru',
+    cities: ['Belgaum', 'Bengaluru', 'Dharwad', 'Gulbarga', 'Mangalore', 'Mysore'],
+  },
+  {
+    state: 'Kerala',
+    region: 'Bengaluru',
+    cities: ['Calicut', 'Ernakulam', 'Kollam', 'Kottayam', 'Palakkad', 'Thrissur', 'Trivandrum'],
+  },
+  {
+    state: 'Madhya Pradesh',
+    region: 'Mumbai',
+    cities: ['Bhopal', 'Gwalior', 'Indore', 'Jabalpur'],
+  },
+  {
+    state: 'Maharashtra',
+    region: 'Mumbai',
     cities: [
-      "Belgaum",
-      "Bengaluru",
-      "Dharwad",
-      "Gulbarga",
-      "Mangalore",
-      "Mysore",
+      'Amravati',
+      'Aurangabad',
+      'Jalgaon',
+      'Kolhapur',
+      'Mumbai',
+      'Nagpur',
+      'Nanded',
+      'Nashik',
+      'Pune',
+      'Solapur',
     ],
   },
+  { state: 'Manipur', region: 'Kolkata', cities: ['Imphal'] },
+  { state: 'Meghalaya', region: 'Kolkata', cities: ['Shillong'] },
+  { state: 'Mizoram', region: 'Kolkata', cities: ['Aizawl'] },
+  { state: 'Nagaland', region: 'Kolkata', cities: ['Dimapur'] },
   {
-    state: "Kerala",
-    region: "Bengaluru",
+    state: 'Odisha',
+    region: 'Kolkata',
+    cities: ['Bhubaneswar', 'Rourkela', 'Sambalpur'],
+  },
+  { state: 'Puducherry', region: 'Chennai', cities: ['Puducherry'] },
+  {
+    state: 'Punjab',
+    region: 'Chandigarh',
+    cities: ['Chandigarh', 'Jalandhar', 'Ludhiana', 'Amritsar'],
+  },
+  {
+    state: 'Rajasthan',
+    region: 'Chandigarh',
+    cities: ['Jaipur', 'Jodhpur', 'Kota', 'Udaipur'],
+  },
+  { state: 'Sikkim', region: 'Kolkata', cities: ['Bardang'] },
+  {
+    state: 'Tamil Nadu',
+    region: 'Chennai',
     cities: [
-      "Calicut",
-      "Ernakulam",
-      "Kollam",
-      "Kottayam",
-      "Palakkad",
-      "Thrissur",
-      "Trivandrum",
-    ],
-  },
-  {
-    state: "Madhya Pradesh",
-    region: "Mumbai",
-    cities: ["Bhopal", "Gwalior", "Indore", "Jabalpur"],
-  },
-  {
-    state: "Maharashtra",
-    region: "Mumbai",
-    cities: [
-      "Amravati",
-      "Aurangabad",
-      "Jalgaon",
-      "Kolhapur",
-      "Mumbai",
-      "Nagpur",
-      "Nanded",
-      "Nashik",
-      "Pune",
-      "Solapur",
-    ],
-  },
-  { state: "Manipur", region: "Kolkata", cities: ["Imphal"] },
-  { state: "Meghalaya", region: "Kolkata", cities: ["Shillong"] },
-  { state: "Mizoram", region: "Kolkata", cities: ["Aizawl"] },
-  { state: "Nagaland", region: "Kolkata", cities: ["Dimapur"] },
-  {
-    state: "Odisha",
-    region: "Kolkata",
-    cities: ["Bhubaneswar", "Rourkela", "Sambalpur"],
-  },
-  { state: "Puducherry", region: "Chennai", cities: ["Puducherry"] },
-  {
-    state: "Punjab",
-    region: "Chandigarh",
-    cities: ["Chandigarh", "Jalandhar", "Ludhiana", "Amritsar"],
-  },
-  {
-    state: "Rajasthan",
-    region: "Chandigarh",
-    cities: ["Jaipur", "Jodhpur", "Kota", "Udaipur"],
-  },
-  { state: "Sikkim", region: "Kolkata", cities: ["Bardang"] },
-  {
-    state: "Tamil Nadu",
-    region: "Chennai",
-    cities: [
-      "Chennai-Avadi",
-      "Chennai-South",
-      "Coimbatore",
-      "Erode",
-      "Kanchipuram",
-      "Madurai",
-      "Salem",
-      "Thanjavur",
-      "Tiruchirappalli",
-      "Tirunelveli",
-      "Vellore",
+      'Chennai-Avadi',
+      'Chennai-South',
+      'Coimbatore',
+      'Erode',
+      'Kanchipuram',
+      'Madurai',
+      'Salem',
+      'Thanjavur',
+      'Tiruchirappalli',
+      'Tirunelveli',
+      'Vellore',
     ],
   },
   {
-    state: "Telangana",
-    region: "Hyderabad",
-    cities: ["Hyderabad", "Warangal"],
+    state: 'Telangana',
+    region: 'Hyderabad',
+    cities: ['Hyderabad', 'Warangal'],
   },
-  { state: "Tripura", region: "Kolkata", cities: ["Agartala"] },
+  { state: 'Tripura', region: 'Kolkata', cities: ['Agartala'] },
   {
-    state: "Uttar Pradesh",
-    region: "Lucknow",
+    state: 'Uttar Pradesh',
+    region: 'Lucknow',
     cities: [
-      "Agra",
-      "Allahabad",
-      "Ghaziabad",
-      "Gorakhpur",
-      "Greater Noida",
-      "Kanpur",
-      "Lucknow",
-      "Meerut",
-      "Varanasi",
+      'Agra',
+      'Allahabad',
+      'Ghaziabad',
+      'Gorakhpur',
+      'Greater Noida',
+      'Kanpur',
+      'Lucknow',
+      'Meerut',
+      'Varanasi',
     ],
   },
   {
-    state: "Uttarakhand",
-    region: "Chandigarh",
-    cities: ["Dehradun", "Haldwani", "Roorkee"],
+    state: 'Uttarakhand',
+    region: 'Chandigarh',
+    cities: ['Dehradun', 'Haldwani', 'Roorkee'],
   },
   {
-    state: "West Bengal",
-    region: "Kolkata",
-    cities: ["Asansol", "Adisaptagram", "Durgapur", "Kolkata", "Siliguri"],
+    state: 'West Bengal',
+    region: 'Kolkata',
+    cities: ['Asansol', 'Adisaptagram', 'Durgapur', 'Kolkata', 'Siliguri'],
   },
 ];
 
 const examRegionKeys = [
-  "Delhi",
-  "Chennai",
-  "Bengaluru",
-  "Hyderabad",
-  "Mumbai",
-  "Kolkata",
-  "Patna",
-  "Chandigarh",
-  "Lucknow",
+  'Delhi',
+  'Chennai',
+  'Bengaluru',
+  'Hyderabad',
+  'Mumbai',
+  'Kolkata',
+  'Patna',
+  'Chandigarh',
+  'Lucknow',
 ];
 
 const examRegionMeta = computed(() =>
@@ -328,11 +300,11 @@ const examRegionMeta = computed(() =>
     const cityCount = rows.reduce((sum, row) => sum + row.cities.length, 0);
     return {
       key,
-      emoji: "📍",
+      emoji: '📍',
       stateCount: rows.length,
       cityCount,
     };
-  }),
+  })
 );
 
 function selectExamRegion(region) {
@@ -350,8 +322,7 @@ const filteredExamCities = computed(() => {
     if (row.region !== activeRegion.value) return false;
     if (!q) return true;
     return (
-      row.state.toLowerCase().includes(q) ||
-      row.cities.some((c) => c.toLowerCase().includes(q))
+      row.state.toLowerCase().includes(q) || row.cities.some((c) => c.toLowerCase().includes(q))
     );
   });
 });

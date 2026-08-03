@@ -4,16 +4,12 @@
     <div class="container">
       <div class="sec-hdr">
         <div class="section-tag">Student Tools</div>
-        <h2 class="section-title-xl">
-          Handy <span class="tg">tools</span> for studying
-        </h2>
+        <h2 class="section-title-xl">Handy <span class="tg">tools</span> for studying</h2>
       </div>
       <div class="grid-4">
         <div class="card-base rc" style="--card-delay: 0.1s">
           <div style="font-size: 1.5rem; margin-bottom: 0.5rem">📊</div>
-          <h4 style="font-family: Cinzel, serif; font-weight: 700">
-            Score Checker
-          </h4>
+          <h4 style="font-family: Cinzel, serif; font-weight: 700">Score Checker</h4>
           <p class="desc" style="font-size: 0.82rem">
             Check your exam scores updated by IITM BS after each exam
           </p>
@@ -30,9 +26,7 @@
         </div>
         <div class="card-base rc" style="--card-delay: 0.2s">
           <div style="font-size: 1.5rem; margin-bottom: 0.5rem">🧠</div>
-          <h4 style="font-family: Cinzel, serif; font-weight: 700">
-            Practice for Exam
-          </h4>
+          <h4 style="font-family: Cinzel, serif; font-weight: 700">Practice for Exam</h4>
           <p class="desc" style="font-size: 0.82rem">
             Practice quizzes and problems to prepare for your exams
           </p>
@@ -51,9 +45,7 @@
         </div>
         <div class="card-base rc" style="--card-delay: 0.3s">
           <div style="font-size: 1.5rem; margin-bottom: 0.5rem">📈</div>
-          <h4 style="font-family: Cinzel, serif; font-weight: 700">
-            Looker Studio
-          </h4>
+          <h4 style="font-family: Cinzel, serif; font-weight: 700">Looker Studio</h4>
           <p class="desc" style="font-size: 0.82rem">
             Visual dashboards and analytics for IITM BS programme data
           </p>
@@ -72,9 +64,7 @@
         </div>
         <div class="card-base rc" style="--card-delay: 0.4s">
           <div style="font-size: 1.5rem; margin-bottom: 0.5rem">💻</div>
-          <h4 style="font-family: Cinzel, serif; font-weight: 700">
-            OPPE Portal
-          </h4>
+          <h4 style="font-family: Cinzel, serif; font-weight: 700">OPPE Portal</h4>
           <p class="desc" style="font-size: 0.82rem">
             Online Programming & Problem-solving Evaluation exam portal
           </p>

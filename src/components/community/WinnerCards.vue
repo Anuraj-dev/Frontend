@@ -26,6 +26,6 @@
 defineProps({
   events: { type: Array, required: true },
   // Only rendered for entries flagged `noWinner`.
-  noWinnerText: { type: String, default: "" },
+  noWinnerText: { type: String, default: '' },
 });
 </script>

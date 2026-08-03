@@ -9,7 +9,8 @@
               <defs>
                 <path
                   id="orbitPath"
-                  d="M 110,110 m -88,0 a 88,88 0 1,1 176,0 a 88,88 0 1,1 -176,0" />
+                  d="M 110,110 m -88,0 a 88,88 0 1,1 176,0 a 88,88 0 1,1 -176,0"
+                />
               </defs>
               <text>
                 <textPath href="#orbitPath" startOffset="0%">
@@ -24,7 +25,8 @@
               alt="Sundarbans"
               class="preloader-logo-img"
               @error="showFallback = true"
-              v-if="!showFallback" />
+              v-if="!showFallback"
+            />
             <span class="preloader-logo-letter" v-else>S</span>
           </div>
         </div>
@@ -35,22 +37,13 @@
       </div>
     </div>
 
-
-
     <!-- PARTICLES -->
     <div class="particles-bg" id="particlesBg">
-      <div
-        v-for="p in particles"
-        :key="p.id"
-        class="particle"
-        :style="p.style"></div>
+      <div v-for="p in particles" :key="p.id" class="particle" :style="p.style"></div>
     </div>
 
     <!-- SEARCH OVERLAY -->
-    <div
-      class="search-overlay"
-      :class="{ open: searchOpen }"
-      @click.self="searchOpen = false">
+    <div class="search-overlay" :class="{ open: searchOpen }" @click.self="searchOpen = false">
       <div class="search-box">
         <div class="search-input-row">
           <svg
@@ -59,7 +52,8 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+          >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
@@ -68,7 +62,8 @@
             v-model="searchQuery"
             @input="filterSearch"
             placeholder="Search pages, resources, events..."
-            ref="searchInputEl" />
+            ref="searchInputEl"
+          />
           <button @click="searchOpen = false">✕</button>
         </div>
         <div class="search-hint">Press Ctrl+K to open • Esc to close</div>
@@ -77,9 +72,7 @@
             <div class="search-empty">Start typing to search...</div>
           </template>
           <template v-else-if="filteredPages.length === 0">
-            <div class="search-empty">
-              No results found for "{{ searchQuery }}"
-            </div>
+            <div class="search-empty">No results found for "{{ searchQuery }}"</div>
           </template>
           <template v-else>
             <router-link
@@ -87,7 +80,8 @@
               :key="p.url"
               :to="p.url"
               class="search-result-item"
-              @click="searchOpen = false">
+              @click="searchOpen = false"
+            >
               <div class="sri-icon">{{ p.icon }}</div>
               <div>
                 <div class="sri-title">{{ p.title }}</div>
@@ -104,14 +98,16 @@
       id="backToTop"
       :class="{ visible: showBackToTop }"
       @click="scrollTop"
-      aria-label="Back to top">
+      aria-label="Back to top"
+    >
       <svg
         width="18"
         height="18"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2.5">
+        stroke-width="2.5"
+      >
         <path d="M18 15l-6-6-6 6" />
       </svg>
     </button>
@@ -133,7 +129,8 @@
           class="menu-toggle"
           :class="{ active: menuOpen }"
           @click="menuOpen = !menuOpen"
-          aria-label="Toggle menu">
+          aria-label="Toggle menu"
+        >
           <span></span><span></span><span></span>
         </button>
         <nav class="nav-links" :class="{ open: menuOpen }">
@@ -152,10 +149,7 @@
           <router-link to="/about" class="nav-link" @click="menuOpen = false"
             ><span>About</span></router-link
           >
-          <router-link
-            to="/community"
-            class="nav-link"
-            @click="menuOpen = false"
+          <router-link to="/community" class="nav-link" @click="menuOpen = false"
             ><span>Community</span></router-link
           >
           <router-link to="/teams" class="nav-link" @click="menuOpen = false"
@@ -164,21 +158,22 @@
           <router-link to="/contact" class="nav-link" @click="menuOpen = false"
             ><span>Contact</span></router-link
           >
-          
-          <router-link
-            to="/verify-certificate"
-            class="nav-verify-btn"
-            @click="menuOpen = false">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <polyline points="9 12 11 14 15 10"/>
+
+          <router-link to="/verify-certificate" class="nav-verify-btn" @click="menuOpen = false">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <polyline points="9 12 11 14 15 10" />
             </svg>
             <span>Verify Certificate</span>
           </router-link>
-          <router-link
-            to="/login"
-            class="nav-cta-btn"
-            @click="menuOpen = false">
+          <router-link to="/login" class="nav-cta-btn" @click="menuOpen = false">
             <span>Lounge</span>
             <svg
               width="14"
@@ -186,14 +181,16 @@
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.5">
+              stroke-width="2.5"
+            >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </router-link>
           <a
             href="https://app.onlinedegree.iitm.ac.in/auth/login?next=https://app.onlinedegree.iitm.ac.in/student_dashboard/latest_updates"
             class="nav-cta-btn"
-            @click="menuOpen = false">
+            @click="menuOpen = false"
+          >
             <span>Course</span>
             <svg
               width="14"
@@ -201,7 +198,8 @@
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.5">
+              stroke-width="2.5"
+            >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </a>
@@ -222,9 +220,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
-import { useRoute } from "vue-router";
-import AppFooter from "./components/AppFooter.vue";
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
+import { useRoute } from 'vue-router';
+import AppFooter from './components/AppFooter.vue';
 
 const route = useRoute();
 
@@ -232,21 +230,19 @@ const isLoungeRoute = computed(() => route.path === '/lounge' || route.path === 
 
 // --- PRELOADER ---
 const loading = ref(true);
-const preloaderOpacity = ref("1");
-const fillWidth = ref("0%");
+const preloaderOpacity = ref('1');
+const fillWidth = ref('0%');
 const showFallback = ref(false);
 
 onMounted(() => {
-  fillWidth.value = "100%";
+  fillWidth.value = '100%';
   setTimeout(() => {
-    preloaderOpacity.value = "0";
+    preloaderOpacity.value = '0';
     setTimeout(() => {
       loading.value = false;
     }, 700);
   }, 1200);
 });
-
-
 
 // --- PARTICLES ---
 const particles = ref([]);
@@ -268,74 +264,74 @@ function onScroll() {
 }
 const showBackToTop = ref(false);
 function scrollTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // --- SEARCH ---
 const searchOpen = ref(false);
-const searchQuery = ref("");
+const searchQuery = ref('');
 const searchInputEl = ref(null);
 const pages = [
-  { title: "Home", url: "/", desc: "Welcome to Sundarbans House", icon: "🏠" },
+  { title: 'Home', url: '/', desc: 'Welcome to Sundarbans House', icon: '🏠' },
   {
-    title: "Study Corner",
-    url: "/study",
-    desc: "Academic resources and materials",
-    icon: "📚",
+    title: 'Study Corner',
+    url: '/study',
+    desc: 'Academic resources and materials',
+    icon: '📚',
   },
   {
-    title: "Events",
-    url: "/events",
-    desc: "Upcoming events, workshops and competitions",
-    icon: "🎯",
+    title: 'Events',
+    url: '/events',
+    desc: 'Upcoming events, workshops and competitions',
+    icon: '🎯',
   },
   {
-    title: "Gallery",
-    url: "/gallery",
-    desc: "Photos and memories from our community",
-    icon: "🖼️",
+    title: 'Gallery',
+    url: '/gallery',
+    desc: 'Photos and memories from our community',
+    icon: '🖼️',
   },
   {
-    title: "Meetups",
-    url: "/meetups",
-    desc: "City meetups across India",
-    icon: "📍",
+    title: 'Meetups',
+    url: '/meetups',
+    desc: 'City meetups across India',
+    icon: '📍',
   },
   {
-    title: "About",
-    url: "/about",
-    desc: "About Sundarbans House and our mission",
-    icon: "ℹ️",
+    title: 'About',
+    url: '/about',
+    desc: 'About Sundarbans House and our mission',
+    icon: 'ℹ️',
   },
   {
-    title: "Community",
-    url: "/community",
-    desc: "Tech, Cultural and Academic communities",
-    icon: "🤝",
+    title: 'Community',
+    url: '/community',
+    desc: 'Tech, Cultural and Academic communities',
+    icon: '🤝',
   },
   {
-    title: "Teams",
-    url: "/teams",
-    desc: "Meet our leadership and team members",
-    icon: "👥",
+    title: 'Teams',
+    url: '/teams',
+    desc: 'Meet our leadership and team members',
+    icon: '👥',
   },
   {
-    title: "Contact",
-    url: "/contact",
-    desc: "Get in touch with us",
-    icon: "📧",
+    title: 'Contact',
+    url: '/contact',
+    desc: 'Get in touch with us',
+    icon: '📧',
   },
   {
-    title: "Social Media",
-    url: "/social",
-    desc: "Follow us on social platforms",
-    icon: "📱",
+    title: 'Social Media',
+    url: '/social',
+    desc: 'Follow us on social platforms',
+    icon: '📱',
   },
   {
-    title: "Members Lounge",
-    url: "/lounge",
-    desc: "Login to members area",
-    icon: "🔐",
+    title: 'Members Lounge',
+    url: '/lounge',
+    desc: 'Login to members area',
+    icon: '🔐',
   },
 ];
 const filteredPages = computed(() => {
@@ -343,7 +339,7 @@ const filteredPages = computed(() => {
   return pages.filter(
     (p) =>
       p.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      p.desc.toLowerCase().includes(searchQuery.value.toLowerCase()),
+      p.desc.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 function filterSearch() {}
@@ -352,13 +348,12 @@ function openSearch() {
   nextTick(() => searchInputEl.value?.focus());
 }
 
-
 // Keyboard shortcuts
 function onKeyDown(e) {
-  if (e.key === "Escape") {
+  if (e.key === 'Escape') {
     searchOpen.value = false;
   }
-  if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
     e.preventDefault();
     openSearch();
   }
@@ -369,17 +364,17 @@ watch(
   () => route.path,
   () => {
     menuOpen.value = false;
-  },
+  }
 );
 
 onMounted(() => {
-  document.addEventListener("keydown", onKeyDown);
-  window.addEventListener("scroll", onScroll);
+  document.addEventListener('keydown', onKeyDown);
+  window.addEventListener('scroll', onScroll);
 });
 
 onUnmounted(() => {
-  document.removeEventListener("keydown", onKeyDown);
-  window.removeEventListener("scroll", onScroll);
+  document.removeEventListener('keydown', onKeyDown);
+  window.removeEventListener('scroll', onScroll);
 });
 </script>
 

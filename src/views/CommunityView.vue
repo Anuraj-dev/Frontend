@@ -19,16 +19,14 @@
                 background: rgba(79, 142, 247, 0.1);
                 color: #4f8ef7;
                 border-color: rgba(79, 142, 247, 0.3);
-              ">
+              "
+            >
               Tech Community
             </div>
-            <h2 class="section-title-xl">
-              <span class="tg">Build.</span> Code. Innovate.
-            </h2>
+            <h2 class="section-title-xl"><span class="tg">Build.</span> Code. Innovate.</h2>
             <p class="desc">
-              Connect with builders, analysts, and innovators across specialized
-              technical domains. Whether you're into frontend, AI/ML, or
-              blockchain, there is a space for you.
+              Connect with builders, analysts, and innovators across specialized technical domains.
+              Whether you're into frontend, AI/ML, or blockchain, there is a space for you.
             </p>
             <div class="about-highlights">
               <div class="hi">
@@ -59,13 +57,11 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="submit-btn"
-                style="display: inline-flex; background: #f59e0b; color: #0a0f1e">
+                style="display: inline-flex; background: #f59e0b; color: #0a0f1e"
+              >
                 Join Community
               </a>
-              <RouterLink
-                to="/community/technical"
-                class="explore-btn"
-                style="--accent: #f59e0b">
+              <RouterLink to="/community/technical" class="explore-btn" style="--accent: #f59e0b">
                 Explore →
               </RouterLink>
             </div>
@@ -74,12 +70,8 @@
             <img
               src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=700&q=80&auto=format&fit=crop"
               alt="Tech"
-              style="
-                width: 100%;
-                border-radius: var(--rad2);
-                aspect-ratio: 4/3;
-                object-fit: cover;
-              " />
+              style="width: 100%; border-radius: var(--rad2); aspect-ratio: 4/3; object-fit: cover"
+            />
           </div>
         </div>
       </div>
@@ -96,7 +88,8 @@
                 background: rgba(245, 158, 11, 0.1);
                 color: #f59e0b;
                 border-color: rgba(245, 158, 11, 0.3);
-              ">
+              "
+            >
               Cultural Community
             </div>
             <h2 class="section-title-xl">
@@ -111,9 +104,9 @@
               >
             </h2>
             <p class="desc">
-              Celebrate diversity through arts, music, literature and cultural
-              exchange. Our cultural community bridges regional differences and
-              creates a unified, vibrant Sundarbans identity.
+              Celebrate diversity through arts, music, literature and cultural exchange. Our
+              cultural community bridges regional differences and creates a unified, vibrant
+              Sundarbans identity.
             </p>
             <div class="about-highlights">
               <div class="hi">
@@ -144,13 +137,11 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="submit-btn"
-                style="display: inline-flex; background: #f59e0b; color: #0a0f1e">
+                style="display: inline-flex; background: #f59e0b; color: #0a0f1e"
+              >
                 Join Community
               </a>
-              <RouterLink
-                to="/community/cultural"
-                class="explore-btn"
-                style="--accent: #f59e0b">
+              <RouterLink to="/community/cultural" class="explore-btn" style="--accent: #f59e0b">
                 Explore →
               </RouterLink>
             </div>
@@ -159,12 +150,8 @@
             <img
               src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=700&q=80&auto=format&fit=crop"
               alt="Cultural"
-              style="
-                width: 100%;
-                border-radius: var(--rad2);
-                aspect-ratio: 4/3;
-                object-fit: cover;
-              " />
+              style="width: 100%; border-radius: var(--rad2); aspect-ratio: 4/3; object-fit: cover"
+            />
           </div>
         </div>
       </div>
@@ -179,15 +166,16 @@
               class="section-tag"
               style="
                 background: rgba(220, 38, 38, 0.1);
-                color: #EF4444;
+                color: #ef4444;
                 border-color: rgba(220, 38, 38, 0.3);
-              ">
+              "
+            >
               E-Sports Community
             </div>
             <h2 class="section-title-xl">
               <span
                 style="
-                  background: linear-gradient(135deg, #DC2626, #F97316);
+                  background: linear-gradient(135deg, #dc2626, #f97316);
                   -webkit-background-clip: text;
                   background-clip: text;
                   -webkit-text-fill-color: transparent;
@@ -196,9 +184,8 @@
               >
             </h2>
             <p class="desc">
-              From casual gaming to competitive tournaments, our E-Sports
-              community is where Sundarbans players grind, grow, and dominate.
-              Every game has a team. Find yours.
+              From casual gaming to competitive tournaments, our E-Sports community is where
+              Sundarbans players grind, grow, and dominate. Every game has a team. Find yours.
             </p>
             <div class="about-highlights">
               <div class="hi">
@@ -229,13 +216,11 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="submit-btn"
-                style="display: inline-flex; background: #f59e0b; color: #0a0f1e">
+                style="display: inline-flex; background: #f59e0b; color: #0a0f1e"
+              >
                 Join Community
               </a>
-              <RouterLink
-                to="/community/esports"
-                class="explore-btn"
-                style="--accent: #f59e0b">
+              <RouterLink to="/community/esports" class="explore-btn" style="--accent: #f59e0b">
                 Explore →
               </RouterLink>
             </div>
@@ -244,12 +229,8 @@
             <img
               src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=700&q=80&auto=format&fit=crop"
               alt="E-Sports"
-              style="
-                width: 100%;
-                border-radius: var(--rad2);
-                aspect-ratio: 4/3;
-                object-fit: cover;
-              " />
+              style="width: 100%; border-radius: var(--rad2); aspect-ratio: 4/3; object-fit: cover"
+            />
           </div>
         </div>
       </div>
@@ -258,9 +239,9 @@
 </template>
 
 <script setup>
-import { useScrollReveal } from "../composables/useAnimations.js";
-import PageHero from "../components/PageHero.vue";
-import { RouterLink } from "vue-router";
+import { useScrollReveal } from '../composables/useAnimations.js';
+import PageHero from '../components/PageHero.vue';
+import { RouterLink } from 'vue-router';
 
 useScrollReveal();
 </script>
@@ -285,7 +266,9 @@ useScrollReveal();
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .explore-btn:hover {

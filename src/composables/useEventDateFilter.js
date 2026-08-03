@@ -19,12 +19,22 @@
  *   const { upcomingEvents, allPastEvents } = useEventDateFilter(allEvents, staticPastEvents)
  */
 
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const MONTH_MAP = {
-  JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5,
-  JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11,
-}
+  JAN: 0,
+  FEB: 1,
+  MAR: 2,
+  APR: 3,
+  MAY: 4,
+  JUN: 5,
+  JUL: 6,
+  AUG: 7,
+  SEP: 8,
+  OCT: 9,
+  NOV: 10,
+  DEC: 11,
+};
 
 /**
  * Parse a machine date (dateISO) or a day+month pair into a Date object.
@@ -33,22 +43,22 @@ const MONTH_MAP = {
 function parseEventDate(event) {
   // 1. Prefer explicit ISO date
   if (event.dateISO) {
-    const d = new Date(event.dateISO)
-    if (!isNaN(d)) return d
+    const d = new Date(event.dateISO);
+    if (!isNaN(d)) return d;
   }
 
   // 2. Fall back to day + month (assume current year)
   if (event.day && event.month) {
-    const day   = parseInt(event.day, 10)
-    const month = MONTH_MAP[String(event.month).toUpperCase().slice(0, 3)]
+    const day = parseInt(event.day, 10);
+    const month = MONTH_MAP[String(event.month).toUpperCase().slice(0, 3)];
     if (!isNaN(day) && month !== undefined) {
-      const now  = new Date()
-      let year   = now.getFullYear()
-      return new Date(year, month, day)
+      const now = new Date();
+      let year = now.getFullYear();
+      return new Date(year, month, day);
     }
   }
 
-  return null
+  return null;
 }
 
 /**
@@ -57,48 +67,49 @@ function parseEventDate(event) {
  * @returns {{ upcomingEvents: ComputedRef, allPastEvents: ComputedRef }}
  */
 export function useEventDateFilter(allEvents, staticPastEvents = []) {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   /** Events whose parsed date is today or future (or unparseable → kept) */
   const upcomingEvents = computed(() =>
     allEvents.filter((e) => {
-      const d = parseEventDate(e)
-      return d === null || d >= today
+      const d = parseEventDate(e);
+      return d === null || d >= today;
     })
-  )
+  );
 
   /** Events from allEvents whose date has already passed → auto-demoted */
   const autoDemotedEvents = computed(() =>
     allEvents
       .filter((e) => {
-        const d = parseEventDate(e)
-        return d !== null && d < today
+        const d = parseEventDate(e);
+        return d !== null && d < today;
       })
       .map((e) => ({
         // Normalize to the shape used by the past-event cards
-        id:          e.id ?? Math.random(),
-        title:       e.title,
-        type:        e.type,
+        id: e.id ?? Math.random(),
+        title: e.title,
+        type: e.type,
         description: e.description,
-        date:        e.dateISO
-          ? new Date(e.dateISO).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        date: e.dateISO
+          ? new Date(e.dateISO).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            })
           : `${e.day ?? ''} ${e.month ?? ''}`.trim(),
-        attendees:   e.attendees ?? '—',
-        image:       e.image,
+        attendees: e.attendees ?? '—',
+        image: e.image,
         // ESports-style fields
-        day:         e.day,
-        month:       e.month,
-        time:        e.time,
-        venue:       e.venue,
+        day: e.day,
+        month: e.month,
+        time: e.time,
+        venue: e.venue,
       }))
-  )
+  );
 
   /** Combined: auto-demoted first (most recent), then static past events */
-  const allPastEvents = computed(() => [
-    ...autoDemotedEvents.value,
-    ...staticPastEvents,
-  ])
+  const allPastEvents = computed(() => [...autoDemotedEvents.value, ...staticPastEvents]);
 
-  return { upcomingEvents, allPastEvents }
+  return { upcomingEvents, allPastEvents };
 }

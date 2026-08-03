@@ -1,10 +1,15 @@
 <template>
   <div class="widget w-7" id="widget-mood">
-    <div class="widget-glow"
-         style="width:260px;height:260px;
-                background:radial-gradient(circle,rgba(176,122,224,.2),transparent);
-                top:-80px;right:-60px">
-    </div>
+    <div
+      class="widget-glow"
+      style="
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, rgba(176, 122, 224, 0.2), transparent);
+        top: -80px;
+        right: -60px;
+      "
+    ></div>
 
     <div class="widget-label">Anonymous Vote</div>
     <div class="widget-title">House Mood Wall</div>
@@ -31,7 +36,8 @@
         :disabled="votedToday"
         @click="voteMood(m.key)"
       >
-        <span class="mood-emoji">{{ m.emoji }}</span>{{ m.label }}
+        <span class="mood-emoji">{{ m.emoji }}</span
+        >{{ m.label }}
       </button>
     </div>
 
@@ -40,17 +46,16 @@
       <div class="mood-bar-row" v-for="m in moods" :key="m.key">
         <span class="mood-bar-emoji">{{ m.emoji }}</span>
         <div class="mood-bar-track">
-          <div
-            class="mood-bar-fill"
-            :style="{ background: m.color, width: barWidth(m.key) }"
-          ></div>
+          <div class="mood-bar-fill" :style="{ background: m.color, width: barWidth(m.key) }"></div>
         </div>
         <span class="mood-bar-count">{{ tally[m.key] || 0 }}</span>
       </div>
     </div>
 
     <div class="mood-total">{{ totalVotes }} votes today</div>
-    <div class="mood-voted-msg" :class="{ show: votedToday }">✓ Voted! Come back tomorrow for a fresh vote.</div>
+    <div class="mood-voted-msg" :class="{ show: votedToday }">
+      ✓ Voted! Come back tomorrow for a fresh vote.
+    </div>
   </div>
 </template>
 
@@ -59,20 +64,24 @@ import { ref, computed, onMounted, nextTick } from 'vue';
 import { save, load } from '../../composables/useLocalStorage.js';
 
 const props = defineProps({
-  config: { type: Object, default: null }
+  config: { type: Object, default: null },
 });
 
 const TODAY = new Date().toDateString();
 
-const moods = props.config ? props.config.options : [
-  { key:'happy', emoji:'😄', label:'Thriving', color:'#4caf50' },
-  { key:'chill', emoji:'😌', label:'Chill',    color:'#7ab0e0' },
-  { key:'grind', emoji:'😤', label:'Grind',    color:'#c9a84c' },
-  { key:'meh',   emoji:'😔', label:'Meh',      color:'#b07ae0' },
-  { key:'chaos', emoji:'🤯', label:'Chaos',    color:'#e07070' }
-];
+const moods = props.config
+  ? props.config.options
+  : [
+      { key: 'happy', emoji: '😄', label: 'Thriving', color: '#4caf50' },
+      { key: 'chill', emoji: '😌', label: 'Chill', color: '#7ab0e0' },
+      { key: 'grind', emoji: '😤', label: 'Grind', color: '#c9a84c' },
+      { key: 'meh', emoji: '😔', label: 'Meh', color: '#b07ae0' },
+      { key: 'chaos', emoji: '🤯', label: 'Chaos', color: '#e07070' },
+    ];
 
-const SEED_TALLY = props.config ? props.config.seedTally : { happy:12, chill:8, grind:19, meh:5, chaos:7 };
+const SEED_TALLY = props.config
+  ? props.config.seedTally
+  : { happy: 12, chill: 8, grind: 19, meh: 5, chaos: 7 };
 
 const tally = ref(load('sb_mood_tally', SEED_TALLY));
 const myVote = ref(load('sb_mood_mine', null));

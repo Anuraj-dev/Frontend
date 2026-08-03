@@ -3,7 +3,9 @@
     <div class="container">
       <div class="section-header">
         <div class="section-tag">{{ tag }}</div>
-        <h2 class="section-title-xl">{{ title }} <span class="tg">{{ accent }}</span></h2>
+        <h2 class="section-title-xl">
+          {{ title }} <span class="tg">{{ accent }}</span>
+        </h2>
         <p class="desc" style="max-width: 600px">{{ desc }}</p>
       </div>
       <slot />

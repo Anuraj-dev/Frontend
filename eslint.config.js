@@ -1,16 +1,11 @@
-import globals from 'globals'
-import pluginVue from 'eslint-plugin-vue'
-import prettierConfig from 'eslint-config-prettier/flat'
+import globals from 'globals';
+import pluginVue from 'eslint-plugin-vue';
+import prettierConfig from 'eslint-config-prettier/flat';
 
 export default [
   {
     // Keep lint from walking nested worktrees, build output, static assets, generated data.
-    ignores: [
-      '.claude/**',
-      'dist/**',
-      'public/**',
-      'src/data/scData_generated.js',
-    ],
+    ignores: ['.claude/**', 'dist/**', 'public/**', 'src/data/scData_generated.js'],
   },
 
   // Vue 3 essential rules (all at "error"), plus the SFC parser/processor setup.
@@ -44,4 +39,4 @@ export default [
 
   // Must stay last: turns off every rule that would fight Prettier.
   prettierConfig,
-]
+];

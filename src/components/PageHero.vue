@@ -21,23 +21,23 @@
 defineProps({
   bgImage: {
     type: String,
-    required: true
+    required: true,
   },
   breadcrumbTitle: {
     type: String,
-    required: true
+    required: true,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   accentTitle: {
     type: String,
-    default: ''
+    default: '',
   },
   subtitle: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 </script>

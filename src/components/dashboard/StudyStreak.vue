@@ -1,10 +1,15 @@
 <template>
   <div class="widget w-5" id="widget-streak">
-    <div class="widget-glow"
-         style="width:300px;height:300px;
-                background:radial-gradient(circle,rgba(255,140,0,.28),transparent);
-                top:-120px;left:-100px">
-    </div>
+    <div
+      class="widget-glow"
+      style="
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255, 140, 0, 0.28), transparent);
+        top: -120px;
+        left: -100px;
+      "
+    ></div>
 
     <div class="widget-label">Daily Habit</div>
     <div class="widget-title">Study Streak</div>
@@ -44,19 +49,16 @@
 
     <!-- Check-in action -->
     <div class="streak-checkin-row">
-      <button
-        class="btn btn-gold"
-        ref="streakBtnRef"
-        :disabled="checkedToday"
-        @click="doCheckin"
-      >
+      <button class="btn btn-gold" ref="streakBtnRef" :disabled="checkedToday" @click="doCheckin">
         {{ checkedToday ? 'Checked In ✓' : 'Check In Today' }}
       </button>
       <span class="streak-checked-msg" :class="{ show: checkedToday }">✓ Checked in!</span>
     </div>
 
     <!-- Best streak badge -->
-    <div class="streak-best">Best streak: <span>{{ best }}</span> days</div>
+    <div class="streak-best">
+      Best streak: <span>{{ best }}</span> days
+    </div>
   </div>
 </template>
 
@@ -67,7 +69,7 @@ import { save, load } from '../../composables/useLocalStorage.js';
 const emit = defineEmits(['confetti']);
 
 const TODAY = new Date().toDateString();
-const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const streak = ref(load('sb_streak', 0));
 const best = ref(load('sb_best', 0));
@@ -76,14 +78,14 @@ const last = ref(load('sb_last', null));
 const streakBtnRef = ref(null);
 
 const checkedToday = computed(() => last.value === TODAY);
-const completedThisWeek = computed(() => weekDays.value.filter(day => day.done).length);
+const completedThisWeek = computed(() => weekDays.value.filter((day) => day.done).length);
 
 const flameSize = computed(() => {
   const n = streak.value;
   if (n === 0) return 64;
-  if (n < 3)   return 78;
-  if (n < 7)   return 94;
-  if (n < 14)  return 112;
+  if (n < 3) return 78;
+  if (n < 7) return 94;
+  if (n < 14) return 112;
   return 130;
 });
 
@@ -96,7 +98,7 @@ const weekDays = computed(() => {
     days.push({
       name: DAYS[d.getDay()],
       done: hist.value.indexOf(ds) > -1,
-      isToday: ds === TODAY
+      isToday: ds === TODAY,
     });
   }
   return days;
@@ -111,7 +113,7 @@ function doCheckin() {
 
   const yest = new Date();
   yest.setDate(yest.getDate() - 1);
-  s = (last.value === yest.toDateString()) ? s + 1 : 1;
+  s = last.value === yest.toDateString() ? s + 1 : 1;
   b = Math.max(b, s);
 
   if (h.indexOf(TODAY) === -1) h.push(TODAY);
