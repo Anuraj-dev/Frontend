@@ -112,7 +112,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import membersData from '../data/members.json';
 
 const message = ref('');
 const router = useRouter();
@@ -122,8 +121,13 @@ const messageType = computed(() => {
   return message.value.toLowerCase().includes('welcome') ? 'success' : 'error';
 });
 
-async function checkMembershipRemote(normalizedEmail) {
-  const endpoint = import.meta.env.VITE_MEMBERSHIP_CHECK_URL;
+/** Apps Script web app URL — build-time only (Vite). Empty means misconfigured prod. */
+function membershipCheckUrl() {
+  const raw = import.meta.env.VITE_MEMBERSHIP_CHECK_URL;
+  return typeof raw === 'string' ? raw.trim() : '';
+}
+
+async function checkMembershipRemote(endpoint, normalizedEmail) {
   const res = await fetch(`${endpoint}?email=${encodeURIComponent(normalizedEmail)}`, {
     redirect: 'follow',
   });
@@ -132,24 +136,41 @@ async function checkMembershipRemote(normalizedEmail) {
   return data.ok === true && data.allowed === true;
 }
 
+/** Dev-only offline roster. Never used in production builds. */
+async function checkMembershipLocalDev(normalizedEmail) {
+  const { default: membersData } = await import('../data/members.json');
+  return membersData.members.includes(normalizedEmail);
+}
+
 async function grantOrDenyAccess(rawEmail) {
   const normalized = rawEmail.trim().toLowerCase();
-  const membershipUrl = import.meta.env.VITE_MEMBERSHIP_CHECK_URL;
+  const endpoint = membershipCheckUrl();
   let allowed;
 
-  if (membershipUrl && membershipUrl.trim()) {
+  if (endpoint) {
+    // Production path (and any build with the env set): Sheet via Apps Script only.
     try {
-      allowed = await checkMembershipRemote(normalized);
+      allowed = await checkMembershipRemote(endpoint, normalized);
     } catch (err) {
       googleLoading.value = false;
       message.value = "Couldn't reach the membership server. Check your connection and try again.";
       return false;
     }
-  } else {
+  } else if (import.meta.env.DEV) {
+    // Local dev without env: offline roster so UI work still works.
     console.warn(
-      '[login] VITE_MEMBERSHIP_CHECK_URL is not set; falling back to local members.json.'
+      '[login] VITE_MEMBERSHIP_CHECK_URL is not set; using local members.json (dev only).'
     );
-    allowed = membersData.members.includes(normalized);
+    allowed = await checkMembershipLocalDev(normalized);
+  } else {
+    // Production without env: do not fall back to members.json (misleading denies).
+    googleLoading.value = false;
+    message.value =
+      'Membership check is not configured. Set VITE_MEMBERSHIP_CHECK_URL and redeploy.';
+    console.error(
+      '[login] VITE_MEMBERSHIP_CHECK_URL missing in production build — no Sheet check ran.'
+    );
+    return false;
   }
 
   googleLoading.value = false;
@@ -167,10 +188,10 @@ async function grantOrDenyAccess(rawEmail) {
 
 // ── GOOGLE SIGN-IN ───────────────────────────────────────────────────────
 // Client-side only (Google Identity Services OAuth2 token client). No backend
-// verifies the token signature here, so this provides the same level of
-// security as the manual flow above: none. It only swaps "type your email"
-// for "pick your Google account", then runs the membership check (Apps Script
-// web app when VITE_MEMBERSHIP_CHECK_URL is set, else local members.json).
+// verifies the token signature here. After Google returns the email, membership
+// is checked via Apps Script (VITE_MEMBERSHIP_CHECK_URL). Production never
+// falls back to members.json — misconfiguration surfaces as an explicit error.
+// Dev-only: empty env may use members.json for offline UI work.
 const googleLoading = ref(false);
 let tokenClient = null;
 let googleInitAttempts = 0;
