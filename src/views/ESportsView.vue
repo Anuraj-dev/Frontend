@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="community-page community-esports">
     <PageHero
       bg-image="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=80&auto=format&fit=crop"
       breadcrumb-title="Community"
@@ -8,176 +8,75 @@
       subtitle="Play. Compete. Win. — where Sundarbans players grind together."
     />
 
-    <!-- Upcoming Events -->
-    <section class="section rs">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-tag esports-tag">Upcoming Events</div>
-          <h2 class="section-title-xl">What's <span class="tg-esports">Coming Up</span></h2>
-          <p class="desc" style="max-width: 600px">
-            Tournaments and sessions dropping soon — register before slots fill.
-          </p>
-        </div>
-
-        <!-- Empty state when all upcoming events have passed -->
-        <div v-if="upcomingEvents.length === 0" style="text-align:center;padding:3rem 0;color:var(--text2);">
-          <p style="font-size:1.1rem;">🎮 No upcoming events right now — check back soon!</p>
-        </div>
-        <div v-else class="events-grid">
-          <div v-for="event in upcomingEvents" :key="event.id" class="event-card">
-            <div class="event-date-badge">
-              <span class="event-day">{{ event.day }}</span>
-              <span class="event-month">{{ event.month }}</span>
-            </div>
-            <div class="event-info">
-              <span class="event-type-tag">{{ event.type }}</span>
-              <h3 class="event-title">{{ event.title }}</h3>
-              <p class="event-desc">{{ event.description }}</p>
-              <div class="event-meta">
-                <span>🕐 {{ event.time }}</span>
-                <span>📍 {{ event.venue }}</span>
-              </div>
+    <CommunitySection
+      tag="Upcoming Events"
+      title="What's"
+      accent="Coming Up"
+      desc="Tournaments and sessions dropping soon — register before slots fill."
+    >
+      <!-- Local card layout: date badge instead of artwork, so it is not shared -->
+      <div v-if="upcomingEvents.length === 0" style="text-align:center;padding:3rem 0;color:var(--text2);">
+        <p style="font-size:1.1rem;">🎮 No upcoming events right now — check back soon!</p>
+      </div>
+      <div v-else class="events-grid">
+        <div v-for="event in upcomingEvents" :key="event.id" class="event-card">
+          <div class="event-date-badge">
+            <span class="event-day">{{ event.day }}</span>
+            <span class="event-month">{{ event.month }}</span>
+          </div>
+          <div class="event-info">
+            <span class="event-type-tag">{{ event.type }}</span>
+            <h3 class="event-title">{{ event.title }}</h3>
+            <p class="event-desc">{{ event.description }}</p>
+            <div class="event-meta">
+              <span>🕐 {{ event.time }}</span>
+              <span>📍 {{ event.venue }}</span>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </CommunitySection>
 
-    <!-- Past Events -->
-    <section class="section rs" style="background: var(--bg2)">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-tag esports-tag">Past Events</div>
-          <h2 class="section-title-xl">What We've <span class="tg-esports">Done</span></h2>
-          <p class="desc" style="max-width: 600px">
-            Tournaments played, champions crowned, and clips worth rewatching.
-          </p>
-        </div>
+    <CommunitySection
+      alt
+      tag="Past Events"
+      title="What We've"
+      accent="Done"
+      desc="Tournaments played, champions crowned, and clips worth rewatching."
+    >
+      <PastEventCards :events="allPastEvents" />
+    </CommunitySection>
 
-        <div class="past-events-grid">
-          <div v-for="event in allPastEvents" :key="event.id" class="past-event-card">
-            <div class="past-event-img-wrap">
-              <!-- Blurred background to fill space and prevent empty black bars -->
-              <img :src="event.image" class="past-event-img-blur" aria-hidden="true" />
-              <!-- Distinct foreground image scaled properly -->
-              <img :src="event.image" :alt="event.title" class="past-event-img" />
-              <div class="past-event-overlay">
-                <span class="past-event-date">{{ event.date }}</span>
-              </div>
-            </div>
-            <div class="past-event-body">
-              <span class="event-type-tag">{{ event.type }}</span>
-              <h3 class="past-event-title">{{ event.title }}</h3>
-              <p class="past-event-desc">{{ event.description }}</p>
-              <div class="past-event-stat">👥 {{ event.attendees }} attended</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <CommunitySection
+      alt
+      tag="Hall of Fame"
+      title="Event"
+      accent="Winners"
+      desc="Champions who rose to the top across every tournament and challenge."
+    >
+      <WinnerCards :events="eventWinners" no-winner-text="No winner recorded" />
+    </CommunitySection>
 
-    <!-- Winners -->
-    <section class="section rs" style="background: var(--bg2)">
-      <div class="container">
-        <div class="section-header">
-          <div class="section-tag esports-tag">Hall of Fame</div>
-          <h2 class="section-title-xl">Event <span class="tg-esports">Winners</span></h2>
-          <p class="desc" style="max-width: 600px">Champions who rose to the top across every tournament and challenge.</p>
-        </div>
-        <div class="winners-grid">
-          <div v-for="event in eventWinners" :key="event.id" class="winner-card">
-            <div class="winner-card-header">
-              <span class="winner-event-tag">{{ event.type }}</span>
-              <h3 class="winner-event-title">{{ event.title }}</h3>
-            </div>
-            <div v-if="event.noWinner" class="no-winner">
-              <span class="no-winner-icon">—</span>
-              <span>No winner recorded</span>
-            </div>
-            <ul v-else class="winners-list">
-              <li v-for="(winner, index) in event.winners" :key="index" class="winner-row">
-                <span class="winner-rank">{{ index + 1 }}</span>
-                <div class="winner-info">
-                  <span class="winner-name">{{ winner.name }}</span>
-                  <span class="winner-email" v-if="winner.email">{{ winner.email }}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Community Team -->
-    <!-- Community Team -->
-<section class="section rs">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag esports-tag">The Team</div>
-      <h2 class="section-title-xl">
-        People Behind the <span class="tg-esports">Community</span>
-      </h2>
-      <p class="desc" style="max-width: 600px">
-        The leads and members who keep things running.
-      </p>
-    </div>
-
-    <div class="team-grid">
-      <div v-for="member in team" :key="member.name" class="team-card">
-        
-        <div class="team-photo-wrap">
-          <img :src="member.photo" :alt="member.name" class="team-photo" />
-          
-          <div class="team-overlay">
-            <h4 class="team-name">{{ member.name }}</h4>
-          </div>
-        </div>
-
-        <div class="team-footer">
-          <p class="team-course">
-            {{ member.role }} · {{ member.level }}
-          </p>
-
-          <div class="team-socials">
-            <!-- Email -->
-            <a :href="member.email" class="social-btn" title="Email">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-              </svg>
-            </a>
-
-            <!-- LinkedIn -->
-            <a :href="member.linkedin" class="social-btn" title="LinkedIn" target="_blank">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                <rect x="2" y="9" width="4" height="12"/>
-                <circle cx="4" cy="4" r="2"/>
-              </svg>
-            </a>
-
-            <!-- Instagram -->
-            <a :href="member.instagram" class="social-btn" title="Instagram" target="_blank">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-              </svg>
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    <CommunitySection
+      tag="The Team"
+      title="People Behind the"
+      accent="Community"
+      desc="The leads and members who keep things running."
+    >
+      <TeamCards :members="team" />
+    </CommunitySection>
   </div>
 </template>
 
 <script setup>
 import PageHero from "../components/PageHero.vue";
+import CommunitySection from "../components/community/CommunitySection.vue";
+import PastEventCards from "../components/community/PastEventCards.vue";
+import WinnerCards from "../components/community/WinnerCards.vue";
+import TeamCards from "../components/community/TeamCards.vue";
 import { useScrollReveal } from "../composables/useAnimations.js";
 import { useEventDateFilter } from "../composables/useEventDateFilter.js";
+import "../assets/community.css";
 
 import imgBgmiShowdown from "../assets/Community Events/E-Sports/BGMI Showdown 2025.jpeg";
 import imgBtb from "../assets/Community Events/E-Sports/Back to Bachpan.jpeg";
@@ -439,514 +338,3 @@ const team = [
   },
 ];
 </script>
-
-<style scoped>
-/* ── Accent: Blood Protocol — #DC2626 Crimson / #F97316 Ember ── */
-
-.section-header {
-  margin-bottom: 2.5rem;
-}
-
-.tg-esports {
-  background: linear-gradient(135deg, #DC2626, #F97316);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Tags */
-.esports-tag {
-  background: rgba(220, 38, 38, 0.10);
-  color: #EF4444;
-  border-color: rgba(220, 38, 38, 0.30);
-}
-
-.event-type-tag {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.25rem 0.65rem;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
-  background: rgba(220, 38, 38, 0.10);
-  color: #EF4444;
-  border: 1px solid rgba(220, 38, 38, 0.25);
-  box-shadow: 0 0 10px rgba(220, 38, 38, 0.05);
-}
-
-/* Upcoming Events */
-.events-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-}
-
-.event-card {
-  position: relative;
-  display: flex;
-  gap: 1.2rem;
-  align-items: flex-start;
-  background: rgba(15, 10, 10, 0.85);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(220, 38, 38, 0.15);
-  border-radius: 12px;
-  padding: 1.5rem;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.event-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #DC2626, #F97316);
-  opacity: 0.5;
-  transition: width 0.3s ease, opacity 0.3s ease;
-}
-
-.event-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(220, 38, 38, 0.45);
-  box-shadow:
-    0 10px 30px rgba(220, 38, 38, 0.12),
-    0 0 40px rgba(220, 38, 38, 0.06);
-}
-
-.event-card:hover::before {
-  width: 6px;
-  opacity: 1;
-  box-shadow: 0 0 15px #DC2626;
-}
-
-.event-date-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 54px;
-  border-radius: 8px;
-  padding: 0.6rem;
-  background: rgba(220, 38, 38, 0.15);
-  border: 1px solid rgba(220, 38, 38, 0.30);
-  color: #EF4444;
-  line-height: 1;
-  flex-shrink: 0;
-  text-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
-}
-
-.event-day {
-  font-size: 1.5rem;
-  font-weight: 800;
-}
-
-.event-month {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 3px;
-}
-
-.event-info { flex: 1; }
-
-.event-title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  margin: 0 0 0.5rem;
-  color: #fff;
-  letter-spacing: 0.02em;
-}
-
-.event-desc {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0 0 0.8rem;
-  line-height: 1.6;
-}
-
-.event-meta {
-  display: flex;
-  gap: 1.2rem;
-  font-size: 0.82rem;
-  color: rgba(220, 38, 38, 0.80);
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: 600;
-  flex-wrap: wrap;
-}
-
-/* Past Events */
-.past-events-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.8rem;
-}
-
-.past-event-card {
-  background: rgba(15, 10, 10, 0.85);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(220, 38, 38, 0.15);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.past-event-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #DC2626, #F97316);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 10;
-}
-
-.past-event-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow:
-    0 12px 32px rgba(220, 38, 38, 0.15),
-    0 0 20px rgba(249, 115, 22, 0.08);
-  border-color: rgba(220, 38, 38, 0.50);
-}
-
-.past-event-card:hover::before {
-  opacity: 1;
-  box-shadow: 0 2px 10px #DC2626;
-}
-
-.past-event-img-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #0a0a0a;
-  overflow: hidden;
-}
-
-.past-event-img-blur {
-  position: absolute;
-  top: -15%; left: -15%;
-  width: 130%; height: 130%;
-  object-fit: cover;
-  filter: blur(20px) brightness(0.3);
-  z-index: 0;
-}
-
-.past-event-img {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  z-index: 1;
-  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.past-event-card:hover .past-event-img {
-  transform: scale(1.06);
-}
-
-.past-event-overlay {
-  position: absolute;
-  bottom: 8px; right: 8px;
-  padding: 0;
-  z-index: 2;
-}
-
-.past-event-date {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.75rem;
-  color: #fff;
-  font-weight: 700;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(220, 38, 38, 0.30);
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  backdrop-filter: blur(4px);
-  text-shadow: 0 0 5px rgba(220, 38, 38, 0.80);
-  letter-spacing: 0.05em;
-}
-
-.past-event-body {
-  padding: 1.4rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.past-event-title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  margin: 0.2rem 0 0.5rem;
-  color: #fff;
-  letter-spacing: 0.02em;
-  transition: text-shadow 0.3s ease;
-}
-
-.past-event-card:hover .past-event-title {
-  text-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-}
-
-.past-event-desc {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.6;
-  margin: 0 0 1rem;
-  flex: 1;
-}
-
-.past-event-stat {
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: 600;
-  font-size: 0.82rem;
-  color: rgba(220, 38, 38, 0.80);
-  padding-top: 0.8rem;
-  border-top: 1px dashed rgba(220, 38, 38, 0.20);
-}
-
-/* Team — photo card style */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
-}
-
-.team-card {
-  background: #111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.team-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(220, 38, 38, 0.20);
-}
-
-.team-photo-wrap {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-}
-
-.team-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  display: block;
-  transition: transform 0.4s ease;
-}
-
-.team-card:hover .team-photo {
-  transform: scale(1.04);
-}
-
-.team-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2.5rem 1rem 0.9rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.team-name {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.team-city {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #fff;
-  background: #DC2626;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  width: fit-content;
-}
-
-.team-footer {
-  padding: 0.75rem 1rem 0.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  background: #111;
-}
-
-.team-course {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.45);
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.team-socials {
-  display: flex;
-  gap: 0.35rem;
-  flex-shrink: 0;
-}
-
-.social-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.07);
-  color: rgba(255, 255, 255, 0.5);
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.social-btn:hover {
-  background: #DC2626;
-  color: #fff;
-  border-color: #DC2626;
-}
-
-/* ── GAMING EFFECTS ── */
-
-/* Scanning line — subtle CRT/HUD sweep */
-@keyframes scanLine {
-  0%   { top: -2px; }
-  100% { top: 100%; }
-}
-
-/* Pulsing border glow for first upcoming event */
-.event-card:first-child {
-  animation: borderPulse 3s ease-in-out infinite;
-}
-
-@keyframes borderPulse {
-  0%, 100% {
-    border-color: rgba(220, 38, 38, 0.15);
-    box-shadow: 0 0 0px rgba(220, 38, 38, 0);
-  }
-  50% {
-    border-color: rgba(220, 38, 38, 0.45);
-    box-shadow: 0 0 25px rgba(220, 38, 38, 0.10);
-  }
-}
-/* ─── Winners ─── */
-.winners-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-.winner-card {
-  position: relative;
-  background: rgba(15, 10, 10, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(220, 38, 38, 0.2);
-  border-radius: 10px;
-  padding: 1.5rem 1.5rem 1.5rem 1.8rem;
-  overflow: hidden;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.winner-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #DC2626, #F97316);
-  box-shadow: 0 0 10px #DC2626;
-}
-
-.winner-card:hover {
-  border-color: rgba(220, 38, 38, 0.45);
-  box-shadow: 0 10px 30px rgba(220, 38, 38, 0.12);
-}
-
-.winner-card-header { margin-bottom: 1.1rem; }
-
-.winner-event-tag {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-  background: rgba(220, 38, 38, 0.1);
-  color: #EF4444;
-  border: 1px solid rgba(220, 38, 38, 0.3);
-}
-
-.winner-event-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #e0e0e0;
-  margin: 0;
-  letter-spacing: 0.02em;
-}
-
-.winners-list {
-  list-style: none;
-  margin: 0; padding: 0;
-  display: flex; flex-direction: column; gap: 0.5rem;
-}
-
-.winner-row {
-  display: flex; align-items: center; gap: 0.8rem;
-  padding: 0.55rem 0.8rem;
-  border-radius: 6px;
-  background: rgba(220, 38, 38, 0.05);
-  border: 1px solid rgba(220, 38, 38, 0.1);
-  transition: background 0.2s;
-}
-.winner-row:hover { background: rgba(220, 38, 38, 0.1); }
-
-.winner-rank {
-  display: flex; align-items: center; justify-content: center;
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  font-size: 0.72rem; font-weight: 800;
-  flex-shrink: 0;
-}
-.winner-row:nth-child(1) .winner-rank { background: rgba(250,204,21,0.15); color: #facc15; border: 1px solid rgba(250,204,21,0.4); }
-.winner-row:nth-child(2) .winner-rank { background: rgba(148,163,184,0.15); color: #94a3b8; border: 1px solid rgba(148,163,184,0.4); }
-.winner-row:nth-child(3) .winner-rank { background: rgba(180,120,60,0.15); color: #cd7f32; border: 1px solid rgba(180,120,60,0.4); }
-.winner-row:nth-child(n+4) .winner-rank { background: rgba(220,38,38,0.1); color: #EF4444; border: 1px solid rgba(220,38,38,0.3); }
-
-.winner-info { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
-.winner-name { font-size: 0.88rem; font-weight: 600; color: #e0e0e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.winner-email { font-size: 0.68rem; color: rgba(220, 38, 38, 0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.no-winner {
-  display: flex; align-items: center; gap: 0.75rem;
-  padding: 0.75rem;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.02);
-  border: 1px dashed rgba(255,255,255,0.1);
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.3);
-  font-style: italic;
-}
-.no-winner-icon { color: rgba(255,255,255,0.2); }
-</style>
