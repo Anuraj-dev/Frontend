@@ -333,7 +333,7 @@ const pages = [
   },
   {
     title: "Members Lounge",
-    url: "/members",
+    url: "/lounge",
     desc: "Login to members area",
     icon: "🔐",
   },

@@ -443,7 +443,7 @@ function smoothScroll(hash) {
 function logout() {
   const p = document.querySelector('.members-lounge-page');
   if (p) { p.style.opacity = '0'; p.style.transition = 'opacity 0.5s'; }
-  setTimeout(() => { localStorage.removeItem('sundarbans_auth_token'); router.push('/members'); }, 500);
+  setTimeout(() => { localStorage.removeItem('sundarbans_auth_token'); router.push('/login'); }, 500);
 }
 
 // ── SCROLL REVEAL ────────────────────────────────────────────────────────
@@ -460,7 +460,7 @@ const vObserve = {
 
 onMounted(() => {
   const token = localStorage.getItem('sundarbans_auth_token');
-  if (!token) { router.push('/members'); return; }
+  if (!token) { router.push('/login'); return; }
   memberEmail.value = token;
   memberRoll.value  = token.split('@')[0] || token;
   updateCountdown();

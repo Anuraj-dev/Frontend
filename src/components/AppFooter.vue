@@ -46,7 +46,7 @@
           <router-link to="/study">Study Corner</router-link>
           <router-link to="/meetups">Meetups</router-link>
           <router-link to="/community">Communities</router-link>
-          <router-link to="/members">Members Lounge</router-link>
+          <router-link to="/lounge">Members Lounge</router-link>
         </div>
         <div class="fnewsletter">
           <h4>Stay Updated</h4>
