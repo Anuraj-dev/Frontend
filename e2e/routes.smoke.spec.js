@@ -5,7 +5,8 @@ import { test, expect } from '@playwright/test';
  * Catch-all NotFound is omitted — a nonsense path still mounts #app, but
  * the goal is to smoke the declared pages, not 404 UX.
  *
- * /lounge is auth-gated and redirects to /login; that is expected and OK.
+ * /lounge (router meta.requiresAuth) and /dashboard (in-view token check)
+ * redirect to /login when unauthenticated; that is expected and OK.
  */
 const ROUTES = [
   '/',
@@ -39,6 +40,23 @@ function hashUrl(path) {
   return path === '/' ? '/#/' : `/#${path}`;
 }
 
+/** Path portion of location.hash (no leading #, no query). e.g. "#/about?x=1" → "/about" */
+function hashPathFromUrl(url) {
+  let hash = new URL(url).hash || '';
+  if (hash.startsWith('#')) hash = hash.slice(1);
+  if (hash.includes('?')) hash = hash.split('?')[0];
+  if (!hash || hash === '') return '/';
+  return hash.startsWith('/') ? hash : `/${hash}`;
+}
+
+// Auth-gated paths may end at /login when no sundarbans_auth_token is set.
+const AUTH_REDIRECT_ROUTES = new Set(['/lounge', '/dashboard']);
+
+// CDN/hotlink resource failures (fonts, GSI, Unsplash, LinkedIn) are noise for smoke.
+function isCdnResourceFailure(text) {
+  return /Failed to load resource/i.test(text);
+}
+
 test.describe('route smoke', () => {
   for (const path of ROUTES) {
     test(`renders ${path} without console errors`, async ({ page }) => {
@@ -46,28 +64,36 @@ test.describe('route smoke', () => {
       const pageErrors = [];
 
       page.on('console', (msg) => {
-        if (msg.type() === 'error') {
-          consoleErrors.push(msg.text());
-        }
+        if (msg.type() !== 'error') return;
+        const text = msg.text();
+        if (isCdnResourceFailure(text)) return;
+        consoleErrors.push(text);
       });
       page.on('pageerror', (err) => {
         pageErrors.push(err.message);
       });
 
-      await page.goto(hashUrl(path), { waitUntil: 'networkidle' });
+      // Prefer 'load' over 'networkidle' — app always pulls fonts/GSI; many pages Unsplash.
+      await page.goto(hashUrl(path), { waitUntil: 'load' });
 
       const app = page.locator('#app');
       await expect(app).toBeVisible();
 
-      const content = await app.evaluate((el) => {
-        const text = (el.textContent || '').trim();
-        const html = (el.innerHTML || '').trim();
-        return { text, html };
-      });
-      expect(
-        content.text.length > 0 || content.html.length > 0,
-        `#app should render non-empty content for ${path}`
-      ).toBe(true);
+      // Hash path must match the declared route (or login redirect for auth-gated paths).
+      const finalUrl = page.url();
+      const actual = hashPathFromUrl(finalUrl);
+      if (AUTH_REDIRECT_ROUTES.has(path)) {
+        expect(
+          actual === path || actual === '/login',
+          `${path} should stay put or redirect to /login; got ${finalUrl}`
+        ).toBe(true);
+      } else {
+        expect(actual, `expected hash path ${path} for ${finalUrl}`).toBe(path);
+      }
+
+      // Declared routes must not render NotFoundView (distinctive badge + 404 heading).
+      await expect(page.getByText('Page Not Found', { exact: true })).toHaveCount(0);
+      await expect(page.locator('h1.notfound-code')).toHaveCount(0);
 
       expect(pageErrors, `pageerror on ${path}: ${pageErrors.join(' | ')}`).toEqual([]);
       expect(consoleErrors, `console error on ${path}: ${consoleErrors.join(' | ')}`).toEqual([]);
