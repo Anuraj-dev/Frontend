@@ -122,9 +122,40 @@ const messageType = computed(() => {
   return message.value.toLowerCase().includes('welcome') ? 'success' : 'error';
 });
 
-function grantOrDenyAccess(rawEmail) {
+async function checkMembershipRemote(normalizedEmail) {
+  const endpoint = import.meta.env.VITE_MEMBERSHIP_CHECK_URL;
+  const res = await fetch(
+    `${endpoint}?email=${encodeURIComponent(normalizedEmail)}`,
+    { redirect: 'follow' },
+  );
+  if (!res.ok) throw new Error('membership check failed');
+  const data = await res.json();
+  return data.ok === true && data.allowed === true;
+}
+
+async function grantOrDenyAccess(rawEmail) {
   const normalized = rawEmail.trim().toLowerCase();
-  if (membersData.members.includes(normalized)) {
+  const membershipUrl = import.meta.env.VITE_MEMBERSHIP_CHECK_URL;
+  let allowed;
+
+  if (membershipUrl && membershipUrl.trim()) {
+    try {
+      allowed = await checkMembershipRemote(normalized);
+    } catch (err) {
+      googleLoading.value = false;
+      message.value =
+        "Couldn't reach the membership server. Check your connection and try again.";
+      return false;
+    }
+  } else {
+    console.warn(
+      '[login] VITE_MEMBERSHIP_CHECK_URL is not set; falling back to local members.json.',
+    );
+    allowed = membersData.members.includes(normalized);
+  }
+
+  googleLoading.value = false;
+  if (allowed) {
     message.value = 'Welcome to the Members Lounge. Redirecting...';
     localStorage.setItem('sundarbans_auth_token', normalized);
     setTimeout(() => {
@@ -140,7 +171,8 @@ function grantOrDenyAccess(rawEmail) {
 // Client-side only (Google Identity Services OAuth2 token client). No backend
 // verifies the token signature here, so this provides the same level of
 // security as the manual flow above: none. It only swaps "type your email"
-// for "pick your Google account", then runs the same members.json check.
+// for "pick your Google account", then runs the membership check (Apps Script
+// web app when VITE_MEMBERSHIP_CHECK_URL is set, else local members.json).
 const googleLoading = ref(false);
 let tokenClient = null;
 let googleInitAttempts = 0;
@@ -178,12 +210,12 @@ async function handleGoogleToken(tokenResponse) {
     });
     if (!res.ok) throw new Error('userinfo request failed');
     const profile = await res.json();
-    googleLoading.value = false;
     if (!profile.email) {
+      googleLoading.value = false;
       message.value = 'Could not read your Google account email.';
       return;
     }
-    grantOrDenyAccess(profile.email);
+    await grantOrDenyAccess(profile.email);
   } catch (err) {
     googleLoading.value = false;
     message.value = "Couldn't reach Google. Check your connection and try again.";
