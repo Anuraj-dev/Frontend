@@ -1,96 +1,122 @@
-# Contributing to the Project
+# Contributing to Sundarbans House
 
-We appreciate your interest and efforts to contribute. Before you get started, please take a moment to review the following guidelines.
+Thanks for contributing. This file is the whole onboarding path — clone, run, change, PR — read it
+top to bottom and you should be able to open a green PR without asking anyone anything.
 
-## Getting Started
+## 0. Read this first
 
-- If you're new to open source, you can check out [GitHub's guide to forking repositories](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
-- Make sure you have [Git](https://git-scm.com/) installed on your local machine along with [Node.js](https://nodejs.org/en/download).
+Before writing any code, read **`docs/STATE.md`** in this repo. It has the current status,
+architecture map, and known gotchas (e.g. large committed assets, no lazy-loaded routes). Skipping
+it is the #1 way to duplicate work or reintroduce a problem someone already fixed.
 
-## Issues
+## 1. Prerequisites
 
-- Before working on an issue, please check if it's already assigned or if someone else is already working on it. If not, feel free to assign it to yourself.
-- If you find a new issue or want to suggest an enhancement, please use our [issue tracker](https://github.com/SundarbansWebOps/Frontend/issues).
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/) — this project is developed against **Node v22**. Use
+  [nvm](https://github.com/nvm-sh/nvm) or similar if you need to manage versions.
+- No backend and no database — the app is fully client-side. Optional env: copy
+  `.env.example` to `.env` if you need Google OAuth login. Variables (see
+  `.env.example`):
+  - `VITE_GOOGLE_CLIENT_ID` — Google OAuth client ID.
+  - `VITE_MEMBERSHIP_CHECK_URL` — Apps Script `/exec` URL that validates member
+    emails. Required for production login; when unset, the app falls back to the
+    local `src/data/members.json` list so local dev still works.
+    Without them the rest of the site still runs; OAuth sign-in will not.
 
+## 2. Setup
 
-## How Can I Contribute?
-
-### Reporting Bugs
-
-Before submitting a bug report, please ensure that you have checked the latest version of the project, and that the issue persists. When submitting a bug report, please provide a detailed description along with steps to reproduce the issue.
-
-### Suggesting Enhancements
-
-If you have an idea for an enhancement, please create an issue and outline your proposal. We welcome discussions about new features or improvements.
-
-## Development Setup
-
-If you want to set up a local development environment, follow these steps:
-
-1. Fork the repository to your GitHub account.
-
-2. Clone the forked repository.
-
-```bash
-   git clone https://github.com/your-username/Frontend.git
+1. Fork the repo on GitHub.
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/<your-username>/Frontend.git
    cd Frontend
-```
-
-3. Install project dependencies.
-   
-```bash
+   ```
+3. Install dependencies:
+   ```bash
    npm install
-```
-4. Start the development server
-   
-```bash
-   npm run serve
-```
+   ```
+4. (Optional) Set up OAuth env if you need login:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` only if you have your own Google client ID; the example value is
+   fine for local exploration of non-OAuth pages. Set `VITE_MEMBERSHIP_CHECK_URL`
+   too if you want the real membership check (empty means local `members.json`).
+5. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+   Vite will print a local URL (default `http://localhost:5173`) — open it in a browser.
 
-5. Create a new branch for your changes.
-   
-```bash
+## 3. The real npm scripts
+
+These are the only scripts that exist in `package.json`. Do not invent or reference others —
+`npm run serve` in particular does **not** exist here.
+
+| Command                | What it does                                                      |
+| ---------------------- | ----------------------------------------------------------------- |
+| `npm run dev`          | Start the Vite dev server with hot reload                         |
+| `npm run build`        | Production build (output to `dist/`)                              |
+| `npm run preview`      | Serve the built `dist/` output locally, to sanity-check a build   |
+| `npm run lint`         | ESLint over the repo                                              |
+| `npm run format`       | Prettier write                                                    |
+| `npm run format:check` | Prettier check (no write)                                         |
+| `npm run test:smoke`   | Playwright route smoke (needs a prior `npm run build` + Chromium) |
+
+## 4. Making a change
+
+1. Create a branch off `main` in your fork (never commit directly to `main`):
+   ```bash
    git checkout -b your-feature-branch
-```
-
-6. Make your changes and commit them.
-   
-```bash
-   git add .
-   git commit -m "Your descriptive commit message"
-```
-
-7. Push your changes to your fork.
-   
-```bash
-   git push origin your-feature-branch
-```
-
-### Additional Steps:
-
-1. Build the project to ensure there are no build errors.
-   
-```bash
-   npm run build
-```
-2. Run the linter to check for coding standards.
-
-```bash
+   ```
+2. Make your change. See **SFC convention** below before touching `.vue` files.
+3. Run the local gates (same checks CI runs):
+   ```bash
+   npm run format:check
    npm run lint
-```
+   npm run build
+   # first time only: npx playwright install chromium
+   npm run test:smoke
+   ```
+4. Stage and commit with a clear, descriptive message:
+   ```bash
+   git add .
+   git commit -m "Describe your change clearly"
+   ```
+5. Push the branch to your fork (first push sets upstream):
+   ```bash
+   git push -u origin your-feature-branch
+   ```
+6. Open a pull request from your fork/branch against `Anuraj-dev/Frontend`'s `main`. Describe what
+   changed and why.
+7. A repo owner reviews and approves. Contributors do not merge their own PRs and never push
+   directly to `main` — everything goes through fork -> branch -> PR -> owner approval.
+8. **Merges require green CI.** Do not merge around a red status — fix format, lint, build, or
+   route smoke failures first. Locally, the commands in step 3 match what GitHub Actions runs.
 
-3. Run tests to ensure your changes haven't introduced regressions.
+## 5. SFC convention
 
-```bash
-   npm run test
-```
+- **New components: use `<script setup>`.** It's the standard for anything you add from now on.
+- **Existing Options API components stay as-is.** Do not rewrite an existing component's script
+  block to `<script setup>` just because you're touching that file for an unrelated change —
+  that turns a small diff into a large one and makes review harder. Only convert a component when
+  the ticket you're working on is specifically about that component.
 
-If everything is successful, you're ready to create a pull request against the main branch of the original repository!
+## 6. Asset policy
 
-## Code of Conduct
+This repo has previously accumulated tens of megabytes of committed binary assets, which is why
+it's being actively slimmed down. Follow this policy for anything new:
 
-This project and everyone participating in it are governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report any unacceptable behavior.
+- **PDFs (certificates, documents, etc.) go to Google Drive**, not into the repo. Link to them
+  instead of committing them.
+- **Images go to Cloudinary** (or another external asset host), not into `public/` or
+  `src/assets/`. Reference the hosted URL in code.
+- **Nothing heavy gets committed to git.** If you're unsure whether an asset counts as "heavy",
+  ask before committing it rather than after.
 
-## Thank you!
-Thank you for considering contributing! We appreciate your time and effort. If you have any questions or need assistance, feel free to reach out.
-   
+## Issues & bug reports
+
+- Check the [issue tracker](https://github.com/Anuraj-dev/Frontend/issues) before starting work,
+  and check whether an issue is already assigned before picking it up.
+- Bug reports should include a clear description and steps to reproduce.
+- Feature ideas should be opened as an issue for discussion before a large PR.

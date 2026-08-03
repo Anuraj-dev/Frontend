@@ -1,10 +1,15 @@
 <template>
   <div class="widget w-5" id="widget-pomo">
-    <div class="widget-glow"
-         style="width:200px;height:200px;
-                background:radial-gradient(circle,rgba(76,175,80,.2),transparent);
-                bottom:-60px;right:-40px">
-    </div>
+    <div
+      class="widget-glow"
+      style="
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(76, 175, 80, 0.2), transparent);
+        bottom: -60px;
+        right: -40px;
+      "
+    ></div>
 
     <div class="widget-label">Focus Timer</div>
     <div class="widget-title">Study Room</div>
@@ -30,17 +35,27 @@
         :data-phase="p.key"
         :data-secs="p.seconds"
         @click="setPhase(p)"
-      >{{ p.tabLabel }}</button>
+      >
+        {{ p.tabLabel }}
+      </button>
     </div>
 
     <!-- SVG ring timer -->
     <div class="pomo-ring-wrap">
-      <svg class="pomo-ring-svg" width="160" height="160" viewBox="0 0 160 160"
-           aria-label="Timer progress ring" role="img">
-        <circle class="pomo-ring-bg" cx="80" cy="80" r="70"/>
+      <svg
+        class="pomo-ring-svg"
+        width="160"
+        height="160"
+        viewBox="0 0 160 160"
+        aria-label="Timer progress ring"
+        role="img"
+      >
+        <circle class="pomo-ring-bg" cx="80" cy="80" r="70" />
         <circle
           :class="ringClass"
-          cx="80" cy="80" r="70"
+          cx="80"
+          cy="80"
+          r="70"
           :style="{ strokeDasharray: CIRC, strokeDashoffset: ringOffset }"
         />
       </svg>
@@ -65,19 +80,20 @@
     <div class="pomo-controls">
       <button class="btn btn-gold" @click="togglePomo">{{ startBtnText }}</button>
       <button class="btn btn-ghost" @click="resetPomo">Reset</button>
-      <button
-        class="btn"
-        :class="inRoom ? 'btn-green' : 'btn-ghost'"
-        @click="toggleRoom"
-      >{{ inRoom ? 'Leave Room' : 'Join Room' }}</button>
+      <button class="btn" :class="inRoom ? 'btn-green' : 'btn-ghost'" @click="toggleRoom">
+        {{ inRoom ? 'Leave Room' : 'Join Room' }}
+      </button>
     </div>
 
     <!-- Session-complete banner -->
-    <div class="pomo-done-banner" :class="{ show: showBanner }">🎉 Session complete! Take a break.</div>
+    <div class="pomo-done-banner" :class="{ show: showBanner }">
+      🎉 Session complete! Take a break.
+    </div>
 
     <!-- Live studiers -->
     <div class="pomo-studiers-label">
-      Studying Now (<span>{{ displayPeople.length }}</span>)
+      Studying Now (<span>{{ displayPeople.length }}</span
+      >)
     </div>
     <div class="pomo-studiers">
       <div
@@ -98,17 +114,21 @@ import { ref, computed, onUnmounted } from 'vue';
 import { save, load } from '../../composables/useLocalStorage.js';
 
 const props = defineProps({
-  config: { type: Object, default: null }
+  config: { type: Object, default: null },
 });
 
 const emit = defineEmits(['confetti']);
 
-const phases = props.config ? props.config.phases : [
-  { key:'focus', label:'Focus',       seconds:1500, tabLabel:'Focus 25' },
-  { key:'short', label:'Short Break', seconds:300,  tabLabel:'Break 5'  },
-  { key:'long',  label:'Long Break',  seconds:900,  tabLabel:'Long 15'  }
-];
-const SEED_PEOPLE = props.config ? props.config.seedStudiers : ['Aditi S.','Rohan V.','Dev P.','Mehak S.'];
+const phases = props.config
+  ? props.config.phases
+  : [
+      { key: 'focus', label: 'Focus', seconds: 1500, tabLabel: 'Focus 25' },
+      { key: 'short', label: 'Short Break', seconds: 300, tabLabel: 'Break 5' },
+      { key: 'long', label: 'Long Break', seconds: 900, tabLabel: 'Long 15' },
+    ];
+const SEED_PEOPLE = props.config
+  ? props.config.seedStudiers
+  : ['Aditi S.', 'Rohan V.', 'Dev P.', 'Mehak S.'];
 const maxSessions = props.config ? props.config.maxSessions : 4;
 
 const CIRC = String(2 * Math.PI * 70);
@@ -135,7 +155,7 @@ const ringClass = computed(() => {
 });
 
 const currentPhaseLabel = computed(() => {
-  const p = phases.find(p => p.key === phase.value);
+  const p = phases.find((p) => p.key === phase.value);
   return p ? p.label : 'Focus';
 });
 
@@ -149,13 +169,17 @@ const displayPeople = computed(() => {
   return inRoom.value ? ['You', ...roomPeople.value] : [...roomPeople.value];
 });
 
-function pad2(n) { return String(n).padStart(2, '0'); }
+function pad2(n) {
+  return String(n).padStart(2, '0');
+}
 function fmtTime(secs) {
   return pad2(Math.floor(secs / 60)) + ':' + pad2(secs % 60);
 }
 
 function setPhase(p) {
-  clearInterval(ticker); ticker = null; running.value = false;
+  clearInterval(ticker);
+  ticker = null;
+  running.value = false;
   showBanner.value = false;
   phase.value = p.key;
   totalSecs.value = p.seconds;
@@ -170,12 +194,14 @@ function togglePomo() {
       if (remaining.value <= 0) onComplete();
     }, 1000);
   } else {
-    clearInterval(ticker); ticker = null;
+    clearInterval(ticker);
+    ticker = null;
   }
 }
 
 function resetPomo() {
-  clearInterval(ticker); ticker = null;
+  clearInterval(ticker);
+  ticker = null;
   running.value = false;
   remaining.value = totalSecs.value;
   showBanner.value = false;
@@ -183,14 +209,17 @@ function resetPomo() {
 
 function onComplete() {
   running.value = false;
-  clearInterval(ticker); ticker = null;
+  clearInterval(ticker);
+  ticker = null;
 
   if (phase.value === 'focus') {
     sessions.value = Math.min(sessions.value + 1, maxSessions);
   }
 
   showBanner.value = true;
-  setTimeout(() => { showBanner.value = false; }, 4500);
+  setTimeout(() => {
+    showBanner.value = false;
+  }, 4500);
   emit('confetti');
 }
 

@@ -14,7 +14,9 @@
           <span class="nav-brand-name">Sundarbans</span>
         </router-link>
         <span class="nav-title">House Widgets</span>
-        <router-link to="/lounge" class="back-link" style="margin-left:auto;">← Back to Lounge</router-link>
+        <router-link to="/lounge" class="back-link" style="margin-left: auto"
+          >← Back to Lounge</router-link
+        >
       </div>
     </header>
 
@@ -24,7 +26,10 @@
         <div class="hero-copy">
           <span class="hero-kicker">Members Command Center</span>
           <h1 id="dashboard-title">Your <em>House Dashboard</em></h1>
-          <p>Track your rhythm, join active study spaces, and keep the house energy moving from one focused workspace.</p>
+          <p>
+            Track your rhythm, join active study spaces, and keep the house energy moving from one
+            focused workspace.
+          </p>
         </div>
         <div class="hero-panel" aria-label="Dashboard summary">
           <div class="hero-metric">
@@ -91,7 +96,11 @@
             <h2>Skill &amp; Progress</h2>
           </div>
           <div class="dashboard-panel-grid dashboard-panel-grid-practice">
-            <DailyChallenge class="widget-wide" :config="DATA.dailyChallenge" @confetti="onConfetti" />
+            <DailyChallenge
+              class="widget-wide"
+              :config="DATA.dailyChallenge"
+              @confetti="onConfetti"
+            />
             <HousePoints class="widget-compact" :config="DATA.housePoints" />
           </div>
         </div>
@@ -110,7 +119,11 @@
           <div class="dashboard-panel-grid dashboard-panel-grid-community">
             <MoodWall class="widget-wide" :config="DATA.moods" />
             <ConfessionWall class="widget-wide" :config="DATA.confessions" />
-            <BuddyMatcher class="widget-compact" :pool="DATA.studyBuddies" :options="DATA.buddyOptions" />
+            <BuddyMatcher
+              class="widget-compact"
+              :pool="DATA.studyBuddies"
+              :options="DATA.buddyOptions"
+            />
           </div>
         </div>
 
@@ -167,7 +180,10 @@ import '../assets/dashboard.css';
 const router = useRouter();
 onMounted(() => {
   const token = localStorage.getItem('sundarbans_auth_token');
-  if (!token) { router.push('/members'); return; }
+  if (!token) {
+    router.push('/login');
+    return;
+  }
 });
 
 // Confetti engine

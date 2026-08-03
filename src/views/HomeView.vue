@@ -5,9 +5,9 @@
       <div
         class="hero-bg"
         style="
-          background: url(&quot;/assets/frames/ezgif-frame-001.jpg&quot;) center
-            center / cover no-repeat;
-        ">
+          background: url('/assets/frames/ezgif-frame-001.jpg') center center / cover no-repeat;
+        "
+      >
         <canvas class="hero-bg-canvas" ref="heroCanvas"></canvas>
         <div class="hero-overlay"></div>
       </div>
@@ -35,7 +35,8 @@
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.5">
+              stroke-width="2.5"
+            >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </router-link>
@@ -46,7 +47,8 @@
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2">
+              stroke-width="2"
+            >
               <circle cx="12" cy="12" r="10" />
               <polygon points="10 8 16 12 10 16 10 8" />
             </svg>
@@ -70,26 +72,21 @@
           </div>
         </div>
       </div>
-  
     </section>
 
     <!-- MARQUEE -->
     <div class="marquee-band">
       <div class="marquee-track">
-        <span>Academic Excellence</span><span class="mdot">✦</span>
-        <span>Community Spirit</span><span class="mdot">✦</span>
-        <span>Innovation Hub</span><span class="mdot">✦</span>
-        <span>IIT Madras BS</span><span class="mdot">✦</span>
-        <span>Sundarbans House</span><span class="mdot">✦</span>
-        <span>5170+ Members</span><span class="mdot">✦</span>
-        <span>40+ Cities</span><span class="mdot">✦</span>
-        <span>Academic Excellence</span><span class="mdot">✦</span>
-        <span>Community Spirit</span><span class="mdot">✦</span>
-        <span>Innovation Hub</span><span class="mdot">✦</span>
-        <span>IIT Madras BS</span><span class="mdot">✦</span>
-        <span>Sundarbans House</span><span class="mdot">✦</span>
-        <span>5170+ Members</span><span class="mdot">✦</span>
-        <span>40+ Cities</span><span class="mdot">✦</span>
+        <span>Academic Excellence</span><span class="mdot">✦</span> <span>Community Spirit</span
+        ><span class="mdot">✦</span> <span>Innovation Hub</span><span class="mdot">✦</span>
+        <span>IIT Madras BS</span><span class="mdot">✦</span> <span>Sundarbans House</span
+        ><span class="mdot">✦</span> <span>5170+ Members</span><span class="mdot">✦</span>
+        <span>40+ Cities</span><span class="mdot">✦</span> <span>Academic Excellence</span
+        ><span class="mdot">✦</span> <span>Community Spirit</span><span class="mdot">✦</span>
+        <span>Innovation Hub</span><span class="mdot">✦</span> <span>IIT Madras BS</span
+        ><span class="mdot">✦</span> <span>Sundarbans House</span><span class="mdot">✦</span>
+        <span>5170+ Members</span><span class="mdot">✦</span> <span>40+ Cities</span
+        ><span class="mdot">✦</span>
       </div>
     </div>
 
@@ -99,27 +96,21 @@
         <div class="about-grid">
           <div class="about-text-col">
             <div class="section-tag">Who We Are</div>
-            <h2 class="section-title-xl">
-              About <span class="tg">Sundarbans</span><br />House
-            </h2>
+            <h2 class="section-title-xl">About <span class="tg">Sundarbans</span><br />House</h2>
             <p class="desc">
-              Sundarbans House is a vibrant student community under the IIT
-              Madras BS Degree Programme, fostering collaboration, leadership,
-              and peer learning across India.
+              Sundarbans House is a vibrant student community under the IIT Madras BS Degree
+              Programme, fostering collaboration, leadership, and peer learning across India.
             </p>
             <p class="desc">
-              We believe in the power of community — that learning together,
-              supporting each other, and growing as one unit makes every
-              individual stronger.
+              We believe in the power of community — that learning together, supporting each other,
+              and growing as one unit makes every individual stronger.
             </p>
             <div class="about-highlights">
               <div class="hi">
                 <div class="hi-icon">🎯</div>
                 <div>
                   <strong>Mission-driven</strong>
-                  <p>
-                    Empowering every student to achieve their academic goals
-                  </p>
+                  <p>Empowering every student to achieve their academic goals</p>
                 </div>
               </div>
               <div class="hi">
@@ -145,7 +136,8 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2.5">
+                stroke-width="2.5"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </router-link>
@@ -155,12 +147,14 @@
               <div class="about-img-main">
                 <img
                   src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80&auto=format&fit=crop"
-                  alt="Students collaborating" />
+                  alt="Students collaborating"
+                />
               </div>
               <div class="about-img-secondary">
                 <img
                   src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&q=80&auto=format&fit=crop"
-                  alt="Study session" />
+                  alt="Study session"
+                />
               </div>
               <div class="about-img-badge">
                 <div class="ib-num">⭐ 4.9</div>
@@ -177,12 +171,8 @@
       <div class="container">
         <div class="sec-hdr">
           <div class="section-tag">Our Offerings</div>
-          <h2 class="section-title-xl">
-            Everything you need to <span class="tg">thrive</span>
-          </h2>
-          <p class="sec-sub">
-            From study resources to community events — we've got you covered
-          </p>
+          <h2 class="section-title-xl">Everything you need to <span class="tg">thrive</span></h2>
+          <p class="sec-sub">From study resources to community events — we've got you covered</p>
         </div>
         <div class="features-grid">
           <div class="fcard rc" v-for="f in features" :key="f.title">
@@ -199,7 +189,8 @@
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2.5">
+                  stroke-width="2.5"
+                >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </router-link>
@@ -209,27 +200,20 @@
       </div>
     </section>
 
-  <!-- DAILY NOTIFICATIONS (replaces Pulse) -->
+    <!-- DAILY NOTIFICATIONS (replaces Pulse) -->
     <DailyNotifications />
-
 
     <!-- MEET HUB -->
     <section class="section meet-section rs">
       <div class="container">
         <div class="sec-hdr">
           <div class="section-tag">Connect Live</div>
-          <h2 class="section-title-xl">
-            Smart <span class="tg">Meet Hub</span>
-          </h2>
-          <p class="sec-sub">
-            Join live sessions and never miss an upcoming event
-          </p>
+          <h2 class="section-title-xl">Smart <span class="tg">Meet Hub</span></h2>
+          <p class="sec-sub">Join live sessions and never miss an upcoming event</p>
         </div>
         <div class="meet-grid">
           <div class="mcard live">
-            <div class="mlive-badge">
-              <span class="live-dot"></span> LIVE NOW
-            </div>
+            <div class="mlive-badge"><span class="live-dot"></span> LIVE NOW</div>
             <div class="mcard-icon">💡</div>
             <h3>Study Group Session</h3>
             <p>Foundation Mathematics — Calculus deep dive with Q&amp;A</p>
@@ -240,7 +224,8 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2">
+                stroke-width="2"
+              >
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 6v6l4 2" />
               </svg>
@@ -261,7 +246,8 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2.5">
+                stroke-width="2.5"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </a>
@@ -278,7 +264,8 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2">
+                stroke-width="2"
+              >
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 6v6l4 2" />
               </svg>
@@ -296,10 +283,7 @@
             <div class="mupc-badge">UPCOMING</div>
             <div class="mcard-icon">🎤</div>
             <h3>Guest Lecture — AI &amp; ML</h3>
-            <p>
-              Exclusive talk by IIT Madras faculty on future of Artificial
-              Intelligence
-            </p>
+            <p>Exclusive talk by IIT Madras faculty on future of Artificial Intelligence</p>
             <div class="mtime">
               <svg
                 width="14"
@@ -307,7 +291,8 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2">
+                stroke-width="2"
+              >
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 6v6l4 2" />
               </svg>
@@ -320,7 +305,6 @@
       </div>
     </section>
 
-    
     <!-- CTA -->
     <section
       class="cta-section rs"
@@ -328,23 +312,22 @@
         background: rgba(13, 11, 8, 0.5);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-      ">
+      "
+    >
       <div class="cta-bg">
         <img
           src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80&auto=format&fit=crop"
-          alt="Students" />
+          alt="Students learning together"
+        />
         <div class="cta-ov"></div>
       </div>
       <div class="container">
         <div class="cta-wrap">
           <div class="section-tag light">Academic Excellence</div>
-          <h2 class="cta-heading">
-            Your Academic<br /><span class="cta-acc">Companion</span>
-          </h2>
+          <h2 class="cta-heading">Your Academic<br /><span class="cta-acc">Companion</span></h2>
           <p class="cta-sub">
-            From Foundation to BS level, access structured academic resources
-            designed to help you succeed. Join thousands of students already
-            excelling.
+            From Foundation to BS level, access structured academic resources designed to help you
+            succeed. Join thousands of students already excelling.
           </p>
           <div class="cta-acts">
             <router-link to="/study" class="cta-btn-p"
@@ -355,13 +338,12 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2.5">
+                stroke-width="2.5"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </router-link>
-            <router-link to="/contact" class="cta-btn-o"
-              >Contact Us</router-link
-            >
+            <router-link to="/contact" class="cta-btn-o">Contact Us</router-link>
           </div>
           <div class="cta-trust">
             <span>✓ Free for all members</span>
@@ -371,16 +353,14 @@
         </div>
       </div>
     </section>
-
-
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onBeforeUnmount, onUnmounted } from 'vue';
 
-import { useScrollReveal, useCounters } from "../composables/useAnimations.js";
-import DailyNotifications from "../components/DailyNotifications.vue";
+import { useScrollReveal, useCounters } from '../composables/useAnimations.js';
+import DailyNotifications from '../components/DailyNotifications.vue';
 
 useScrollReveal();
 useCounters();
@@ -390,42 +370,41 @@ const heroCanvas = ref(null);
 // Features data
 const features = [
   {
-    icon: "📚",
-    title: "Study Resources",
-    desc: "Comprehensive materials curated by toppers for all levels",
-    img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&q=80&auto=format&fit=crop",
-    url: "/study",
-    cta: "Access Now",
+    icon: '📚',
+    title: 'Study Resources',
+    desc: 'Comprehensive materials curated by toppers for all levels',
+    img: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&q=80&auto=format&fit=crop',
+    url: '/study',
+    cta: 'Access Now',
   },
   {
-    icon: "🎯",
-    title: "Events & Competitions",
-    desc: "Hackathons, quizzes, cultural fests and much more",
-    img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80&auto=format&fit=crop",
-    url: "/events",
-    cta: "View Events",
+    icon: '🎯',
+    title: 'Events & Competitions',
+    desc: 'Hackathons, quizzes, cultural fests and much more',
+    img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80&auto=format&fit=crop',
+    url: '/events',
+    cta: 'View Events',
   },
   {
-    icon: "🤝",
-    title: "Community",
-    desc: "Connect with 5000+ peers and build lasting friendships",
-    img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80&auto=format&fit=crop",
-    url: "/community",
-    cta: "Join Now",
+    icon: '🤝',
+    title: 'Community',
+    desc: 'Connect with 5000+ peers and build lasting friendships',
+    img: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80&auto=format&fit=crop',
+    url: '/community',
+    cta: 'Join Now',
   },
   {
-    icon: "📍",
-    title: "City Meetups",
-    desc: "Meet fellow students in your city — Delhi to Bangalore",
-    img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80&auto=format&fit=crop",
-    url: "/meetups",
-    cta: "Find Meetups",
+    icon: '📍',
+    title: 'City Meetups',
+    desc: 'Meet fellow students in your city — Delhi to Bangalore',
+    img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80&auto=format&fit=crop',
+    url: '/meetups',
+    cta: 'Find Meetups',
   },
 ];
 
-
 // Meet countdown
-const meetCountdown = ref("Loading...");
+const meetCountdown = ref('Loading...');
 let countTimer = null;
 function updateCountdown() {
   const now = new Date();
@@ -440,14 +419,94 @@ function updateCountdown() {
 }
 
 // Hero scroll canvas animation
+// Frames are fetched lazily: frame 1 eagerly, then a bounded window around the
+// current scroll position. Whatever frame loaded most recently keeps being
+// painted until the frame for the current position arrives, so the canvas never
+// goes blank.
+// Frames average ~39 kB, so a 12-frame window costs ~0.45 MB in flight; at the
+// ~28 px of page scroll per frame that is roughly three wheel ticks of runway.
+// The opening frames are the heaviest in the sequence (100-178 kB), so the
+// window right after load is the most expensive one.
+//
+// Prioritization: on every paint we (1) drop in-flight loads outside the active
+// window so fast scroll cannot leave a long FIFO of stale frames under the
+// browser's per-origin connection throttle, then (2) request CURRENT first,
+// then look-ahead (near → far), then look-behind. Cleanup of in-flight bytes is
+// best-effort (clearing img.src aborts when the browser allows).
+const HERO_FRAME_COUNT = 240;
+const HERO_LOOK_AHEAD = 10;
+const HERO_LOOK_BEHIND = 2; // small cushion so scrolling back up is covered
+
 function initHeroScrollAnimation(canvas) {
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const frameCount = 240;
-  const currentFrame = (i) =>
-    `/assets/frames/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
-  const images = [];
-  let framesLoaded = 0;
+  if (!canvas) return null;
+  const ctx = canvas.getContext('2d');
+  const frameSrc = (i) => `/assets/frames/ezgif-frame-${String(i + 1).padStart(3, '0')}.jpg`;
+  const images = new Array(HERO_FRAME_COUNT).fill(null);
+  const ready = new Array(HERO_FRAME_COUNT).fill(false);
+  let lastReady = null; // most recent frame that actually finished loading
+  let sized = false;
+  let rafId = 0;
+  let disposed = false;
+
+  function schedule() {
+    if (disposed || rafId) return;
+    rafId = requestAnimationFrame(render);
+  }
+
+  function abortFrame(i) {
+    const img = images[i];
+    if (!img) return;
+    img.onload = null;
+    img.onerror = null;
+    // Best-effort: clearing src cancels the network fetch in modern browsers.
+    if (!ready[i]) img.removeAttribute('src');
+    images[i] = null;
+    ready[i] = false;
+  }
+
+  function loadFrame(i) {
+    if (disposed || i < 0 || i >= HERO_FRAME_COUNT || images[i]) return;
+    const img = new Image();
+    images[i] = img;
+    img.onload = () => {
+      if (disposed || images[i] !== img) return;
+      ready[i] = true;
+      if (!sized) {
+        sized = true;
+        resizeCanvas();
+      } else {
+        schedule();
+      }
+    };
+    img.onerror = () => {
+      if (images[i] !== img) return;
+      img.onload = null;
+      img.onerror = null;
+      images[i] = null;
+      ready[i] = false;
+    };
+    img.src = frameSrc(i);
+  }
+
+  // Drop pending loads outside [frameIndex - behind, frameIndex + ahead] so a
+  // fast scrub never piles a long queue of frames the user already passed.
+  function dropStaleOutsideWindow(frameIndex) {
+    const lo = frameIndex - HERO_LOOK_BEHIND;
+    const hi = frameIndex + HERO_LOOK_AHEAD;
+    for (let i = 0; i < HERO_FRAME_COUNT; i++) {
+      if (!images[i] || ready[i]) continue;
+      if (i < lo || i > hi) abortFrame(i);
+    }
+  }
+
+  // Always kick the CURRENT frame first, then ahead (near→far), then behind.
+  // Order of img.src assignment is the browser's request order under throttle.
+  function ensureWindow(frameIndex) {
+    dropStaleOutsideWindow(frameIndex);
+    loadFrame(frameIndex);
+    for (let d = 1; d <= HERO_LOOK_AHEAD; d++) loadFrame(frameIndex + d);
+    for (let d = 1; d <= HERO_LOOK_BEHIND; d++) loadFrame(frameIndex - d);
+  }
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -455,64 +514,74 @@ function initHeroScrollAnimation(canvas) {
     render();
   }
 
-  for (let i = 0; i < frameCount; i++) {
-    const img = new Image();
-    img.src = currentFrame(i);
-    img.onload = () => {
-      framesLoaded++;
-      if (framesLoaded === 1) resizeCanvas();
-    };
-    images.push(img);
-  }
-
-  window.addEventListener("resize", resizeCanvas);
-
   function render() {
-    if (!images[0] || !images[0].complete) return;
-    const maxScroll = Math.max(
-      1,
-      document.documentElement.scrollHeight - window.innerHeight,
-    );
+    rafId = 0;
+    if (disposed) return;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     const scrollFraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
     const frameIndex = Math.min(
-      frameCount - 1,
-      Math.floor(scrollFraction * frameCount),
+      HERO_FRAME_COUNT - 1,
+      Math.floor(scrollFraction * HERO_FRAME_COUNT)
     );
-    const img = images[frameIndex];
-    if (img && img.complete) {
-      const cw = canvas.width,
-        ch = canvas.height;
-      const iw = img.width || cw,
-        ih = img.height || ch;
-      const ratio = Math.max(cw / iw, ch / ih);
-      const zw = iw * ratio * 1.15,
-        zh = ih * ratio * 1.15;
-      const cx = (cw - zw) / 2,
-        cy = (ch - zh) / 2;
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, 0, 0, iw, ih, cx, cy, zw, zh);
-    }
+
+    ensureWindow(frameIndex);
+
+    if (ready[frameIndex]) lastReady = images[frameIndex];
+    const img = lastReady;
+    if (!img) return;
+    const cw = canvas.width,
+      ch = canvas.height;
+    const iw = img.width || cw,
+      ih = img.height || ch;
+    const ratio = Math.max(cw / iw, ch / ih);
+    const zw = iw * ratio * 1.15,
+      zh = ih * ratio * 1.15;
+    const cx = (cw - zw) / 2,
+      cy = (ch - zh) / 2;
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.drawImage(img, 0, 0, iw, ih, cx, cy, zw, zh);
   }
 
-  window.addEventListener("scroll", () => requestAnimationFrame(render));
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('scroll', schedule);
+
+  loadFrame(0); // frame 1 is eager: the canvas is never empty on arrival
+  schedule(); // prime the look-ahead around the current scroll position
+
+  return function dispose() {
+    disposed = true;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
+    window.removeEventListener('resize', resizeCanvas);
+    window.removeEventListener('scroll', schedule);
+    for (let i = 0; i < images.length; i++) abortFrame(i);
+    lastReady = null;
+  };
 }
 
+let disposeHeroScroll = null;
+
 onMounted(() => {
-  document.body.classList.add("video-bg-mode");
+  document.body.classList.add('video-bg-mode');
   updateCountdown();
   countTimer = setInterval(updateCountdown, 60000);
-  initHeroScrollAnimation(heroCanvas.value);
+  disposeHeroScroll = initHeroScrollAnimation(heroCanvas.value);
+});
+
+onBeforeUnmount(() => {
+  if (disposeHeroScroll) disposeHeroScroll();
+  disposeHeroScroll = null;
 });
 
 onUnmounted(() => {
-  document.body.classList.remove("video-bg-mode");
+  document.body.classList.remove('video-bg-mode');
   clearInterval(countTimer);
 });
 </script>
 
 <style scoped>
 /* Brighten text for transparent backgrounds (over forest image) */
-:deep(.sec-sub), 
+:deep(.sec-sub),
 :deep(.desc) {
   color: #ffffff;
 }

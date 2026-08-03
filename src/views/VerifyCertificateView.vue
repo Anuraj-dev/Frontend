@@ -1,6 +1,5 @@
 <template>
   <div class="verify-page">
-
     <!-- HERO SECTION -->
     <section class="verify-hero">
       <div class="verify-hero-bg"></div>
@@ -12,7 +11,8 @@
         <h1 class="verify-title animate-in">
           Verify
           <em class="verify-title-accent">Certificates</em>
-          <br /> Securely
+          <br />
+          Securely
         </h1>
         <p class="verify-subtitle animate-in">
           Authenticate certificates issued under Sundarbans House.<br />
@@ -25,9 +25,16 @@
     <section class="verify-form-section">
       <div class="verify-card animate-in">
         <div class="verify-card-header">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="3"/>
-            <path d="M9 9h6M9 12h6M9 15h4"/>
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="3" />
+            <path d="M9 9h6M9 12h6M9 15h4" />
           </svg>
           <span>Certificate ID</span>
         </div>
@@ -47,15 +54,33 @@
             :disabled="loading || !certificateId.trim()"
           >
             <span v-if="!loading">Verify</span>
-            <svg v-else class="spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            <svg
+              v-else
+              class="spin"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+              />
             </svg>
           </button>
         </div>
 
         <div class="verify-secure">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
           Secure verification · Data is not stored
         </div>
@@ -64,9 +89,16 @@
       <!-- ERROR STATE -->
       <div v-if="errorMsg" class="verify-result error animate-in">
         <div class="result-icon error-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M15 9l-6 6M9 9l6 6"/>
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M15 9l-6 6M9 9l6 6" />
           </svg>
         </div>
         <div class="result-body">
@@ -78,9 +110,16 @@
       <!-- SUCCESS STATE -->
       <div v-if="result" class="verify-result success animate-in">
         <div class="result-icon success-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
         </div>
         <div class="result-body">
@@ -100,8 +139,12 @@
             </div>
 
             <div class="result-field">
-              <span class="field-label">{{ certType === 'department' ? 'Department' : 'Event' }}</span>
-              <span class="field-value">{{ certType === 'department' ? result.department : result.event }}</span>
+              <span class="field-label">{{
+                certType === 'department' ? 'Department' : 'Event'
+              }}</span>
+              <span class="field-value">{{
+                certType === 'department' ? result.department : result.event
+              }}</span>
             </div>
             <div class="result-field">
               <span class="field-label">Issue Date</span>
@@ -113,7 +156,9 @@
             </div>
             <div class="result-field" v-if="certType === 'department' ? result.rank : result.role">
               <span class="field-label">Rank / Role</span>
-              <span class="field-value">{{ certType === 'department' ? result.rank : result.role }}</span>
+              <span class="field-value">{{
+                certType === 'department' ? result.rank : result.role
+              }}</span>
             </div>
             <div class="result-field" v-if="result.tenure">
               <span class="field-label">Tenure</span>
@@ -121,22 +166,42 @@
             </div>
           </div>
           <div class="cert-actions">
-            <button class="download-btn view-btn" @click="viewCertificate" v-if="result.pdf">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3"/>
+            <button
+              class="download-btn view-btn"
+              @click="viewCertificate"
+              v-if="hasCertificateFile"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
               </svg>
               View Certificate
             </button>
-            <button class="download-btn" @click="downloadCertificate" v-if="result.pdf">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
+            <button class="download-btn" @click="downloadCertificate" v-if="hasCertificateFile">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
               Open &amp; Download
             </button>
-            <p class="no-download-msg" v-if="!result.pdf">Certificate file not yet uploaded.</p>
+            <p class="no-download-msg" v-if="!hasCertificateFile">
+              Certificate file not yet uploaded.
+            </p>
           </div>
         </div>
       </div>
@@ -147,20 +212,36 @@
       <div class="info-strip">
         <div class="info-item">
           <div class="info-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
           </div>
           <div>
             <h4>Tamper-Proof</h4>
-            <p>Each certificate ID is unique and cryptographically tied to the recipient's record.</p>
+            <p>
+              Each certificate ID is unique and cryptographically tied to the recipient's record.
+            </p>
           </div>
         </div>
         <div class="info-item">
           <div class="info-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
             </svg>
           </div>
           <div>
@@ -170,10 +251,17 @@
         </div>
         <div class="info-item">
           <div class="info-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="3" width="20" height="14" rx="2"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
             </svg>
           </div>
           <div>
@@ -183,63 +271,105 @@
         </div>
       </div>
     </section>
-
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
-const certificateId = ref('')
-const loading = ref(false)
-const result = ref(null)
-const errorMsg = ref('')
+const certificateId = ref('');
+const loading = ref(false);
+const result = ref(null);
+const errorMsg = ref('');
 
 // certificates.json does not store an explicit "type" field.
 // Infer it from which fields are actually present on the record,
 // so old records without "type" still classify correctly.
 const certType = computed(() => {
-  if (!result.value) return null
-  if (result.value.type) return result.value.type
-  return result.value.event ? 'event' : 'department'
-})
+  if (!result.value) return null;
+  if (result.value.type) return result.value.type;
+  return result.value.event ? 'event' : 'department';
+});
+
+/** True when we can open a PDF (Drive URL preferred, else bundled file). */
+const hasCertificateFile = computed(() => {
+  const c = result.value;
+  if (!c) return false;
+  return Boolean(c.driveUrl || c.pdf);
+});
+
+/** Prefer Google Drive (T-16); fall back to local /certificates/{id}.pdf. */
+function certificateViewUrl(cert) {
+  if (!cert) return null;
+  if (cert.driveUrl) return cert.driveUrl;
+  if (cert.pdf && cert.id) return `/certificates/${cert.id}.pdf`;
+  return null;
+}
+
+/** Direct download: Drive export when we have a file id; else same as view URL. */
+function certificateDownloadUrl(cert) {
+  if (!cert) return null;
+  if (cert.driveFileId) {
+    return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(cert.driveFileId)}`;
+  }
+  if (cert.driveUrl) {
+    const m = String(cert.driveUrl).match(/\/file\/d\/([^/]+)/);
+    if (m) {
+      return `https://drive.google.com/uc?export=download&id=${encodeURIComponent(m[1])}`;
+    }
+    return cert.driveUrl;
+  }
+  if (cert.pdf && cert.id) return `/certificates/${cert.id}.pdf`;
+  return null;
+}
 
 async function verifyCertificate() {
-  const id = certificateId.value.trim().toUpperCase()
-  if (!id) return
+  const id = certificateId.value.trim().toUpperCase();
+  if (!id) return;
 
-  result.value = null
-  errorMsg.value = ''
-  loading.value = true
+  result.value = null;
+  errorMsg.value = '';
+  loading.value = true;
 
   try {
-    const res = await fetch('/data/certificates.json')
-    if (!res.ok) throw new Error('Failed to load certificate database')
-    const db = await res.json()
-    const cert = db[id]
+    const res = await fetch('/data/certificates.json');
+    if (!res.ok) throw new Error('Failed to load certificate database');
+    const db = await res.json();
+    const cert = db[id];
     if (cert) {
-      result.value = cert
+      result.value = cert;
     } else {
-      errorMsg.value = `No certificate found with ID "${id}". Check the ID on your document and try again.`
+      errorMsg.value = `No certificate found with ID "${id}". Check the ID on your document and try again.`;
     }
   } catch (err) {
-    errorMsg.value = 'Could not reach the certificate database. Please try again later.'
+    errorMsg.value = 'Could not reach the certificate database. Please try again later.';
   }
 
-  loading.value = false
+  loading.value = false;
 }
 
 function viewCertificate() {
-  if (!result.value?.pdf) return
-  window.open(`/certificates/${result.value.id}.pdf`, '_blank')
+  const url = certificateViewUrl(result.value);
+  if (!url) return;
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 function downloadCertificate() {
-  if (!result.value?.pdf) return
-  const a = document.createElement('a')
-  a.href = `/certificates/${result.value.id}.pdf`
-  a.download = `${result.value.id}.pdf`
-  a.click()
+  const cert = result.value;
+  const url = certificateDownloadUrl(cert);
+  if (!url) return;
+
+  // Drive export opens in a new tab (cross-origin; cannot force a download attr).
+  if (url.startsWith('http')) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    return;
+  }
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${cert.id}.pdf`;
+  a.rel = 'noopener';
+  a.click();
 }
 </script>
 
@@ -264,8 +394,8 @@ function downloadCertificate() {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(212,160,23,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 100%, rgba(212,160,23,0.06) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(212, 160, 23, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 100%, rgba(212, 160, 23, 0.06) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -279,8 +409,8 @@ function downloadCertificate() {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(212,160,23,0.1);
-  border: 1px solid rgba(212,160,23,0.3);
+  background: rgba(212, 160, 23, 0.1);
+  border: 1px solid rgba(212, 160, 23, 0.3);
   border-radius: 100px;
   padding: 6px 16px;
   font-size: 0.8rem;
@@ -299,8 +429,15 @@ function downloadCertificate() {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
 }
 
 .verify-title {
@@ -319,7 +456,7 @@ function downloadCertificate() {
 
 .verify-subtitle {
   font-size: 1.05rem;
-  color: rgba(240,232,208,0.6);
+  color: rgba(240, 232, 208, 0.6);
   line-height: 1.7;
   margin: 0;
 }
@@ -332,8 +469,8 @@ function downloadCertificate() {
 }
 
 .verify-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(212,160,23,0.2);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(212, 160, 23, 0.2);
   border-radius: 16px;
   padding: 32px;
   margin-bottom: 24px;
@@ -358,8 +495,8 @@ function downloadCertificate() {
 
 .verify-input {
   flex: 1;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(240,232,208,0.15);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(240, 232, 208, 0.15);
   border-radius: 10px;
   padding: 14px 18px;
   font-size: 1rem;
@@ -370,11 +507,11 @@ function downloadCertificate() {
 }
 
 .verify-input::placeholder {
-  color: rgba(240,232,208,0.3);
+  color: rgba(240, 232, 208, 0.3);
 }
 
 .verify-input:focus {
-  border-color: rgba(212,160,23,0.6);
+  border-color: rgba(212, 160, 23, 0.6);
 }
 
 .verify-input:disabled {
@@ -394,7 +531,9 @@ function downloadCertificate() {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: opacity 0.2s, transform 0.15s;
+  transition:
+    opacity 0.2s,
+    transform 0.15s;
   white-space: nowrap;
 }
 
@@ -414,7 +553,7 @@ function downloadCertificate() {
   gap: 6px;
   margin-top: 14px;
   font-size: 0.78rem;
-  color: rgba(240,232,208,0.4);
+  color: rgba(240, 232, 208, 0.4);
 }
 
 .verify-secure svg {
@@ -427,7 +566,9 @@ function downloadCertificate() {
   animation: spin 1s linear infinite;
 }
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── RESULT CARDS ── */
@@ -440,13 +581,13 @@ function downloadCertificate() {
 }
 
 .verify-result.error {
-  background: rgba(239,68,68,0.08);
-  border-color: rgba(239,68,68,0.25);
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
 }
 
 .verify-result.success {
-  background: rgba(34,197,94,0.07);
-  border-color: rgba(34,197,94,0.25);
+  background: rgba(34, 197, 94, 0.07);
+  border-color: rgba(34, 197, 94, 0.25);
 }
 
 .result-icon {
@@ -460,12 +601,12 @@ function downloadCertificate() {
 }
 
 .error-icon {
-  background: rgba(239,68,68,0.15);
+  background: rgba(239, 68, 68, 0.15);
   color: #ef4444;
 }
 
 .success-icon {
-  background: rgba(34,197,94,0.15);
+  background: rgba(34, 197, 94, 0.15);
   color: #22c55e;
 }
 
@@ -487,15 +628,15 @@ function downloadCertificate() {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #d4a017;
-  background: rgba(212,160,23,0.12);
-  border: 1px solid rgba(212,160,23,0.3);
+  background: rgba(212, 160, 23, 0.12);
+  border: 1px solid rgba(212, 160, 23, 0.3);
   border-radius: 100px;
   padding: 3px 10px;
 }
 
 .result-body p {
   font-size: 0.9rem;
-  color: rgba(240,232,208,0.6);
+  color: rgba(240, 232, 208, 0.6);
   margin: 0;
   line-height: 1.6;
 }
@@ -521,7 +662,7 @@ function downloadCertificate() {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(212,160,23,0.7);
+  color: rgba(212, 160, 23, 0.7);
   font-weight: 600;
 }
 
@@ -540,17 +681,17 @@ function downloadCertificate() {
 
 .no-download-msg {
   font-size: 0.8rem;
-  color: rgba(240,232,208,0.35);
+  color: rgba(240, 232, 208, 0.35);
   margin: 0;
 }
 
 .view-btn {
-  background: rgba(212,160,23,0.1);
+  background: rgba(212, 160, 23, 0.1);
   color: #d4a017;
 }
 
 .view-btn:hover {
-  background: rgba(212,160,23,0.2);
+  background: rgba(212, 160, 23, 0.2);
 }
 
 .download-btn {
@@ -558,7 +699,7 @@ function downloadCertificate() {
   align-items: center;
   gap: 8px;
   background: transparent;
-  border: 1px solid rgba(212,160,23,0.4);
+  border: 1px solid rgba(212, 160, 23, 0.4);
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 0.88rem;
@@ -566,17 +707,19 @@ function downloadCertificate() {
   color: #d4a017;
   font-family: 'Outfit', sans-serif;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .download-btn:hover {
-  background: rgba(212,160,23,0.1);
-  border-color: rgba(212,160,23,0.7);
+  background: rgba(212, 160, 23, 0.1);
+  border-color: rgba(212, 160, 23, 0.7);
 }
 
 /* ── INFO STRIPS ── */
 .verify-info-section {
-  border-top: 1px solid rgba(240,232,208,0.07);
+  border-top: 1px solid rgba(240, 232, 208, 0.07);
   padding: 60px 24px;
 }
 
@@ -597,8 +740,8 @@ function downloadCertificate() {
 .info-icon {
   width: 44px;
   height: 44px;
-  background: rgba(212,160,23,0.1);
-  border: 1px solid rgba(212,160,23,0.25);
+  background: rgba(212, 160, 23, 0.1);
+  border: 1px solid rgba(212, 160, 23, 0.25);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -617,7 +760,7 @@ function downloadCertificate() {
 
 .info-item p {
   font-size: 0.85rem;
-  color: rgba(240,232,208,0.5);
+  color: rgba(240, 232, 208, 0.5);
   line-height: 1.6;
   margin: 0;
 }
@@ -626,18 +769,34 @@ function downloadCertificate() {
 .animate-in {
   animation: fadeUp 0.6s ease both;
 }
-.animate-in:nth-child(2) { animation-delay: 0.1s; }
-.animate-in:nth-child(3) { animation-delay: 0.2s; }
+.animate-in:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.animate-in:nth-child(3) {
+  animation-delay: 0.2s;
+}
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 540px) {
-  .verify-input-row { flex-direction: column; }
-  .result-grid { grid-template-columns: 1fr; }
-  .verify-result { flex-direction: column; }
+  .verify-input-row {
+    flex-direction: column;
+  }
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+  .verify-result {
+    flex-direction: column;
+  }
 }
 </style>
