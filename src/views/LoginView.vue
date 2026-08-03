@@ -146,9 +146,7 @@ async function grantOrDenyAccess(rawEmail) {
     googleLoading.value = false;
     message.value =
       'Membership check is not configured. Set VITE_MEMBERSHIP_CHECK_URL and redeploy.';
-    console.error(
-      '[login] VITE_MEMBERSHIP_CHECK_URL missing — no Sheet check ran.'
-    );
+    console.error('[login] VITE_MEMBERSHIP_CHECK_URL missing — no Sheet check ran.');
     return false;
   }
 
