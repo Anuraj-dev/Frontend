@@ -62,9 +62,10 @@
             v-model="searchQuery"
             @input="filterSearch"
             placeholder="Search pages, resources, events..."
+            aria-label="Search pages, resources, events"
             ref="searchInputEl"
           />
-          <button @click="searchOpen = false">✕</button>
+          <button type="button" @click="searchOpen = false" aria-label="Close search">✕</button>
         </div>
         <div class="search-hint">Press Ctrl+K to open • Esc to close</div>
         <div id="searchResults">
@@ -117,7 +118,7 @@
       <div class="nav-container">
         <div class="nav-left">
           <div class="nav-logo-wrapper">
-            <img src="./assets/LOGO.JPEG" alt="Logo" class="nav-logo" />
+            <img src="./assets/LOGO.JPEG" alt="Sundarbans House logo" class="nav-logo" />
             <div class="logo-glow"></div>
           </div>
           <div class="brand-text">
@@ -126,14 +127,17 @@
           </div>
         </div>
         <button
+          type="button"
           class="menu-toggle"
           :class="{ active: menuOpen }"
           @click="menuOpen = !menuOpen"
-          aria-label="Toggle menu"
+          :aria-label="menuOpen ? 'Close menu' : 'Open menu'"
+          :aria-expanded="menuOpen"
+          aria-controls="main-nav"
         >
           <span></span><span></span><span></span>
         </button>
-        <nav class="nav-links" :class="{ open: menuOpen }">
+        <nav id="main-nav" class="nav-links" :class="{ open: menuOpen }">
           <router-link to="/" class="nav-link" @click="menuOpen = false"
             ><span>Home</span></router-link
           >

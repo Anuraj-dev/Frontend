@@ -69,7 +69,7 @@
           <div>
             <img
               src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=700&q=80&auto=format&fit=crop"
-              alt="Tech"
+              alt="Technical community members collaborating"
               style="width: 100%; border-radius: var(--rad2); aspect-ratio: 4/3; object-fit: cover"
             />
           </div>
@@ -149,7 +149,7 @@
           <div style="direction: ltr">
             <img
               src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=700&q=80&auto=format&fit=crop"
-              alt="Cultural"
+              alt="Cultural community event"
               style="width: 100%; border-radius: var(--rad2); aspect-ratio: 4/3; object-fit: cover"
             />
           </div>
@@ -228,7 +228,7 @@
           <div>
             <img
               src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=700&q=80&auto=format&fit=crop"
-              alt="E-Sports"
+              alt="E-Sports community gaming session"
               style="width: 100%; border-radius: var(--rad2); aspect-ratio: 4/3; object-fit: cover"
             />
           </div>

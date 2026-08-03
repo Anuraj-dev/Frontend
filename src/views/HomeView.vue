@@ -317,7 +317,7 @@
       <div class="cta-bg">
         <img
           src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80&auto=format&fit=crop"
-          alt="Students"
+          alt="Students learning together"
         />
         <div class="cta-ov"></div>
       </div>
