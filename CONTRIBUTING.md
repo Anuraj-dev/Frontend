@@ -19,10 +19,9 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
   `.env.example`):
   - `VITE_GOOGLE_CLIENT_ID` — Google OAuth client ID.
   - `VITE_MEMBERSHIP_CHECK_URL` — Apps Script `/exec` URL that validates member
-    emails against the Sheet. **Required for production** (build-time Vite env;
-    must be set on Vercel Production and redeployed). If missing in a production
-    build, login fails with a clear config error — it does **not** fall back to
-    `members.json`. Local dev only: empty env may use `src/data/members.json`.
+    emails against the Sheet. **Required for login** (build-time Vite env; set on
+    Vercel Production and in local `.env` for lounge testing). If missing, login
+    fails with a clear config error. There is no local members roster file.
     Without OAuth/membership env the rest of the site still runs; lounge login will not.
 
 ## 2. Setup
@@ -43,7 +42,7 @@ it is the #1 way to duplicate work or reintroduce a problem someone already fixe
    ```
    Edit `.env` only if you have your own Google client ID; the example value is
    fine for local exploration of non-OAuth pages. Set `VITE_MEMBERSHIP_CHECK_URL`
-   for the real Sheet check (empty in **dev only** means local `members.json`).
+   for lounge login (Sheet membership check).
 5. Start the dev server:
    ```bash
    npm run dev

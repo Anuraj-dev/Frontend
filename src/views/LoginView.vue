@@ -136,40 +136,27 @@ async function checkMembershipRemote(endpoint, normalizedEmail) {
   return data.ok === true && data.allowed === true;
 }
 
-/** Dev-only offline roster. Never used in production builds. */
-async function checkMembershipLocalDev(normalizedEmail) {
-  const { default: membersData } = await import('../data/members.json');
-  return membersData.members.includes(normalizedEmail);
-}
-
 async function grantOrDenyAccess(rawEmail) {
   const normalized = rawEmail.trim().toLowerCase();
   const endpoint = membershipCheckUrl();
   let allowed;
 
-  if (endpoint) {
-    // Production path (and any build with the env set): Sheet via Apps Script only.
-    try {
-      allowed = await checkMembershipRemote(endpoint, normalized);
-    } catch (err) {
-      googleLoading.value = false;
-      message.value = "Couldn't reach the membership server. Check your connection and try again.";
-      return false;
-    }
-  } else if (import.meta.env.DEV) {
-    // Local dev without env: offline roster so UI work still works.
-    console.warn(
-      '[login] VITE_MEMBERSHIP_CHECK_URL is not set; using local members.json (dev only).'
-    );
-    allowed = await checkMembershipLocalDev(normalized);
-  } else {
-    // Production without env: do not fall back to members.json (misleading denies).
+  // Membership is Sheet-only (Apps Script). No local roster file.
+  if (!endpoint) {
     googleLoading.value = false;
     message.value =
       'Membership check is not configured. Set VITE_MEMBERSHIP_CHECK_URL and redeploy.';
     console.error(
-      '[login] VITE_MEMBERSHIP_CHECK_URL missing in production build — no Sheet check ran.'
+      '[login] VITE_MEMBERSHIP_CHECK_URL missing — no Sheet check ran.'
     );
+    return false;
+  }
+
+  try {
+    allowed = await checkMembershipRemote(endpoint, normalized);
+  } catch (err) {
+    googleLoading.value = false;
+    message.value = "Couldn't reach the membership server. Check your connection and try again.";
     return false;
   }
 
@@ -189,9 +176,7 @@ async function grantOrDenyAccess(rawEmail) {
 // ── GOOGLE SIGN-IN ───────────────────────────────────────────────────────
 // Client-side only (Google Identity Services OAuth2 token client). No backend
 // verifies the token signature here. After Google returns the email, membership
-// is checked via Apps Script (VITE_MEMBERSHIP_CHECK_URL). Production never
-// falls back to members.json — misconfiguration surfaces as an explicit error.
-// Dev-only: empty env may use members.json for offline UI work.
+// is checked only via Apps Script (VITE_MEMBERSHIP_CHECK_URL → Sheet).
 const googleLoading = ref(false);
 let tokenClient = null;
 let googleInitAttempts = 0;
