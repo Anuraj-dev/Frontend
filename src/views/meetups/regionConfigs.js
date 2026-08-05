@@ -265,10 +265,10 @@ function mapBangalore(record, index) {
   const photos =
     meetupNo === '#608'
       ? [
-          '/assets/pastevent/bengaluru_meetup_608_1.jpg',
-          '/assets/pastevent/bengaluru_meetup_608_2.jpg',
-          '/assets/pastevent/bengaluru_meetup_608_3.jpg',
-          '/assets/pastevent/bengaluru_meetup_608_4.jpg',
+          'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911324/sundarbans/public/assets/pastevent/bengaluru_meetup_608_1.png',
+          'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911326/sundarbans/public/assets/pastevent/bengaluru_meetup_608_2.png',
+          'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911327/sundarbans/public/assets/pastevent/bengaluru_meetup_608_3.png',
+          'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911328/sundarbans/public/assets/pastevent/bengaluru_meetup_608_4.png',
         ]
       : [];
   return {

@@ -291,22 +291,24 @@ const certType = computed(() => {
   return result.value.event ? 'event' : 'department';
 });
 
-/** True when we can open a PDF (Drive URL preferred, else bundled file). */
+/** True when we can open a PDF on Drive (local /certificates PDFs removed from repo). */
 const hasCertificateFile = computed(() => {
   const c = result.value;
   if (!c) return false;
-  return Boolean(c.driveUrl || c.pdf);
+  return Boolean(c.driveUrl || c.driveFileId);
 });
 
-/** Prefer Google Drive (T-16); fall back to local /certificates/{id}.pdf. */
+/** Google Drive view URL only (T-16). */
 function certificateViewUrl(cert) {
   if (!cert) return null;
   if (cert.driveUrl) return cert.driveUrl;
-  if (cert.pdf && cert.id) return `/certificates/${cert.id}.pdf`;
+  if (cert.driveFileId) {
+    return `https://drive.google.com/file/d/${encodeURIComponent(cert.driveFileId)}/view`;
+  }
   return null;
 }
 
-/** Direct download: Drive export when we have a file id; else same as view URL. */
+/** Direct download via Drive export when we have a file id. */
 function certificateDownloadUrl(cert) {
   if (!cert) return null;
   if (cert.driveFileId) {
@@ -319,7 +321,6 @@ function certificateDownloadUrl(cert) {
     }
     return cert.driveUrl;
   }
-  if (cert.pdf && cert.id) return `/certificates/${cert.id}.pdf`;
   return null;
 }
 

@@ -81,17 +81,28 @@ import { useScrollReveal } from '../composables/useAnimations.js';
 import { useEventDateFilter } from '../composables/useEventDateFilter.js';
 import '../assets/community.css';
 
-import imgBgmiShowdown from '../assets/Community Events/E-Sports/BGMI Showdown 2025.jpeg';
-import imgBtb from '../assets/Community Events/E-Sports/Back to Bachpan.jpeg';
-import imgIpl from '../assets/Community Events/E-Sports/IPL Auction.jpeg';
-import imgChessComp from '../assets/Community Events/E-Sports/Great Chess Competetion.jpeg';
-import imgBgmiTourn from '../assets/Community Events/E-Sports/BGMI Tournament.jpeg';
-import imgSportsQuiz from '../assets/Community Events/E-Sports/Sports Quiz.jpeg';
-import imgBol from '../assets/Community Events/E-Sports/Battle Of Legends.jpeg';
-import imgSkribbl from '../assets/Community Events/E-Sports/Skribbl Night.jpeg';
-import imgAmongUs from '../assets/Community Events/E-Sports/Among Us night.jpeg';
-import imgChessShowdown from '../assets/Community Events/E-Sports/Chess Tournament.jpeg';
-import imgOpenMic from '../assets/Community Events/E-Sports/Open Mic.jpeg';
+const imgBgmiShowdown =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911339/sundarbans/src/assets/Community_Events/E-Sports/BGMI_Showdown_2025.jpg';
+const imgBtb =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911337/sundarbans/src/assets/Community_Events/E-Sports/Back_to_Bachpan.jpg';
+const imgIpl =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911343/sundarbans/src/assets/Community_Events/E-Sports/IPL_Auction.jpg';
+const imgChessComp =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911342/sundarbans/src/assets/Community_Events/E-Sports/Great_Chess_Competetion.jpg';
+const imgBgmiTourn =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911340/sundarbans/src/assets/Community_Events/E-Sports/BGMI_Tournament.jpg';
+const imgSportsQuiz =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911346/sundarbans/src/assets/Community_Events/E-Sports/Sports_Quiz.jpg';
+const imgBol =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911338/sundarbans/src/assets/Community_Events/E-Sports/Battle_Of_Legends.jpg';
+const imgSkribbl =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911345/sundarbans/src/assets/Community_Events/E-Sports/Skribbl_Night.jpg';
+const imgAmongUs =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911336/sundarbans/src/assets/Community_Events/E-Sports/Among_Us_night.jpg';
+const imgChessShowdown =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911341/sundarbans/src/assets/Community_Events/E-Sports/Chess_Tournament.jpg';
+const imgOpenMic =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911344/sundarbans/src/assets/Community_Events/E-Sports/Open_Mic.jpg';
 
 useScrollReveal();
 

@@ -1,36 +1,52 @@
 # Sundarbans House — State
-> Centralized web platform for the Sundarbans House council (IITM BS degree) — events, resources, team collaboration, meetups, and certificate verification. · Last checkpoint: 2026-07-11
+> Centralized web platform for the Sundarbans House council (IITM BS degree) — events, resources, team collaboration, meetups, and certificate verification. · Last checkpoint: 2026-08-05
 
 ## 🚧 In progress / next
-- **Storage/latency overhaul (current focus).** Web admin is offloading storage-heavy assets to Cloudinary to fix route latency. First step is an audit (see gotchas below for the weight breakdown). Not started in code yet.
+- **PR open, CI green — ready to merge:** [#21](https://github.com/Anuraj-dev/Frontend/pull/21) (`feat/cloudinary-media-pipeline`). After merge: hard-refresh Teams/Events and confirm images load from `res.cloudinary.com`.
+- **Not started / later (optional):** data-drive Teams (JSON/Sheet); overwrite old full-size Cloudinary masters to reclaim free-tier storage; ongoing `media:sync` only when the team dumps new photos.
+- **Out of scope for this PR:** hero 240 frames stay local forever under `public/assets/frames/`.
 
 ## Status
-- Live single-page Vue 3 app, deployed from GitHub (repo: Anuraj-dev/Frontend). Actively maintained via PRs.
-- Public site + a members lounge (auth-gated) + dashboard widgets + certificate verification are all built and working.
+- Live Vue 3 SPA (`Anuraj-dev/Frontend`), static host (Vercel). No app backend.
+- **Auth (T-13):** Google OAuth → Apps Script membership (`VITE_MEMBERSHIP_CHECK_URL`). No `members.json`.
+- **Certs (T-16):** PDFs on Google Drive; no `public/certificates/` in repo.
+- **Media (this session — landed in PR, not yet merged at checkpoint write):**
+  - **85** non-frame images uploaded to Cloudinary (folder prefix `sundarbans/…`).
+  - Vue/HTML rewrites use delivery URLs: `…/upload/f_auto,q_auto:good,w_1000,c_limit/…` (bandwidth).
+  - Locals for those 85 **deleted** from git; only frames remain as heavy local images (~9.5M under `public/assets/frames/`).
+  - Teams: `loading="lazy"` + `decoding="async"` on card images.
+  - Pipeline for the team: dump into `media/` → `npm run media:sync` → URLs in `media/manifest.json` → paste into views.
+  - Future uploads: **incoming** compress on store (max 1600px long edge, `quality: auto:good`) + delivery URL in manifest.
+- **Routes:** lazy-loaded. CI: lint, Prettier, build, Playwright smoke.
 
 ## Architecture map
-- App bootstrap -> `src/main.js`, `src/App.vue`
-- Routes (all defined in one file) -> `src/router/index.js`
-- Page views -> `src/views/*.vue` (Home, About, Events, Study, Teams, Community, Contact, Login, MembersLounge, Dashboard, VerifyCertificate, NotFound)
-- Community sub-pages -> `src/views/{Technical,Cultural,ESports}View.vue`
-- Meetups landing + per-region pages -> `src/views/MeetupsView.vue`, `src/views/meetups/*.vue` (+ `regionConfigs.js`, per-region JSON/CSV exports)
-- Shared components -> `src/components/*.vue` (AppFooter, MembersNavbar, PageHero, RegionMeetups, DailyNotifications)
-- Dashboard widgets -> `src/components/dashboard/*.vue` (BuddyMatcher, ConfessionWall, DailyChallenge, HousePoints, MemeOfWeek, MoodWall, PomodoroRoom, StudyStreak)
-- Reusable animation logic -> `src/composables/useAnimations.js`
-- Static data -> `src/data/` (members.json, scData_generated.js), `public/data/`
-- Heavy static assets -> `public/certificates/` (89M PDFs), `public/assets/` (incl. 240-frame scroll animation), `src/assets/` (teams, regions, event posters)
+- App bootstrap → `src/main.js`, `src/App.vue`
+- Routes (lazy) → `src/router/index.js`
+- Views → `src/views/*` · Meetups → `src/views/meetups/*`
+- Components → `src/components/*` · dashboard widgets → `src/components/dashboard/*`
+- Static data → `src/data/` (no members roster), `public/data/`
+- **Media pipeline** → `media/` (drop + `manifest.json` + README), `scripts/media-sync.mjs`, `scripts/media-migrate-repo.mjs`, `scripts/lib/cloudinary-media.mjs`
+- **CDN images** → Cloudinary (`res.cloudinary.com/<cloud>/image/upload/…`)
+- **Local images left** → `public/assets/frames/` (240 hero JPEGs only)
+- Env (scripts): `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` (local `.env`, never commit)
+- Env (app build): `VITE_GOOGLE_CLIENT_ID`, `VITE_MEMBERSHIP_CHECK_URL`
 
 ## Stack & run
-- Stack: Vue 3 (SFC), vue-router 4 (hash history), Vite 6. No backend — fully client-side. Auth is a localStorage token.
+- Stack: Vue 3 (SFC), vue-router 4 (hash history), Vite 6. No backend.
 - Run: `npm run dev` · Build: `npm run build` · Preview: `npm run preview`
-- Test: none configured.
+- Gates: `npm run format:check` · `npm run lint` · `npm run build` · `npm run test:smoke`
+- Media: `npm run media:sync` · `npm run media:migrate-repo` (one-time; `--keep-local` / `--dry-run` flags)
 
-## Key decisions (top 3–5)
-- No backend — the site is static/client-only; "auth" is a localStorage token gate (`sundarbans_auth_token`). (inferred at adoption)
-- Hash-based routing (`createWebHashHistory`) — works on static hosts without server rewrites. (inferred at adoption)
-- **All routes are eagerly imported** in `src/router/index.js` (no lazy loading / code-splitting) — everything ships in the initial bundle. This is a known latency lever, not a deliberate choice to keep.
+## Key decisions (top)
+- No backend; client localStorage token after Google + Sheet check.
+- Hash routing for static hosting.
+- Certs on Drive; membership via Apps Script (no members.json).
+- **Site display images on Cloudinary**; hero frames stay in-repo (scroll performance / same-origin).
+- **Delivery transforms** for existing assets (bandwidth); **incoming upload transforms** for future dumps (storage).
 
 ## Gotchas
-- **Asset weight is large: ~130 MB committed.** `public/` is 103M (of which `public/certificates/` PDFs = 89M, `public/assets/` = 14M incl. 240 JPEG animation frames), `src/assets/` is 26M (teams 11M, regions 7.3M, Community Events 5.2M). This is the main latency/storage target — moving to Cloudinary is the current work.
-- Certificate PDFs churn a lot in git history (many add/delete "Add files via upload" commits) and have been accidentally committed at repo root before — handle with care.
-- No tests and no CI checks — verify changes by running the app.
+- Cloudinary keys live in `.env` only — share among the team privately; rotate if someone leaves.
+- Free Cloudinary storage still holds **full masters** from the first migrate (some multi‑MB). Pages do not download those; reclaim storage later by re-uploading compressed overwrites if needed.
+- Do **not** re-commit large binaries under `src/assets/teams`, pastevent, etc. Use `media/` + sync.
+- Do **not** put hero frames on Cloudinary without a deliberate design change.
+- Auth is not server-verified after login; lounge needs both Vite env vars at **build** time on Vercel.

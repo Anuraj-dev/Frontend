@@ -33,7 +33,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/mannu.jpg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911390/sundarbans/src/assets/teams/mannu.jpg"
                 alt="Mannu Yadav"
                 @error="
                   $event.target.style.display = 'none';
@@ -95,7 +97,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/aditya.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911377/sundarbans/src/assets/teams/aditya.jpg"
                 alt="Aditya V"
                 @error="
                   $event.target.style.display = 'none';
@@ -159,7 +163,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/Samar.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911401/sundarbans/src/assets/teams/Samar.jpg"
                 alt="Samar Ahmad"
                 @error="
                   $event.target.style.display = 'none';
@@ -235,7 +241,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/Samar.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911401/sundarbans/src/assets/teams/Samar.jpg"
                 alt="Samar Ahmad"
                 @error="
                   $event.target.style.display = 'none';
@@ -299,7 +307,9 @@
           <div class="tm-card rc" style="--card-delay: 0.3s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/Anuraj.jpg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911379/sundarbans/src/assets/teams/Anuraj.jpg"
                 alt="ANURAJ"
                 @error="
                   $event.target.style.display = 'none';
@@ -356,7 +366,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/Riya.jpg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911396/sundarbans/src/assets/teams/Riya.jpg"
                 alt="Riya Moun"
                 @error="
                   $event.target.style.display = 'none';
@@ -413,7 +425,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/Sadia.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911399/sundarbans/src/assets/teams/Sadia.jpg"
                 alt="Sadia"
                 @error="
                   $event.target.style.display = 'none';
@@ -470,7 +484,9 @@
           <div class="tm-card rc" style="--card-delay: 0.3s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/tejashvi.jpg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911403/sundarbans/src/assets/teams/tejashvi.jpg"
                 alt="Tejashvi"
                 @error="
                   $event.target.style.display = 'none';
@@ -531,7 +547,9 @@
           <div class="tm-card rc" style="--card-delay: 0.3s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/shoaib.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911401/sundarbans/src/assets/teams/shoaib.jpg"
                 alt="Shoaib"
                 @error="
                   $event.target.style.display = 'none';
@@ -604,7 +622,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/rushabh.jpg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911397/sundarbans/src/assets/teams/rushabh.jpg"
                 alt="Rushabh Kapse"
                 @error="
                   $event.target.style.display = 'none';
@@ -660,7 +680,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/dishi.jpg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911384/sundarbans/src/assets/teams/dishi.jpg"
                 alt="Dishi Gupta"
                 @error="
                   $event.target.style.display = 'none';
@@ -723,7 +745,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/Aditri.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911377/sundarbans/src/assets/teams/Aditri.jpg"
                 alt="Aditri Bordoloi"
                 @error="
                   $event.target.style.display = 'none';
@@ -784,7 +808,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/aakash.webp"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911373/sundarbans/src/assets/teams/aakash.webp"
                 alt="Aakash Rawal"
                 @error="
                   $event.target.style.display = 'none';
@@ -847,7 +873,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/R SAI SAHANAA.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911394/sundarbans/src/assets/teams/R_SAI_SAHANAA.jpg"
                 alt="R Sai Sahanaa"
                 @error="
                   $event.target.style.display = 'none';
@@ -910,7 +938,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/nivash.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911393/sundarbans/src/assets/teams/nivash.jpg"
                 alt="Nivash Kumar"
                 @error="
                   $event.target.style.display = 'none';
@@ -968,7 +998,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/chandan.webp"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911382/sundarbans/src/assets/teams/chandan.webp"
                 alt="Chandan Saw"
                 @error="
                   $event.target.style.display = 'none';
@@ -1029,7 +1061,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/kartik.webp"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911387/sundarbans/src/assets/teams/kartik.webp"
                 alt="Kartik Singh"
                 @error="
                   $event.target.style.display = 'none';
@@ -1085,7 +1119,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/divy.jpeg"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911385/sundarbans/src/assets/teams/divy.jpg"
                 alt="Divya Prakash"
                 @error="
                   $event.target.style.display = 'none';
@@ -1148,7 +1184,9 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
-                src="@/assets/teams/laksh.webp"
+                loading="lazy"
+                decoding="async"
+                src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911388/sundarbans/src/assets/teams/laksh.webp"
                 alt="Laksh Wadhawan"
                 @error="
                   $event.target.style.display = 'none';
@@ -1219,6 +1257,8 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
+                loading="lazy"
+                decoding="async"
                 :src="imgHimanshu"
                 alt="Himanshu Sharma"
                 @error="
@@ -1283,6 +1323,8 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
+                loading="lazy"
+                decoding="async"
                 :src="imgAvneesh"
                 alt="AVNEESH SINGH"
                 @error="
@@ -1347,6 +1389,8 @@
           <div class="tm-card rc" style="--card-delay: 0.1s">
             <div class="tm-photo-wrap">
               <img
+                loading="lazy"
+                decoding="async"
                 :src="imgAbhishekh"
                 alt="Abhisekh Chowdhury"
                 @error="
@@ -1414,9 +1458,12 @@
 import { useScrollReveal } from '../composables/useAnimations.js';
 
 // Import Community Head Images
-import imgHimanshu from '@/assets/teams/Himanshu.jpg';
-import imgAvneesh from '@/assets/teams/Avneesh.jpg';
-import imgAbhishekh from '@/assets/teams/Abhishekh.jpg';
+const imgHimanshu =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911386/sundarbans/src/assets/teams/Himanshu.jpg';
+const imgAvneesh =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911380/sundarbans/src/assets/teams/Avneesh.jpg';
+const imgAbhishekh =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911376/sundarbans/src/assets/teams/Abhishekh.jpg';
 
 useScrollReveal();
 </script>

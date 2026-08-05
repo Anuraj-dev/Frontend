@@ -62,12 +62,18 @@ import { useScrollReveal } from '../composables/useAnimations.js';
 import { useEventDateFilter } from '../composables/useEventDateFilter.js';
 import '../assets/community.css';
 
-import imgVibeCoding from '../assets/Community Events/Technical/Vibe Coding a SAAS application.jpeg';
-import imgCodingApt from '../assets/Community Events/Technical/Coding Aptitude Challenge.jpeg';
-import imgOpenMicTech from '../assets/Community Events/Technical/Open Mic.jpeg';
-import imgStatAnalysis from '../assets/Community Events/Technical/Statistical Analysis Challenge.jpeg';
-import imgDarkWeb from '../assets/Community Events/Technical/Dark Web Challenge.jpeg';
-import imgUbuntuQuiz from '../assets/Community Events/Technical/Ubuntu Mastery Quiz.jpeg';
+const imgVibeCoding =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911352/sundarbans/src/assets/Community_Events/Technical/Vibe_Coding_a_SAAS_application.jpg';
+const imgCodingApt =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911347/sundarbans/src/assets/Community_Events/Technical/Coding_Aptitude_Challenge.jpg';
+const imgOpenMicTech =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911349/sundarbans/src/assets/Community_Events/Technical/Open_Mic.jpg';
+const imgStatAnalysis =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911350/sundarbans/src/assets/Community_Events/Technical/Statistical_Analysis_Challenge.jpg';
+const imgDarkWeb =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911348/sundarbans/src/assets/Community_Events/Technical/Dark_Web_Challenge.jpg';
+const imgUbuntuQuiz =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911351/sundarbans/src/assets/Community_Events/Technical/Ubuntu_Mastery_Quiz.jpg';
 
 useScrollReveal();
 

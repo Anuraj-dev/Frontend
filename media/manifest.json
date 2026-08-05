@@ -1,0 +1,856 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-05T06:30:04.147Z",
+  "assets": [
+    {
+      "order": 1,
+      "filename": "house-logo.png",
+      "source": "public/assets/house-logo.png",
+      "publicId": "sundarbans/public/assets/house-logo",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911310/sundarbans/public/assets/house-logo.png",
+      "bytes": 191148,
+      "format": "png",
+      "uploadedAt": "2026-08-05T06:28:31.535Z"
+    },
+    {
+      "order": 2,
+      "filename": "logo.png",
+      "source": "public/assets/logo.png",
+      "publicId": "sundarbans/public/assets/logo",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911311/sundarbans/public/assets/logo.jpg",
+      "bytes": 39448,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:32.499Z"
+    },
+    {
+      "order": 3,
+      "filename": "og-preview.jpg",
+      "source": "public/assets/og-preview.jpg",
+      "publicId": "sundarbans/public/assets/og-preview",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911312/sundarbans/public/assets/og-preview.jpg",
+      "bytes": 119217,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:33.380Z"
+    },
+    {
+      "order": 4,
+      "filename": "2023-03-22_09-54-19_UTC.jpg",
+      "source": "public/assets/pastevent/2023-03-22_09-54-19_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2023-03-22_09-54-19_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911313/sundarbans/public/assets/pastevent/2023-03-22_09-54-19_UTC.jpg",
+      "bytes": 159444,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:34.262Z"
+    },
+    {
+      "order": 5,
+      "filename": "2024-07-16_11-41-17_UTC.jpg",
+      "source": "public/assets/pastevent/2024-07-16_11-41-17_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2024-07-16_11-41-17_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911314/sundarbans/public/assets/pastevent/2024-07-16_11-41-17_UTC.jpg",
+      "bytes": 125380,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:35.593Z"
+    },
+    {
+      "order": 6,
+      "filename": "2024-09-23_06-54-49_UTC.jpg",
+      "source": "public/assets/pastevent/2024-09-23_06-54-49_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2024-09-23_06-54-49_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911315/sundarbans/public/assets/pastevent/2024-09-23_06-54-49_UTC.jpg",
+      "bytes": 62083,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:36.410Z"
+    },
+    {
+      "order": 7,
+      "filename": "2024-12-05_11-31-48_UTC.jpg",
+      "source": "public/assets/pastevent/2024-12-05_11-31-48_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2024-12-05_11-31-48_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911316/sundarbans/public/assets/pastevent/2024-12-05_11-31-48_UTC.jpg",
+      "bytes": 129951,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:37.276Z"
+    },
+    {
+      "order": 8,
+      "filename": "2025-01-25_01-20-01_UTC.jpg",
+      "source": "public/assets/pastevent/2025-01-25_01-20-01_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-01-25_01-20-01_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911317/sundarbans/public/assets/pastevent/2025-01-25_01-20-01_UTC.jpg",
+      "bytes": 154001,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:38.245Z"
+    },
+    {
+      "order": 9,
+      "filename": "2025-01-27_08-57-27_UTC.jpg",
+      "source": "public/assets/pastevent/2025-01-27_08-57-27_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-01-27_08-57-27_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911318/sundarbans/public/assets/pastevent/2025-01-27_08-57-27_UTC.jpg",
+      "bytes": 222332,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:39.107Z"
+    },
+    {
+      "order": 10,
+      "filename": "2025-02-06_00-30-44_UTC.jpg",
+      "source": "public/assets/pastevent/2025-02-06_00-30-44_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-02-06_00-30-44_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911319/sundarbans/public/assets/pastevent/2025-02-06_00-30-44_UTC.jpg",
+      "bytes": 78993,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:40.003Z"
+    },
+    {
+      "order": 11,
+      "filename": "2025-02-10_10-25-33_UTC.jpg",
+      "source": "public/assets/pastevent/2025-02-10_10-25-33_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-02-10_10-25-33_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911320/sundarbans/public/assets/pastevent/2025-02-10_10-25-33_UTC.jpg",
+      "bytes": 77750,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:41.026Z"
+    },
+    {
+      "order": 12,
+      "filename": "2025-02-13_02-15-54_UTC.jpg",
+      "source": "public/assets/pastevent/2025-02-13_02-15-54_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-02-13_02-15-54_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911321/sundarbans/public/assets/pastevent/2025-02-13_02-15-54_UTC.jpg",
+      "bytes": 166162,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:41.875Z"
+    },
+    {
+      "order": 13,
+      "filename": "2025-05-09_06-25-51_UTC.jpg",
+      "source": "public/assets/pastevent/2025-05-09_06-25-51_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-05-09_06-25-51_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911322/sundarbans/public/assets/pastevent/2025-05-09_06-25-51_UTC.jpg",
+      "bytes": 144343,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:42.781Z"
+    },
+    {
+      "order": 14,
+      "filename": "2025-05-14_08-34-35_UTC.jpg",
+      "source": "public/assets/pastevent/2025-05-14_08-34-35_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-05-14_08-34-35_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911323/sundarbans/public/assets/pastevent/2025-05-14_08-34-35_UTC.jpg",
+      "bytes": 209973,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:43.630Z"
+    },
+    {
+      "order": 15,
+      "filename": "2025-05-15_12-44-00_UTC.jpg",
+      "source": "public/assets/pastevent/2025-05-15_12-44-00_UTC.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/2025-05-15_12-44-00_UTC",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911324/sundarbans/public/assets/pastevent/2025-05-15_12-44-00_UTC.jpg",
+      "bytes": 201057,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:44.569Z"
+    },
+    {
+      "order": 16,
+      "filename": "bengaluru_meetup_608_1.jpg",
+      "source": "public/assets/pastevent/bengaluru_meetup_608_1.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/bengaluru_meetup_608_1",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911324/sundarbans/public/assets/pastevent/bengaluru_meetup_608_1.png",
+      "bytes": 454903,
+      "format": "png",
+      "uploadedAt": "2026-08-05T06:28:45.759Z"
+    },
+    {
+      "order": 17,
+      "filename": "bengaluru_meetup_608_2.jpg",
+      "source": "public/assets/pastevent/bengaluru_meetup_608_2.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/bengaluru_meetup_608_2",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911326/sundarbans/public/assets/pastevent/bengaluru_meetup_608_2.png",
+      "bytes": 528516,
+      "format": "png",
+      "uploadedAt": "2026-08-05T06:28:47.049Z"
+    },
+    {
+      "order": 18,
+      "filename": "bengaluru_meetup_608_3.jpg",
+      "source": "public/assets/pastevent/bengaluru_meetup_608_3.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/bengaluru_meetup_608_3",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911327/sundarbans/public/assets/pastevent/bengaluru_meetup_608_3.png",
+      "bytes": 575975,
+      "format": "png",
+      "uploadedAt": "2026-08-05T06:28:47.976Z"
+    },
+    {
+      "order": 19,
+      "filename": "bengaluru_meetup_608_4.jpg",
+      "source": "public/assets/pastevent/bengaluru_meetup_608_4.jpg",
+      "publicId": "sundarbans/public/assets/pastevent/bengaluru_meetup_608_4",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911328/sundarbans/public/assets/pastevent/bengaluru_meetup_608_4.png",
+      "bytes": 485734,
+      "format": "png",
+      "uploadedAt": "2026-08-05T06:28:48.938Z"
+    },
+    {
+      "order": 20,
+      "filename": "3 AM thoughts.jpeg",
+      "source": "src/assets/Community Events/Cultural/3 AM thoughts.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Cultural/3_AM_thoughts",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911329/sundarbans/src/assets/Community_Events/Cultural/3_AM_thoughts.jpg",
+      "bytes": 130296,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:49.814Z"
+    },
+    {
+      "order": 21,
+      "filename": "Book of the week Engligh.jpeg",
+      "source": "src/assets/Community Events/Cultural/Book of the week Engligh.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Cultural/Book_of_the_week_Engligh",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911330/sundarbans/src/assets/Community_Events/Cultural/Book_of_the_week_Engligh.jpg",
+      "bytes": 117574,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:50.743Z"
+    },
+    {
+      "order": 22,
+      "filename": "Book of the Week Hindi.jpeg",
+      "source": "src/assets/Community Events/Cultural/Book of the Week Hindi.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Cultural/Book_of_the_Week_Hindi",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911331/sundarbans/src/assets/Community_Events/Cultural/Book_of_the_Week_Hindi.jpg",
+      "bytes": 718210,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:51.915Z"
+    },
+    {
+      "order": 23,
+      "filename": "Dance Workshop.jpeg",
+      "source": "src/assets/Community Events/Cultural/Dance Workshop.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Cultural/Dance_Workshop",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911332/sundarbans/src/assets/Community_Events/Cultural/Dance_Workshop.jpg",
+      "bytes": 254189,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:52.715Z"
+    },
+    {
+      "order": 24,
+      "filename": "Open Mic.jpeg",
+      "source": "src/assets/Community Events/Cultural/Open Mic.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Cultural/Open_Mic",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911333/sundarbans/src/assets/Community_Events/Cultural/Open_Mic.jpg",
+      "bytes": 139993,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:53.605Z"
+    },
+    {
+      "order": 25,
+      "filename": "Photography Workshop.jpeg",
+      "source": "src/assets/Community Events/Cultural/Photography Workshop.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Cultural/Photography_Workshop",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911333/sundarbans/src/assets/Community_Events/Cultural/Photography_Workshop.jpg",
+      "bytes": 68805,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:54.653Z"
+    },
+    {
+      "order": 26,
+      "filename": "Shiv Shakti.jpeg",
+      "source": "src/assets/Community Events/Cultural/Shiv Shakti.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Cultural/Shiv_Shakti",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911335/sundarbans/src/assets/Community_Events/Cultural/Shiv_Shakti.jpg",
+      "bytes": 248399,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:55.853Z"
+    },
+    {
+      "order": 27,
+      "filename": "Among Us night.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Among Us night.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Among_Us_night",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911336/sundarbans/src/assets/Community_Events/E-Sports/Among_Us_night.jpg",
+      "bytes": 147480,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:56.669Z"
+    },
+    {
+      "order": 28,
+      "filename": "Back to Bachpan.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Back to Bachpan.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Back_to_Bachpan",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911337/sundarbans/src/assets/Community_Events/E-Sports/Back_to_Bachpan.jpg",
+      "bytes": 112535,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:57.578Z"
+    },
+    {
+      "order": 29,
+      "filename": "Battle Of Legends.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Battle Of Legends.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Battle_Of_Legends",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911338/sundarbans/src/assets/Community_Events/E-Sports/Battle_Of_Legends.jpg",
+      "bytes": 449174,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:58.832Z"
+    },
+    {
+      "order": 30,
+      "filename": "BGMI Showdown 2025.jpeg",
+      "source": "src/assets/Community Events/E-Sports/BGMI Showdown 2025.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/BGMI_Showdown_2025",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911339/sundarbans/src/assets/Community_Events/E-Sports/BGMI_Showdown_2025.jpg",
+      "bytes": 186534,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:28:59.728Z"
+    },
+    {
+      "order": 31,
+      "filename": "BGMI Tournament.jpeg",
+      "source": "src/assets/Community Events/E-Sports/BGMI Tournament.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/BGMI_Tournament",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911340/sundarbans/src/assets/Community_Events/E-Sports/BGMI_Tournament.jpg",
+      "bytes": 227534,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:00.756Z"
+    },
+    {
+      "order": 32,
+      "filename": "Chess Tournament.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Chess Tournament.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Chess_Tournament",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911341/sundarbans/src/assets/Community_Events/E-Sports/Chess_Tournament.jpg",
+      "bytes": 173825,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:01.797Z"
+    },
+    {
+      "order": 33,
+      "filename": "Great Chess Competetion.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Great Chess Competetion.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Great_Chess_Competetion",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911342/sundarbans/src/assets/Community_Events/E-Sports/Great_Chess_Competetion.jpg",
+      "bytes": 192755,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:02.625Z"
+    },
+    {
+      "order": 34,
+      "filename": "IPL Auction.jpeg",
+      "source": "src/assets/Community Events/E-Sports/IPL Auction.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/IPL_Auction",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911343/sundarbans/src/assets/Community_Events/E-Sports/IPL_Auction.jpg",
+      "bytes": 189168,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:03.668Z"
+    },
+    {
+      "order": 35,
+      "filename": "Open Mic.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Open Mic.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Open_Mic",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911344/sundarbans/src/assets/Community_Events/E-Sports/Open_Mic.jpg",
+      "bytes": 94761,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:04.730Z"
+    },
+    {
+      "order": 36,
+      "filename": "Skribbl Night.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Skribbl Night.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Skribbl_Night",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911345/sundarbans/src/assets/Community_Events/E-Sports/Skribbl_Night.jpg",
+      "bytes": 173706,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:05.870Z"
+    },
+    {
+      "order": 37,
+      "filename": "Sports Quiz.jpeg",
+      "source": "src/assets/Community Events/E-Sports/Sports Quiz.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/E-Sports/Sports_Quiz",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911346/sundarbans/src/assets/Community_Events/E-Sports/Sports_Quiz.jpg",
+      "bytes": 277211,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:07.081Z"
+    },
+    {
+      "order": 38,
+      "filename": "Coding Aptitude Challenge.jpeg",
+      "source": "src/assets/Community Events/Technical/Coding Aptitude Challenge.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Technical/Coding_Aptitude_Challenge",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911347/sundarbans/src/assets/Community_Events/Technical/Coding_Aptitude_Challenge.jpg",
+      "bytes": 168903,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:07.932Z"
+    },
+    {
+      "order": 39,
+      "filename": "Dark Web Challenge.jpeg",
+      "source": "src/assets/Community Events/Technical/Dark Web Challenge.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Technical/Dark_Web_Challenge",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911348/sundarbans/src/assets/Community_Events/Technical/Dark_Web_Challenge.jpg",
+      "bytes": 467106,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:08.835Z"
+    },
+    {
+      "order": 40,
+      "filename": "Open Mic.jpeg",
+      "source": "src/assets/Community Events/Technical/Open Mic.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Technical/Open_Mic",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911349/sundarbans/src/assets/Community_Events/Technical/Open_Mic.jpg",
+      "bytes": 228546,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:09.794Z"
+    },
+    {
+      "order": 41,
+      "filename": "Statistical Analysis Challenge.jpeg",
+      "source": "src/assets/Community Events/Technical/Statistical Analysis Challenge.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Technical/Statistical_Analysis_Challenge",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911350/sundarbans/src/assets/Community_Events/Technical/Statistical_Analysis_Challenge.jpg",
+      "bytes": 268416,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:10.799Z"
+    },
+    {
+      "order": 42,
+      "filename": "Ubuntu Mastery Quiz.jpeg",
+      "source": "src/assets/Community Events/Technical/Ubuntu Mastery Quiz.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Technical/Ubuntu_Mastery_Quiz",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911351/sundarbans/src/assets/Community_Events/Technical/Ubuntu_Mastery_Quiz.jpg",
+      "bytes": 285701,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:11.708Z"
+    },
+    {
+      "order": 43,
+      "filename": "Vibe Coding a SAAS application.jpeg",
+      "source": "src/assets/Community Events/Technical/Vibe Coding a SAAS application.jpeg",
+      "publicId": "sundarbans/src/assets/Community_Events/Technical/Vibe_Coding_a_SAAS_application",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911352/sundarbans/src/assets/Community_Events/Technical/Vibe_Coding_a_SAAS_application.jpg",
+      "bytes": 67465,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:12.789Z"
+    },
+    {
+      "order": 44,
+      "filename": "delta-diaries-preview.webp",
+      "source": "src/assets/delta-diaries-preview.webp",
+      "publicId": "sundarbans/src/assets/delta-diaries-preview",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911353/sundarbans/src/assets/delta-diaries-preview.webp",
+      "bytes": 205452,
+      "format": "webp",
+      "uploadedAt": "2026-08-05T06:29:13.608Z"
+    },
+    {
+      "order": 45,
+      "filename": "IITM-Logo.png",
+      "source": "src/assets/IITM-Logo.png",
+      "publicId": "sundarbans/src/assets/IITM-Logo",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911353/sundarbans/src/assets/IITM-Logo.png",
+      "bytes": 92948,
+      "format": "png",
+      "uploadedAt": "2026-08-05T06:29:14.580Z"
+    },
+    {
+      "order": 46,
+      "filename": "login-illustration.png",
+      "source": "src/assets/login-illustration.png",
+      "publicId": "sundarbans/src/assets/login-illustration",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911355/sundarbans/src/assets/login-illustration.avif",
+      "bytes": 1120333,
+      "format": "avif",
+      "uploadedAt": "2026-08-05T06:29:16.286Z"
+    },
+    {
+      "order": 47,
+      "filename": "LOGO.JPEG",
+      "source": "src/assets/LOGO.JPEG",
+      "publicId": "sundarbans/src/assets/LOGO",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911356/sundarbans/src/assets/LOGO.jpg",
+      "bytes": 100853,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:17.472Z"
+    },
+    {
+      "order": 48,
+      "filename": "bangalore.jpg",
+      "source": "src/assets/regions/bangalore.jpg",
+      "publicId": "sundarbans/src/assets/regions/bangalore",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911358/sundarbans/src/assets/regions/bangalore.jpg",
+      "bytes": 890228,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:19.301Z"
+    },
+    {
+      "order": 49,
+      "filename": "chandigarh.jpg",
+      "source": "src/assets/regions/chandigarh.jpg",
+      "publicId": "sundarbans/src/assets/regions/chandigarh",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911359/sundarbans/src/assets/regions/chandigarh.webp",
+      "bytes": 41958,
+      "format": "webp",
+      "uploadedAt": "2026-08-05T06:29:20.106Z"
+    },
+    {
+      "order": 50,
+      "filename": "chennai.jpg",
+      "source": "src/assets/regions/chennai.jpg",
+      "publicId": "sundarbans/src/assets/regions/chennai",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911360/sundarbans/src/assets/regions/chennai.jpg",
+      "bytes": 907862,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:21.977Z"
+    },
+    {
+      "order": 51,
+      "filename": "delhi.jpg",
+      "source": "src/assets/regions/delhi.jpg",
+      "publicId": "sundarbans/src/assets/regions/delhi",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911362/sundarbans/src/assets/regions/delhi.jpg",
+      "bytes": 854424,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:23.107Z"
+    },
+    {
+      "order": 52,
+      "filename": "hyderabad.jpg",
+      "source": "src/assets/regions/hyderabad.jpg",
+      "publicId": "sundarbans/src/assets/regions/hyderabad",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911363/sundarbans/src/assets/regions/hyderabad.jpg",
+      "bytes": 128539,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:23.989Z"
+    },
+    {
+      "order": 53,
+      "filename": "kolkata.jpg",
+      "source": "src/assets/regions/kolkata.jpg",
+      "publicId": "sundarbans/src/assets/regions/kolkata",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911364/sundarbans/src/assets/regions/kolkata.jpg",
+      "bytes": 1006049,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:26.264Z"
+    },
+    {
+      "order": 54,
+      "filename": "lucknow.jpg",
+      "source": "src/assets/regions/lucknow.jpg",
+      "publicId": "sundarbans/src/assets/regions/lucknow",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911366/sundarbans/src/assets/regions/lucknow.jpg",
+      "bytes": 881254,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:27.381Z"
+    },
+    {
+      "order": 55,
+      "filename": "mumbai.jpg",
+      "source": "src/assets/regions/mumbai.jpg",
+      "publicId": "sundarbans/src/assets/regions/mumbai",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911367/sundarbans/src/assets/regions/mumbai.jpg",
+      "bytes": 938649,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:28.500Z"
+    },
+    {
+      "order": 56,
+      "filename": "patna.jpg",
+      "source": "src/assets/regions/patna.jpg",
+      "publicId": "sundarbans/src/assets/regions/patna",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911369/sundarbans/src/assets/regions/patna.jpg",
+      "bytes": 1895154,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:29.676Z"
+    },
+    {
+      "order": 57,
+      "filename": "Sundarbans-House_Vue.jpg",
+      "source": "src/assets/Sundarbans-House_Vue.jpg",
+      "publicId": "sundarbans/src/assets/Sundarbans-House_Vue",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911370/sundarbans/src/assets/Sundarbans-House_Vue.jpg",
+      "bytes": 914109,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:30.945Z"
+    },
+    {
+      "order": 58,
+      "filename": "aakash.webp",
+      "source": "src/assets/teams/aakash.webp",
+      "publicId": "sundarbans/src/assets/teams/aakash",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911373/sundarbans/src/assets/teams/aakash.webp",
+      "bytes": 2989302,
+      "format": "webp",
+      "uploadedAt": "2026-08-05T06:29:34.780Z"
+    },
+    {
+      "order": 59,
+      "filename": "Aarusha.jpg",
+      "source": "src/assets/teams/Aarusha.jpg",
+      "publicId": "sundarbans/src/assets/teams/Aarusha",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911375/sundarbans/src/assets/teams/Aarusha.jpg",
+      "bytes": 131982,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:35.796Z"
+    },
+    {
+      "order": 60,
+      "filename": "Abhishekh.jpg",
+      "source": "src/assets/teams/Abhishekh.jpg",
+      "publicId": "sundarbans/src/assets/teams/Abhishekh",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911376/sundarbans/src/assets/teams/Abhishekh.jpg",
+      "bytes": 189801,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:36.642Z"
+    },
+    {
+      "order": 61,
+      "filename": "Aditri.jpeg",
+      "source": "src/assets/teams/Aditri.jpeg",
+      "publicId": "sundarbans/src/assets/teams/Aditri",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911377/sundarbans/src/assets/teams/Aditri.jpg",
+      "bytes": 371612,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:37.488Z"
+    },
+    {
+      "order": 62,
+      "filename": "aditya.jpeg",
+      "source": "src/assets/teams/aditya.jpeg",
+      "publicId": "sundarbans/src/assets/teams/aditya",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911377/sundarbans/src/assets/teams/aditya.jpg",
+      "bytes": 185086,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:38.369Z"
+    },
+    {
+      "order": 63,
+      "filename": "anshi.jpg",
+      "source": "src/assets/teams/anshi.jpg",
+      "publicId": "sundarbans/src/assets/teams/anshi",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911379/sundarbans/src/assets/teams/anshi.jpg",
+      "bytes": 1048033,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:39.617Z"
+    },
+    {
+      "order": 64,
+      "filename": "Anuraj.jpg",
+      "source": "src/assets/teams/Anuraj.jpg",
+      "publicId": "sundarbans/src/assets/teams/Anuraj",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911379/sundarbans/src/assets/teams/Anuraj.jpg",
+      "bytes": 42934,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:40.455Z"
+    },
+    {
+      "order": 65,
+      "filename": "Avneesh.jpg",
+      "source": "src/assets/teams/Avneesh.jpg",
+      "publicId": "sundarbans/src/assets/teams/Avneesh",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911380/sundarbans/src/assets/teams/Avneesh.jpg",
+      "bytes": 367894,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:41.382Z"
+    },
+    {
+      "order": 66,
+      "filename": "chandan.webp",
+      "source": "src/assets/teams/chandan.webp",
+      "publicId": "sundarbans/src/assets/teams/chandan",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911382/sundarbans/src/assets/teams/chandan.webp",
+      "bytes": 1112654,
+      "format": "webp",
+      "uploadedAt": "2026-08-05T06:29:42.850Z"
+    },
+    {
+      "order": 67,
+      "filename": "Dhanya.jpg",
+      "source": "src/assets/teams/Dhanya.jpg",
+      "publicId": "sundarbans/src/assets/teams/Dhanya",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911383/sundarbans/src/assets/teams/Dhanya.jpg",
+      "bytes": 602962,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:43.740Z"
+    },
+    {
+      "order": 68,
+      "filename": "dishi.jpg",
+      "source": "src/assets/teams/dishi.jpg",
+      "publicId": "sundarbans/src/assets/teams/dishi",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911384/sundarbans/src/assets/teams/dishi.jpg",
+      "bytes": 90582,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:44.791Z"
+    },
+    {
+      "order": 69,
+      "filename": "divy.jpeg",
+      "source": "src/assets/teams/divy.jpeg",
+      "publicId": "sundarbans/src/assets/teams/divy",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911385/sundarbans/src/assets/teams/divy.jpg",
+      "bytes": 218066,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:45.635Z"
+    },
+    {
+      "order": 70,
+      "filename": "Himanshu.jpg",
+      "source": "src/assets/teams/Himanshu.jpg",
+      "publicId": "sundarbans/src/assets/teams/Himanshu",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911386/sundarbans/src/assets/teams/Himanshu.jpg",
+      "bytes": 44379,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:46.504Z"
+    },
+    {
+      "order": 71,
+      "filename": "kartik.webp",
+      "source": "src/assets/teams/kartik.webp",
+      "publicId": "sundarbans/src/assets/teams/kartik",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911387/sundarbans/src/assets/teams/kartik.webp",
+      "bytes": 575238,
+      "format": "webp",
+      "uploadedAt": "2026-08-05T06:29:47.979Z"
+    },
+    {
+      "order": 72,
+      "filename": "laksh.webp",
+      "source": "src/assets/teams/laksh.webp",
+      "publicId": "sundarbans/src/assets/teams/laksh",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911388/sundarbans/src/assets/teams/laksh.webp",
+      "bytes": 1144146,
+      "format": "webp",
+      "uploadedAt": "2026-08-05T06:29:49.559Z"
+    },
+    {
+      "order": 73,
+      "filename": "Liza.jpg",
+      "source": "src/assets/teams/Liza.jpg",
+      "publicId": "sundarbans/src/assets/teams/Liza",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911389/sundarbans/src/assets/teams/Liza.jpg",
+      "bytes": 65012,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:50.401Z"
+    },
+    {
+      "order": 74,
+      "filename": "mannu.jpg",
+      "source": "src/assets/teams/mannu.jpg",
+      "publicId": "sundarbans/src/assets/teams/mannu",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911390/sundarbans/src/assets/teams/mannu.jpg",
+      "bytes": 201134,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:51.309Z"
+    },
+    {
+      "order": 75,
+      "filename": "Megha.jpg",
+      "source": "src/assets/teams/Megha.jpg",
+      "publicId": "sundarbans/src/assets/teams/Megha",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911391/sundarbans/src/assets/teams/Megha.jpg",
+      "bytes": 126158,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:52.184Z"
+    },
+    {
+      "order": 76,
+      "filename": "Navya.jpg",
+      "source": "src/assets/teams/Navya.jpg",
+      "publicId": "sundarbans/src/assets/teams/Navya",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911392/sundarbans/src/assets/teams/Navya.jpg",
+      "bytes": 65431,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:53.141Z"
+    },
+    {
+      "order": 77,
+      "filename": "nivash.jpeg",
+      "source": "src/assets/teams/nivash.jpeg",
+      "publicId": "sundarbans/src/assets/teams/nivash",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911393/sundarbans/src/assets/teams/nivash.jpg",
+      "bytes": 157052,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:54.065Z"
+    },
+    {
+      "order": 78,
+      "filename": "R SAI SAHANAA.jpeg",
+      "source": "src/assets/teams/R SAI SAHANAA.jpeg",
+      "publicId": "sundarbans/src/assets/teams/R_SAI_SAHANAA",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911394/sundarbans/src/assets/teams/R_SAI_SAHANAA.jpg",
+      "bytes": 65452,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:54.913Z"
+    },
+    {
+      "order": 79,
+      "filename": "R.Kaviya Kaviarasi.jpg",
+      "source": "src/assets/teams/R.Kaviya Kaviarasi.jpg",
+      "publicId": "sundarbans/src/assets/teams/R.Kaviya_Kaviarasi",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911395/sundarbans/src/assets/teams/R.Kaviya_Kaviarasi.jpg",
+      "bytes": 270632,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:56.043Z"
+    },
+    {
+      "order": 80,
+      "filename": "Riya.jpg",
+      "source": "src/assets/teams/Riya.jpg",
+      "publicId": "sundarbans/src/assets/teams/Riya",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911396/sundarbans/src/assets/teams/Riya.jpg",
+      "bytes": 21697,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:56.833Z"
+    },
+    {
+      "order": 81,
+      "filename": "rushabh.jpg",
+      "source": "src/assets/teams/rushabh.jpg",
+      "publicId": "sundarbans/src/assets/teams/rushabh",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911397/sundarbans/src/assets/teams/rushabh.jpg",
+      "bytes": 678324,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:29:59.334Z"
+    },
+    {
+      "order": 82,
+      "filename": "Sadia.jpeg",
+      "source": "src/assets/teams/Sadia.jpeg",
+      "publicId": "sundarbans/src/assets/teams/Sadia",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911399/sundarbans/src/assets/teams/Sadia.jpg",
+      "bytes": 120952,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:30:00.170Z"
+    },
+    {
+      "order": 83,
+      "filename": "Samar.jpeg",
+      "source": "src/assets/teams/Samar.jpeg",
+      "publicId": "sundarbans/src/assets/teams/Samar",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911401/sundarbans/src/assets/teams/Samar.jpg",
+      "bytes": 152311,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:30:01.558Z"
+    },
+    {
+      "order": 84,
+      "filename": "shoaib.jpeg",
+      "source": "src/assets/teams/shoaib.jpeg",
+      "publicId": "sundarbans/src/assets/teams/shoaib",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911401/sundarbans/src/assets/teams/shoaib.jpg",
+      "bytes": 104233,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:30:02.986Z"
+    },
+    {
+      "order": 85,
+      "filename": "tejashvi.jpg",
+      "source": "src/assets/teams/tejashvi.jpg",
+      "publicId": "sundarbans/src/assets/teams/tejashvi",
+      "url": "https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911403/sundarbans/src/assets/teams/tejashvi.jpg",
+      "bytes": 16171,
+      "format": "jpg",
+      "uploadedAt": "2026-08-05T06:30:03.970Z"
+    }
+  ]
+}
