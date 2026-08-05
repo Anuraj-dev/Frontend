@@ -70,9 +70,8 @@ viewer becoming a themed in-site modal.
   lounge greeting parses it.
 - Login gains explicit states for the new failure modes (script down/slow) reusing existing
   message UI. Delete `src/data/members.json`. → **T-13** (done)
-- Prereq: `docs/ownership.md` — who owns each account (Google/Sheet/Drive/Cloudinary/OAuth
-  client/Apps Script URL), how it transfers at tenure handover, env var inventory
-  (`VITE_GOOGLE_CLIENT_ID`, Apps Script URL), break-glass notes. → **T-11** (open)
+- ~~Prereq: `docs/ownership.md`~~ → **T-11 dropped** (2026-08-05): owner stays with the team;
+  no ownership/handover doc.
 - The lounge gate stays a soft gate (lounge is a mockup; the roster was the only asset) —
   documented in decisions.md.
 

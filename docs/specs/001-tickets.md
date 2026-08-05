@@ -21,7 +21,7 @@
 | T-08 | Fork preview deploys | **Open** | Not verified/documented in ownership doc |
 | T-09 | `/members` → `/login` | **Done** | PR #5 |
 | T-10 | Lazy-load all routes | **Done** | PR #5 |
-| T-11 | `ownership.md` | **Open** | File not in repo |
+| T-11 | `ownership.md` | **Dropped** | Owner decision 2026-08-05: not needed; primary stays with the team |
 | T-12 | Apps Script membership source | **Partial** | Live via `VITE_MEMBERSHIP_CHECK_URL` (T-13); source not under `tools/apps-script/` |
 | T-13 | Wire login; delete members.json | **Done** | PRs #17, #19, #20 |
 | T-14 | Purge dead files | **Done** | PR #6 |
@@ -41,7 +41,8 @@
 | T-28 | Alt/aria pass | **Done** | PR #16 |
 | T-29 | Final re-audit | **Open** | Needs `docs/audit-2026-08-01.md` baseline + post metrics |
 
-**Suggested next pick order for the team:** T-20 → T-11 / T-08 / T-12 → T-17 (if modal still wanted) → T-23 → T-21 → T-22 (gated) → T-01 / T-29 close-out.
+**Suggested next pick order for the team:** T-20 → T-08 / T-12 → T-17 (if modal still wanted) → T-23 → T-21 → T-22 (gated) → T-01 / T-29 close-out.  
+**Dropped:** T-11 (`ownership.md`) — owner will keep config knowledge; no handover doc.
 
 ---
 
@@ -72,9 +73,8 @@
   "read docs/STATE.md first", red-CI-no-merge policy, SFC convention note (`<script setup>`
   for new code).
   AC: a newcomer can go clone→green PR using only this file. → **PR #10**
-- [ ] **T-08 Verify fork preview deploys.** Document the deploy mechanism in ownership doc;
-  enable/verify preview deployments for fork PRs; add preview domains to Google OAuth
-  authorized JS origins.
+- [ ] **T-08 Verify fork preview deploys.** Enable/verify preview deployments for fork PRs;
+  add preview domains to Google OAuth authorized JS origins. (No ownership.md — T-11 dropped.)
   AC: a PR from a fork produces a working preview URL where login is at least attemptable.
 
 ## Phase 1 — Bugfix
@@ -93,9 +93,9 @@
 
 ## Phase 3 — Membership via Apps Script
 
-- [ ] **T-11 ownership.md.** Accounts/credentials inventory + handover + break-glass.
-  AC: every external dependency (OAuth client, Apps Script URL, Sheet, Drive folder,
-  Cloudinary, deploy host) has an owner and a transfer note.
+- [~] **T-11 ownership.md.** ~~Accounts/credentials inventory + handover + break-glass.~~
+  **DROPPED (2026-08-05).** Owner decision: primary stays with the team; no
+  `docs/ownership.md`. Config knowledge stays with the maintainer — do not implement.
 - [~] **T-12 Apps Script membership endpoint.** Source in `tools/apps-script/`; Sheet-backed,
   CacheService ~6h, tokeninfo `aud` check, no caller-supplied email, POST text/plain
   contract documented in the file header.
