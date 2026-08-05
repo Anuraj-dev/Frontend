@@ -2,7 +2,7 @@
 > Centralized web platform for the Sundarbans House council (IITM BS degree) — events, resources, team collaboration, meetups, and certificate verification. · Last checkpoint: 2026-08-05
 
 ## 🚧 In progress / next
-- **PR open:** [#21](https://github.com/Anuraj-dev/Frontend/pull/21) — Cloudinary media pipeline + migrate site images off git — **merge when CI is green** (`feat/cloudinary-media-pipeline`). After merge: hard-refresh Teams/Events and confirm images load from `res.cloudinary.com`.
+- **PR open, CI green — ready to merge:** [#21](https://github.com/Anuraj-dev/Frontend/pull/21) (`feat/cloudinary-media-pipeline`). After merge: hard-refresh Teams/Events and confirm images load from `res.cloudinary.com`.
 - **Not started / later (optional):** data-drive Teams (JSON/Sheet); overwrite old full-size Cloudinary masters to reclaim free-tier storage; ongoing `media:sync` only when the team dumps new photos.
 - **Out of scope for this PR:** hero 240 frames stay local forever under `public/assets/frames/`.
 
