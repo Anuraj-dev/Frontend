@@ -255,8 +255,10 @@
 </template>
 
 <script>
-import logoSrc from '@/assets/LOGO.JPEG';
-import houseSrc from '@/assets/Sundarbans-House_Vue.jpg';
+const logoSrc =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911356/sundarbans/src/assets/LOGO.jpg';
+const houseSrc =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911370/sundarbans/src/assets/Sundarbans-House_Vue.jpg';
 
 export default {
   name: 'RegionMeetups',

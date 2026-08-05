@@ -754,7 +754,8 @@
 import { onBeforeUnmount, ref } from 'vue';
 import { useScrollReveal, useCounters } from '../composables/useAnimations.js';
 import PageHero from '../components/PageHero.vue';
-import magazinePreview from '../assets/delta-diaries-preview.webp';
+const magazinePreview =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911353/sundarbans/src/assets/delta-diaries-preview.webp';
 useScrollReveal();
 useCounters();
 

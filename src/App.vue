@@ -21,7 +21,7 @@
           </div>
           <div class="preloader-logo-center">
             <img
-              src="./assets/LOGO.JPEG"
+              src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911356/sundarbans/src/assets/LOGO.jpg"
               alt="Sundarbans"
               class="preloader-logo-img"
               @error="showFallback = true"
@@ -118,7 +118,11 @@
       <div class="nav-container">
         <div class="nav-left">
           <div class="nav-logo-wrapper">
-            <img src="./assets/LOGO.JPEG" alt="Sundarbans House logo" class="nav-logo" />
+            <img
+              src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911356/sundarbans/src/assets/LOGO.jpg"
+              alt="Sundarbans House logo"
+              class="nav-logo"
+            />
             <div class="logo-glow"></div>
           </div>
           <div class="brand-text">

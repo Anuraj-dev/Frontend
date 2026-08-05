@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:smoke": "playwright test"
+    "test:smoke": "playwright test",
+    "media:sync": "node scripts/media-sync.mjs",
+    "media:migrate-repo": "node scripts/media-migrate-repo.mjs"
   },
   "engines": {
     "node": "^22"
@@ -22,6 +24,7 @@
   "devDependencies": {
     "@playwright/test": "^1.62.1",
     "@vitejs/plugin-vue": "^5.0.0",
+    "cloudinary": "^2.10.0",
     "eslint": "10.8.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-vue": "10.10.0",
