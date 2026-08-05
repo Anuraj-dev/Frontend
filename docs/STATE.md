@@ -2,11 +2,10 @@
 > Centralized web platform for the Sundarbans House council (IITM BS degree) — events, resources, team collaboration, meetups, and certificate verification. · Last checkpoint: 2026-08-05
 
 ## 🚧 In progress / next
-- **Ticket board:** `docs/specs/001-tickets.md` (Spec 001 T-01…T-29) — parent plan `docs/specs/001-codebase-overhaul.md`.
-- **T-18 done:** [#21](https://github.com/Anuraj-dev/Frontend/pull/21) merged to `main` (2026-08-05). Optional: hard-refresh live Teams/Events once and confirm images load from `res.cloudinary.com`.
-- **Open Spec 001 (high level):** T-01, T-08, T-20, T-21, T-22 (gated), T-23, T-29; partial: T-02, T-12, T-15, T-17. **Dropped:** T-11 ownership.md. Suggested next: T-20 → T-08 / T-12 → T-17 (if modal wanted) → T-23 → T-21 → T-22 → T-01 / T-29.
-- **Later (optional, outside Spec 001):** data-drive Teams (JSON/Sheet); overwrite old full-size Cloudinary masters to reclaim free-tier storage; run `media:sync` only when the team dumps new photos.
-- **Out of scope:** hero 240 frames stay local forever under `public/assets/frames/`.
+- **Spec 001 closed.** Ticket board: `docs/specs/001-tickets.md` (all leftover tickets **cancelled** 2026-08-05). Parent: `docs/specs/001-codebase-overhaul.md`.
+- **Shipped highlights:** membership (T-13), certs Drive (T-16), Cloudinary (T-18 / [#21](https://github.com/Anuraj-dev/Frontend/pull/21)), CI/lazy routes/refactors/a11y.
+- **Maintain only:** no heavy binaries in git; new photos via `media/` + `npm run media:sync`; keep CI green. Optional later (not Spec 001): data-drive Teams; re-compress old Cloudinary masters if storage is tight.
+- **Out of scope forever for frames:** hero 240 stay under `public/assets/frames/`.
 
 ## Status
 - Live Vue 3 SPA (`Anuraj-dev/Frontend`), static host (Vercel). No app backend.

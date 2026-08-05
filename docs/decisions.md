@@ -29,3 +29,6 @@
 
 ## 2026-08-05 — Drop Spec 001 T-11 (`docs/ownership.md`)
 **Why:** Owner stays with the team long-term and will communicate where configs live when needed. No council-backup / handover / break-glass ownership doc.
+
+## 2026-08-05 — Close Spec 001; cancel remaining tickets
+**Why:** Product-visible + HEAD-quality goals are done (membership, Drive certs, Cloudinary, tooling/CI/refactors). Leftovers (history purge, screenshot baseline, size guard, modal cert UI, Apps Script source in repo, fork previews, re-audit, etc.) are optional hygiene — cancelled so the board matches reality and does not invent busywork.

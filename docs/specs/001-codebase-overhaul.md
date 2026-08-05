@@ -1,9 +1,7 @@
 # Spec 001 — Codebase Overhaul (quality, security, weight, team-readiness)
 
-> Status: **in progress** (approved 2026-08-01; bulk of tickets shipped including **T-18 Cloudinary**
-> via PR #21 merged 2026-08-05). Remaining work tracked in `001-tickets.md`.
-> Baseline to beat: `docs/audit-2026-08-01.md` (if missing, recreate from T-29 / historical audit).
-> Tickets: **`001-tickets.md`** — read that for done vs open.
+> Status: **closed** (2026-08-05). Shipped work kept; leftover tickets **cancelled** by owner.
+> See `001-tickets.md` for the final board (done vs cancelled).
 
 ## Goal
 
