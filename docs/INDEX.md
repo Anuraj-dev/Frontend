@@ -8,4 +8,6 @@
 | conventions.md | Stack, run/build commands, naming and folder structure |
 | old_context.md | Honest pre-tracking backstory (reconstructed at adoption) |
 | specs/ | Numbered specs for complex features (see /spec) |
+| specs/001-codebase-overhaul.md | Spec 001 — overhaul goals, phases, constraints |
+| specs/001-tickets.md | Spec 001 — ticket list + **live status board** (T-01…T-29) |
 | sessions/ | One append-only log per day |

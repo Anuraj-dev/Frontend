@@ -2,17 +2,19 @@
 > Centralized web platform for the Sundarbans House council (IITM BS degree) — events, resources, team collaboration, meetups, and certificate verification. · Last checkpoint: 2026-08-05
 
 ## 🚧 In progress / next
-- **PR open, CI green — ready to merge:** [#21](https://github.com/Anuraj-dev/Frontend/pull/21) (`feat/cloudinary-media-pipeline`). After merge: hard-refresh Teams/Events and confirm images load from `res.cloudinary.com`.
-- **Not started / later (optional):** data-drive Teams (JSON/Sheet); overwrite old full-size Cloudinary masters to reclaim free-tier storage; ongoing `media:sync` only when the team dumps new photos.
-- **Out of scope for this PR:** hero 240 frames stay local forever under `public/assets/frames/`.
+- **Ticket board:** `docs/specs/001-tickets.md` (Spec 001 T-01…T-29) — parent plan `docs/specs/001-codebase-overhaul.md`.
+- **T-18 done:** [#21](https://github.com/Anuraj-dev/Frontend/pull/21) merged to `main` (2026-08-05). Optional: hard-refresh live Teams/Events once and confirm images load from `res.cloudinary.com`.
+- **Open Spec 001 (high level):** T-01, T-08, T-20, T-21, T-22 (gated), T-23, T-29; partial: T-02, T-12, T-15, T-17. **Dropped:** T-11 ownership.md. Suggested next: T-20 → T-08 / T-12 → T-17 (if modal wanted) → T-23 → T-21 → T-22 → T-01 / T-29.
+- **Later (optional, outside Spec 001):** data-drive Teams (JSON/Sheet); overwrite old full-size Cloudinary masters to reclaim free-tier storage; run `media:sync` only when the team dumps new photos.
+- **Out of scope:** hero 240 frames stay local forever under `public/assets/frames/`.
 
 ## Status
 - Live Vue 3 SPA (`Anuraj-dev/Frontend`), static host (Vercel). No app backend.
 - **Auth (T-13):** Google OAuth → Apps Script membership (`VITE_MEMBERSHIP_CHECK_URL`). No `members.json`.
 - **Certs (T-16):** PDFs on Google Drive; no `public/certificates/` in repo.
-- **Media (this session — landed in PR, not yet merged at checkpoint write):**
-  - **85** non-frame images uploaded to Cloudinary (folder prefix `sundarbans/…`).
-  - Vue/HTML rewrites use delivery URLs: `…/upload/f_auto,q_auto:good,w_1000,c_limit/…` (bandwidth).
+- **Media (T-18 — shipped, PR #21 merged):**
+  - **85** non-frame images on Cloudinary (folder prefix `sundarbans/…`).
+  - Vue/HTML delivery URLs: `…/upload/f_auto,q_auto:good,w_1000,c_limit/…` (bandwidth).
   - Locals for those 85 **deleted** from git; only frames remain as heavy local images (~9.5M under `public/assets/frames/`).
   - Teams: `loading="lazy"` + `decoding="async"` on card images.
   - Pipeline for the team: dump into `media/` → `npm run media:sync` → URLs in `media/manifest.json` → paste into views.
