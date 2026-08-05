@@ -62,24 +62,38 @@ import { useScrollReveal } from '../composables/useAnimations.js';
 import { useEventDateFilter } from '../composables/useEventDateFilter.js';
 import '../assets/community.css';
 
-import imgShivShakti from '../assets/Community Events/Cultural/Shiv Shakti.jpeg';
-import imgPhotography from '../assets/Community Events/Cultural/Photography Workshop.jpeg';
-import imgDance from '../assets/Community Events/Cultural/Dance Workshop.jpeg';
-import img3AmThoughts from '../assets/Community Events/Cultural/3 AM thoughts.jpeg';
-import imgOpenMic from '../assets/Community Events/Cultural/Open Mic.jpeg';
+const imgShivShakti =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911335/sundarbans/src/assets/Community_Events/Cultural/Shiv_Shakti.jpg';
+const imgPhotography =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911333/sundarbans/src/assets/Community_Events/Cultural/Photography_Workshop.jpg';
+const imgDance =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911332/sundarbans/src/assets/Community_Events/Cultural/Dance_Workshop.jpg';
+const img3AmThoughts =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911329/sundarbans/src/assets/Community_Events/Cultural/3_AM_thoughts.jpg';
+const imgOpenMic =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911333/sundarbans/src/assets/Community_Events/Cultural/Open_Mic.jpg';
 
 // Upcoming event placeholder images — replace with real ones when available
-import imgUtsav from '../assets/Community Events/Cultural/Shiv Shakti.jpeg';
-import imgPhotoWalk from '../assets/Community Events/Cultural/Photography Workshop.jpeg';
-import imgOpenMicUpcoming from '../assets/Community Events/Cultural/Open Mic.jpeg';
+const imgUtsav =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911335/sundarbans/src/assets/Community_Events/Cultural/Shiv_Shakti.jpg';
+const imgPhotoWalk =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911333/sundarbans/src/assets/Community_Events/Cultural/Photography_Workshop.jpg';
+const imgOpenMicUpcoming =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911333/sundarbans/src/assets/Community_Events/Cultural/Open_Mic.jpg';
 
 // Team Photos
-import imgLiza from '../assets/teams/Liza.jpg';
-import imgMegha from '../assets/teams/Megha.jpg';
-import imgAarusha from '../assets/teams/Aarusha.jpg';
-import imgNavya from '../assets/teams/Navya.jpg';
-import imgDhanya from '../assets/teams/Dhanya.jpg';
-import imgKaviya from '../assets/teams/R.Kaviya Kaviarasi.jpg';
+const imgLiza =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911389/sundarbans/src/assets/teams/Liza.jpg';
+const imgMegha =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911391/sundarbans/src/assets/teams/Megha.jpg';
+const imgAarusha =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911375/sundarbans/src/assets/teams/Aarusha.jpg';
+const imgNavya =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911392/sundarbans/src/assets/teams/Navya.jpg';
+const imgDhanya =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911383/sundarbans/src/assets/teams/Dhanya.jpg';
+const imgKaviya =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911395/sundarbans/src/assets/teams/R.Kaviya_Kaviarasi.jpg';
 
 useScrollReveal();
 

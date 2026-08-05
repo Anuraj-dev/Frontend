@@ -171,15 +171,24 @@ import { useScrollReveal } from '../composables/useAnimations.js';
 import PageHero from '../components/PageHero.vue';
 import { leaderboardData } from '@/data/leaderboard.js';
 
-import imgDelhi from '@/assets/regions/delhi.jpg';
-import imgMumbai from '@/assets/regions/mumbai.jpg';
-import imgBangalore from '@/assets/regions/bangalore.jpg';
-import imgKolkata from '@/assets/regions/kolkata.jpg';
-import imgHyderabad from '@/assets/regions/hyderabad.jpg';
-import imgPatna from '@/assets/regions/patna.jpg';
-import imgChandigarh from '@/assets/regions/chandigarh.jpg';
-import imgChennai from '@/assets/regions/chennai.jpg';
-import imgLucknow from '@/assets/regions/lucknow.jpg';
+const imgDelhi =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911362/sundarbans/src/assets/regions/delhi.jpg';
+const imgMumbai =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911367/sundarbans/src/assets/regions/mumbai.jpg';
+const imgBangalore =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911358/sundarbans/src/assets/regions/bangalore.jpg';
+const imgKolkata =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911364/sundarbans/src/assets/regions/kolkata.jpg';
+const imgHyderabad =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911363/sundarbans/src/assets/regions/hyderabad.jpg';
+const imgPatna =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911369/sundarbans/src/assets/regions/patna.jpg';
+const imgChandigarh =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911359/sundarbans/src/assets/regions/chandigarh.webp';
+const imgChennai =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911360/sundarbans/src/assets/regions/chennai.jpg';
+const imgLucknow =
+  'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911366/sundarbans/src/assets/regions/lucknow.jpg';
 
 useScrollReveal();
 

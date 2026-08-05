@@ -12,7 +12,11 @@
       <div class="footer-grid">
         <div class="fbrand">
           <div class="flogo">
-            <img src="../assets/LOGO.JPEG" alt="Sundarbans House logo" class="flogo-img" />
+            <img
+              src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911356/sundarbans/src/assets/LOGO.jpg"
+              alt="Sundarbans House logo"
+              class="flogo-img"
+            />
             <div>
               <span class="fbrand-name">SUNDARBANS</span>
               <span class="fbrand-sub">IIT Madras BS</span>
@@ -114,7 +118,11 @@
             </button>
           </div>
           <div class="iit-badge">
-            <img src="../assets/IITM-Logo.png" alt="IIT Madras" class="iit-logo" />
+            <img
+              src="https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911353/sundarbans/src/assets/IITM-Logo.png"
+              alt="IIT Madras"
+              class="iit-logo"
+            />
             <span>IIT Madras Affiliated</span>
           </div>
         </div>

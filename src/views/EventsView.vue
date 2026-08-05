@@ -290,7 +290,7 @@ const pastEvents = [
     desc: 'The first ever sumdarbans student meetup in Bengaluru, started with light conversations and turned into heartfelt conversations.',
     date: 'May 2026',
     location: 'Talk over tables cafe',
-    img: '/assets/pastevent/bengaluru_meetup_608_1.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911324/sundarbans/public/assets/pastevent/bengaluru_meetup_608_1.png',
   },
   {
     title: 'Delhi Meetup 2026',
@@ -338,7 +338,7 @@ const pastEvents = [
     desc: "High-energy football tournament at Paradox'25 — strategy, skill and spirit on the field",
     date: 'May 2025',
     location: 'Offline',
-    img: '/assets/pastevent/2025-05-15_12-44-00_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911324/sundarbans/public/assets/pastevent/2025-05-15_12-44-00_UTC.jpg',
   },
   {
     title: 'Ghost in the Firewall',
@@ -346,7 +346,7 @@ const pastEvents = [
     desc: "Capture-the-flag style cybersecurity challenge at Paradox'25 — decode, defend and uncover the rogue AI",
     date: 'May 2025',
     location: 'Offline',
-    img: '/assets/pastevent/2025-05-14_08-34-35_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911323/sundarbans/public/assets/pastevent/2025-05-14_08-34-35_UTC.jpg',
   },
   {
     title: 'Hack Eclipse — 24-hour Hackathon',
@@ -354,7 +354,7 @@ const pastEvents = [
     desc: 'Round-the-clock coding marathon where teams built innovative solutions across environment, healthcare, fintech and more',
     date: 'May 2025',
     location: 'Virtual',
-    img: '/assets/pastevent/2025-05-09_06-25-51_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911322/sundarbans/public/assets/pastevent/2025-05-09_06-25-51_UTC.jpg',
   },
   {
     title: 'Paradox Badminton League 2.0',
@@ -378,7 +378,7 @@ const pastEvents = [
     desc: 'Three-round photography contest with a ₹6000 prize pool — portraits that tell a lasting story',
     date: 'February 2025',
     location: 'Virtual',
-    img: '/assets/pastevent/2025-02-10_10-25-33_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911320/sundarbans/public/assets/pastevent/2025-02-10_10-25-33_UTC.jpg',
   },
   {
     title: 'Into the Shadows — Special Forces Talk',
@@ -386,7 +386,7 @@ const pastEvents = [
     desc: 'Gripping session with Maj. Sushant Singh on courage, resilience and life as a Special Forces operative',
     date: 'February 2025',
     location: 'Virtual',
-    img: '/assets/pastevent/2025-02-13_02-15-54_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911321/sundarbans/public/assets/pastevent/2025-02-13_02-15-54_UTC.jpg',
   },
   {
     title: 'Python Odyssey',
@@ -394,7 +394,7 @@ const pastEvents = [
     desc: '7-episode hands-on Python journey covering fundamentals, OOP and Flask web development',
     date: 'February 2025',
     location: 'Virtual',
-    img: '/assets/pastevent/2025-02-06_00-30-44_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911319/sundarbans/public/assets/pastevent/2025-02-06_00-30-44_UTC.jpg',
   },
   {
     title: 'Mahabharata — Science Meets History',
@@ -402,7 +402,7 @@ const pastEvents = [
     desc: 'Nilesh Oak takes the audience through scientific dating of the Mahabharata and the mysteries of ancient India',
     date: 'January 2025',
     location: 'Virtual',
-    img: '/assets/pastevent/2025-01-27_08-57-27_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911318/sundarbans/public/assets/pastevent/2025-01-27_08-57-27_UTC.jpg',
   },
   {
     title: 'Frames of Freedom — Republic Day Photography',
@@ -410,7 +410,7 @@ const pastEvents = [
     desc: "Photography contest celebrating patriotism and India's culture — themes of Tiranga, Unsung Heroes and India in Motion",
     date: 'January 2025',
     location: 'Virtual',
-    img: '/assets/pastevent/2025-01-25_01-20-01_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911317/sundarbans/public/assets/pastevent/2025-01-25_01-20-01_UTC.jpg',
   },
   {
     title: 'Navodaya — Voices of Power with Smriti Irani',
@@ -418,7 +418,7 @@ const pastEvents = [
     desc: 'Grand finale of Voices of Power featuring Smriti Irani on leadership, empowerment and women shaping the future',
     date: 'December 2024',
     location: 'Virtual',
-    img: '/assets/pastevent/2024-12-05_11-31-48_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911316/sundarbans/public/assets/pastevent/2024-12-05_11-31-48_UTC.jpg',
   },
   {
     title: 'Dinkar Ki Pratiksha — Open Mic',
@@ -426,7 +426,7 @@ const pastEvents = [
     desc: 'Collaborative open mic celebrating the 116th birth anniversary of poet Ramdhari Singh Dinkar — poetry across all languages',
     date: 'September 2024',
     location: 'Virtual',
-    img: '/assets/pastevent/2024-09-23_06-54-49_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911315/sundarbans/public/assets/pastevent/2024-09-23_06-54-49_UTC.jpg',
   },
   {
     title: 'Sundarbans BS Talent Show',
@@ -434,7 +434,7 @@ const pastEvents = [
     desc: 'Platform for IITM BS students to showcase their extraordinary talents to the wider community',
     date: 'July 2024',
     location: 'Virtual',
-    img: '/assets/pastevent/2024-07-16_11-41-17_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911314/sundarbans/public/assets/pastevent/2024-07-16_11-41-17_UTC.jpg',
   },
   {
     title: 'How to Improve Concentration — Swami Mukundanand',
@@ -442,7 +442,7 @@ const pastEvents = [
     desc: 'Enlightening session by IIT-IIM alumnus and spiritual leader Swami Mukundanand Ji on focus and Vedic wisdom',
     date: 'March 2023',
     location: 'Virtual',
-    img: '/assets/pastevent/2023-03-22_09-54-19_UTC.jpg',
+    img: 'https://res.cloudinary.com/l59gy0g2/image/upload/f_auto,q_auto:good,w_1000,c_limit/v1785911313/sundarbans/public/assets/pastevent/2023-03-22_09-54-19_UTC.jpg',
   },
 ];
 
