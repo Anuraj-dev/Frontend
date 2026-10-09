@@ -1,7 +1,8 @@
 // Maintenance gate. Runs on Vercel only, and only for the production deployment, so preview
 // links and local dev keep showing the real site. Reopen by setting MAINTENANCE to false and
 // shipping that change to main.
-const MAINTENANCE = true;
+// Fork-only: the testing deployment lifts the maintenance page so the testing gate shows.
+const MAINTENANCE = false;
 
 // Served as-is so the maintenance page itself loads. Everything else in the built site,
 // including the JS bundle, is answered with the maintenance page.
