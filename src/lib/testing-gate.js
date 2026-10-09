@@ -1,6 +1,11 @@
 // Fork-only testing gate. Not for upstream: the list ships in the client bundle, so it keeps
 // casual visitors out but does not protect the data behind the site. Emails are lowercase.
-export const TESTING_EMAILS = [];
+export const TESTING_EMAILS = [
+  'sundarbans-webad@ds.study.iitm.ac.in',
+  'sundarbans-sec@ds.study.iitm.ac.in',
+  'sundarbans-ds@ds.study.iitm.ac.in',
+  '24f2008153@ds.study.iitm.ac.in',
+];
 
 const KEY = 'sundarbans-testing-gate';
 
