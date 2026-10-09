@@ -11,7 +11,7 @@ const sb = async () => (client ??= (await import('./supabase.js')).supabase);
 export const auth = reactive({
   ready: false,
   session: null,
-  profile: null, // { id, member_code, full_name, preferred_name, email, region_id, region: { code, name } }
+  profile: null, // own members row: phone, tour_seen_at, certificate_name, cohort, region
   dashboard: null, // { role: 'super_admin' | 'admin' | 'normal', position, region_id, community_id }
   error: '',
 });
@@ -23,15 +23,20 @@ export const isSuperAdmin = computed(() => auth.dashboard?.role === 'super_admin
 export const isRc = computed(
   () => auth.dashboard?.role === 'admin' && auth.dashboard?.position === 'rc'
 );
-// The admin lounge is for Regional Coordinators and Super Admins only.
-export const canAdmin = computed(() => isSuperAdmin.value || isRc.value);
+export const isHead = computed(
+  () =>
+    auth.dashboard?.role === 'admin' &&
+    (auth.dashboard?.position === 'head' || auth.dashboard?.position === 'co_head')
+);
+// Heads and Co-Heads can open Admin; the admin page hides student tabs for them.
+export const canAdmin = computed(() => isSuperAdmin.value || isRc.value || isHead.value);
 
 function friendly(message) {
   const m = String(message ?? '');
   // Any refusal by the sign-up trigger (not on the roster, other domain, blacklisted) reaches the
   // browser as this one generic Auth message.
   if (/database error saving new user/i.test(m))
-    return 'This Google account is not on the house roster. Sign in with your IITM student email, or ask your Regional Coordinator to add you.';
+    return 'Access Denied. Sign in with your IITM student email or ask your regional coordinator to add you.';
   if (/banned/i.test(m)) return 'Your account is not active. Contact your Regional Coordinator.';
   if (/not active/i.test(m))
     return 'Your account is not active. Contact your Regional Coordinator.';
@@ -79,7 +84,7 @@ async function loadProfile() {
     supabase
       .from('members')
       .select(
-        'id, member_code, full_name, preferred_name, email, region_id, region:regions(code, name)'
+        'id, member_code, full_name, preferred_name, email, phone, region_id, tour_seen_at, certificate_name, certificate_name_confirmed_at, cohort, region:regions(code, name)'
       )
       .eq('id', uid)
       .maybeSingle(),
@@ -137,8 +142,8 @@ export async function signInWithGoogle(next = '/lounge') {
     provider: 'google',
     options: {
       redirectTo: `${location.origin}${location.pathname}`,
-      // Suggest the IITM student account; the roster check in the database is what enforces it.
-      queryParams: { hd: 'ds.study.iitm.ac.in', prompt: 'select_account' },
+      // Four IITM domains are eligible; the roster check in the database is what enforces it.
+      queryParams: { prompt: 'select_account' },
     },
   });
   if (error) {

@@ -101,6 +101,26 @@
             <i v-if="c.cls" aria-hidden="true"></i>{{ c.label }}
           </button>
         </div>
+        <div v-if="regionChips.length > 1" class="ev-chips" role="group" aria-label="Region">
+          <button
+            v-for="r in regionChips"
+            :key="r.id"
+            type="button"
+            class="chip"
+            :class="{ on: region === r.id }"
+            :aria-pressed="region === r.id ? 'true' : 'false'"
+            @click="region = r.id"
+          >
+            {{ r.label }}
+          </button>
+        </div>
+        <label v-if="cohortOptions.length" class="ev-cohort">
+          <span class="visually-hidden">Cohort</span>
+          <select v-model="cohort" aria-label="Filter by cohort">
+            <option value="">All cohorts</option>
+            <option v-for="c in cohortOptions" :key="c" :value="c">{{ c }}</option>
+          </select>
+        </label>
 
         <div
           :id="`panel-${tab}`"
@@ -168,7 +188,7 @@
                     <template v-if="status(e) === 'live'">
                       <a
                         class="er-join gp-btn"
-                        :href="e.meet_link"
+                        :href="e.meet_link || e.gmail_link"
                         target="_blank"
                         rel="noopener noreferrer"
                         >Join on Meet <span aria-hidden="true">→</span
@@ -287,6 +307,7 @@ import {
 import { MOORED, PLATE } from './home/art.js';
 import { vLoop } from './home/motion.js';
 import RiverBoat from './home/RiverBoat.vue';
+import { lounge } from './session.js';
 import { mode } from './state.js';
 
 const emit = defineEmits(['cert']);
@@ -310,7 +331,19 @@ const CHIPS = [
 ];
 
 const comm = ref('all');
+const region = ref('all');
+const cohort = ref('');
 const tab = eventsTab;
+const regionChips = computed(() => {
+  const ids = [...new Set(visible.value.map((e) => e.region_id).filter(Boolean))];
+  if (!ids.length) return [];
+  const named = lounge.regions.filter((r) => ids.includes(r.id));
+  return [
+    { id: 'all', label: 'All regions' },
+    ...named.map((r) => ({ id: String(r.id), label: r.name })),
+  ];
+});
+const cohortOptions = computed(() => lounge.cohorts?.options ?? []);
 
 /* On a phone the chips are one row that scrolls sideways; a soft fade at the edge that
    has more chips beyond it says so. Set from the row's own scroll events. */
@@ -370,8 +403,12 @@ const lists = computed(() => {
   const by = (s) => visible.value.filter((e) => status(e) === s);
   return {
     live: by('live'),
-    upcoming: by('upcoming').sort((a, b) => a.starts_at.localeCompare(b.starts_at)),
-    past: by('past').sort((a, b) => b.starts_at.localeCompare(a.starts_at)),
+    upcoming: by('upcoming').sort((a, b) =>
+      String(a.starts_at || '').localeCompare(String(b.starts_at || ''))
+    ),
+    past: by('past').sort((a, b) =>
+      String(b.starts_at || '').localeCompare(String(a.starts_at || ''))
+    ),
     mine: mine.value,
   };
 });
@@ -394,7 +431,18 @@ watch(tab, (t) => {
 });
 
 const pick = (list) =>
-  comm.value === 'all' ? list : list.filter((e) => commKey(e) === comm.value);
+  list.filter((e) => {
+    if (comm.value !== 'all' && commKey(e) !== comm.value) return false;
+    if (region.value !== 'all' && String(e.region_id) !== region.value) return false;
+    if (
+      cohort.value &&
+      Array.isArray(e.audience_cohorts) &&
+      e.audience_cohorts.length &&
+      !e.audience_cohorts.includes(cohort.value)
+    )
+      return false;
+    return true;
+  });
 const counts = computed(() =>
   Object.fromEntries(TABS.map((t) => [t.id, pick(lists.value[t.id]).length]))
 );

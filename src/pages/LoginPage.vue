@@ -66,14 +66,12 @@ async function enter(next) {
   }
   try {
     // Load both scenes before fading, so a slow chunk cannot leave an empty screen.
-    const [, , state] = await Promise.all([
+    await Promise.all([
       import('./LoungePage.vue'),
       import('../components/lounge/WelcomeTour.vue'),
       import('../components/lounge/state.js'),
     ]);
     if (disposed) return;
-    // Deliberately replay on every sign-in until the backend owns the seen flag.
-    state.resetTour();
     if (document.startViewTransition && !reducedMotion()) await crossfadeToLounge();
     else await fadeToLounge();
   } catch {

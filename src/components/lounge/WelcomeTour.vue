@@ -458,6 +458,17 @@
               >It goes on your {{ objectWord }}, and it's what the house calls you.</small
             >
           </label>
+          <label class="f-name">
+            <span>Phone <small>optional</small></span>
+            <input
+              v-model="phoneDraft"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              maxlength="20"
+              placeholder="For later forms"
+            />
+          </label>
           <div class="f-fixed gp-inset">
             <div>
               <span class="f-k">Roll</span>
@@ -475,12 +486,15 @@
           <p class="f-cert">
             {{
               certName
-                ? `Certificates keep your first confirmed name: ${certName}.`
-                : 'The first name you save is printed on your certificates. Check the spelling.'
+                ? `Certificates print ${certName}. Lounge name edits do not change that.`
+                : 'A certificate name is asked only when an event releases one for you.'
             }}
           </p>
+          <p v-if="saveError" class="ff-err" role="alert">{{ saveError }}</p>
           <div class="f-acts">
-            <button type="submit" class="gp-btn is-big" :disabled="!canSave">Save</button>
+            <button type="submit" class="gp-btn is-big" :disabled="!canSave || saving">
+              {{ saving ? 'Saving…' : 'Save' }}
+            </button>
             <button type="button" class="gp-btn is-ghost is-big" @click="notNow">Not now</button>
           </div>
         </form>
@@ -549,6 +563,7 @@ import { BIRDS, BOAT, MOON, PLATE, SUN } from './home/art.js';
 import { animate, lite, rare, reduced } from './home/motion.js';
 import { member } from './fixtures.js';
 import { play } from './sound.js';
+import { errorText } from '../../lib/auth.js';
 import { certName, mode, preferredName, rosterName, savePreferredName, wait } from './state.js';
 import {
   COMMUNITIES,
@@ -730,9 +745,12 @@ const stars = computed(() => {
 });
 
 /* The name at the ghat: the member's preferred name, never the roll number. */
-const nameDraft = ref(preferredName.value || rosterName);
+const nameDraft = ref(preferredName.value || rosterName.value);
+const phoneDraft = ref(member.phone || '');
 const saved = ref(false);
 const savedName = ref('');
+const saving = ref(false);
+const saveError = ref('');
 const clean = (v) => v.trim().replace(/\s+/g, ' ');
 const savedFirst = computed(() => savedName.value.split(' ')[0]);
 const canSave = computed(() => clean(nameDraft.value).length > 0);
@@ -1423,12 +1441,20 @@ function dock() {
   );
 }
 
-function save() {
-  if (!canSave.value) return;
-  savePreferredName(nameDraft.value);
-  savedName.value = clean(nameDraft.value);
-  saved.value = true;
-  nextTick(() => enterEl.value?.focus({ preventScroll: true }));
+async function save() {
+  if (!canSave.value || saving.value) return;
+  saving.value = true;
+  saveError.value = '';
+  try {
+    await savePreferredName(nameDraft.value, phoneDraft.value.trim() || null);
+    savedName.value = clean(nameDraft.value);
+    saved.value = true;
+    nextTick(() => enterEl.value?.focus({ preventScroll: true }));
+  } catch (err) {
+    saveError.value = errorText(err);
+  } finally {
+    saving.value = false;
+  }
 }
 
 watch(saved, (on) => {

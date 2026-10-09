@@ -77,7 +77,7 @@ const emit = defineEmits(['close']);
 const swing = !swung;
 swung = true;
 
-const list = computed(() => ev.notices ?? []);
+const list = computed(() => ev.notices?.value ?? []);
 const unread = computed(() => ev.unreadCount?.value ?? 0);
 const isRead = (n) => ev.isRead?.(n) ?? true;
 const ago = (t) => ev.ago?.(t) ?? '';

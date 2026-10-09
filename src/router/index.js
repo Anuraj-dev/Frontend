@@ -17,7 +17,19 @@ const routes = [
     component: () => import('../pages/LoungePage.vue'),
     meta: { member: true },
   },
-  // The admin lounge: Regional Coordinators and Super Admins, opened from inside the Lounge.
+  {
+    path: '/lounge/forms/:id',
+    name: 'LoungeForm',
+    component: () => import('../pages/FormPage.vue'),
+    meta: { member: true },
+  },
+  {
+    path: '/lounge/certificates/:id',
+    name: 'LoungeCertificate',
+    component: () => import('../pages/CertificatePage.vue'),
+    meta: { member: true },
+  },
+  // The admin lounge: Regional Coordinators, Heads/Co-Heads and Super Admins.
   {
     path: '/admin',
     name: 'Admin',

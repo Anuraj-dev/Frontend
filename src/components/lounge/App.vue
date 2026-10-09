@@ -30,6 +30,8 @@
   />
   <ProfileEdit v-if="editOpen" @close="editOpen = false" />
   <ProfileEdit v-if="nameCardOpen" variant="ghat" @close="nameCardOpen = false" />
+  <RegionSelect v-if="needRegion" @close="needRegion = false" />
+  <FormDialog v-if="formOpen" :form="formOpen" @close="formOpen = null" />
   <CertificatesPopup v-if="certsOpen" :start="certStart" @close="certsOpen = false" />
   <NoticesPanel v-if="noticesOpen" :focus="noticeFocus" @close="noticesOpen = false" />
 </template>
@@ -38,11 +40,15 @@
 import { defineAsyncComponent, onBeforeUnmount, ref, watch } from 'vue';
 import CertificatesPopup from './CertificatesPopup.vue';
 import EventsPage from './EventsPage.vue';
+import FormDialog from './FormDialog.vue';
 import LoungeHome from './LoungeHome.vue';
 import LoungeNav from './LoungeNav.vue';
 import NoticesPanel from './NoticesPanel.vue';
 import ProfileEdit from './ProfileEdit.vue';
 import ProfileMenu from './ProfileMenu.vue';
+import RegionSelect from './RegionSelect.vue';
+import { member } from './fixtures.js';
+import { formById } from './session.js';
 import { markTourSeen, nameCardOpen, resetTour, tourSeen } from './state.js';
 /* tide.js (theme and page switches) belongs to the motion designer; every call is optional. */
 import * as tide from './tide.js';
@@ -90,9 +96,27 @@ const certsOpen = ref(false);
 const certStart = ref('');
 const noticesOpen = ref(false);
 const noticeFocus = ref('');
+const needRegion = ref(false);
+const formOpen = ref(null);
 
-function retakeTour() {
-  resetTour();
+watch(
+  () => [showHome.value, member.region_id],
+  ([home, regionId]) => {
+    needRegion.value = !!home && !regionId;
+  },
+  { immediate: true }
+);
+
+watch(
+  () => route.query.form,
+  (id) => {
+    formOpen.value = typeof id === 'string' ? formById(id) : null;
+  },
+  { immediate: true }
+);
+
+async function retakeTour() {
+  await resetTour();
   profileOpen.value = editOpen.value = certsOpen.value = noticesOpen.value = false;
   nameCardOpen.value = false;
   leaving.value = false;
@@ -102,8 +126,12 @@ function retakeTour() {
 }
 
 /* Enter the Lounge ({ from, boat }: where the name and the boat are now) or "Not now" (null). */
-function onDone(handoff) {
-  markTourSeen();
+async function onDone(handoff) {
+  try {
+    await markTourSeen();
+  } catch {
+    /* Tour still closes; the member can retake from profile if the save did not land. */
+  }
   entry.value = handoff?.from ? handoff : 'name';
   if (view.value !== 'home') {
     router.replace({ path: '/lounge' });
