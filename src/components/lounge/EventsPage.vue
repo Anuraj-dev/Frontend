@@ -290,7 +290,6 @@ import {
 import { MOORED, PLATE } from './home/art.js';
 import { vLoop } from './home/motion.js';
 import RiverBoat from './home/RiverBoat.vue';
-import { lounge } from './session.js';
 import { mode } from './state.js';
 import { formByEvent } from './session.js';
 
@@ -315,8 +314,6 @@ const CHIPS = [
 ];
 
 const comm = ref('all');
-const region = ref('all');
-const cohort = ref('');
 const tab = eventsTab;
 const registrationOpen = (event) => {
   const form = formByEvent(event.id);
