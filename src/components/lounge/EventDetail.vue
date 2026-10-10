@@ -28,7 +28,10 @@
         </p>
         <p class="evd-desc">{{ event.description }}</p>
 
-        <div v-if="st === 'live'" class="evd-air gp-inset">
+        <p v-if="event.cancelled_at || event.cancelled" class="evd-plain">
+          This event was cancelled.
+        </p>
+        <div v-else-if="st === 'live'" class="evd-air gp-inset">
           <p class="gp-title">On air now</p>
           <p class="gp-meta">
             Started {{ ago(event.starts_at) }} · <b>{{ endsIn(event) }}</b>
@@ -54,7 +57,9 @@
               {{ until(event.starts_at) }}.</span
             >
           </p>
-          <template v-else-if="regForm && (regForm.accepting_responses || regForm.is_open)">
+          <template
+            v-else-if="regForm && (regForm.accepting_responses ?? regForm.is_open ?? false)"
+          >
             <button type="button" class="gp-btn is-big" @click="step = 'form'">Register</button>
             <p class="evd-small">Starts {{ until(event.starts_at) }}.</p>
           </template>
@@ -210,6 +215,7 @@ async function submit() {
     return;
   }
   if (!regForm.value || busy.value) return;
+  if (!(await fieldsEl.value?.validate())) return;
   busy.value = true;
   error.value = '';
   try {

@@ -22,9 +22,16 @@
         Your request is {{ pending.status }}. The saved region stays
         {{ member.region.name || 'unset' }} until it is approved.
       </p>
+      <p v-else-if="sameRegion" class="pe-cert" role="status">
+        This is already your saved region. Choose another region to request a correction.
+      </p>
       <p v-if="error" class="ff-err" role="alert">{{ error }}</p>
       <div class="reg-acts">
-        <button type="submit" class="gp-btn is-big" :disabled="busy || (!first && !!pending)">
+        <button
+          type="submit"
+          class="gp-btn is-big"
+          :disabled="busy || (!first && (!!pending || sameRegion))"
+        >
           {{ busy ? 'Saving…' : first ? 'Save region' : 'Request change' }}
         </button>
         <button type="button" class="gp-btn is-ghost is-big" @click="dlg?.close()">Cancel</button>
@@ -48,6 +55,9 @@ import {
 const emit = defineEmits(['close']);
 const dlg = ref(null);
 const first = computed(() => !member.region_id);
+const sameRegion = computed(
+  () => !first.value && Number(regionId.value) === Number(member.region_id)
+);
 const heading = computed(() =>
   first.value ? 'Which region are you in?' : 'Ask to change your region'
 );

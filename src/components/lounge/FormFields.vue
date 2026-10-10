@@ -56,9 +56,12 @@
         </legend>
         <label v-for="opt in field.options || []" :key="opt" class="ff-check">
           <input
+            :id="idFor(field)"
             :checked="selected(field.key).includes(opt)"
             type="checkbox"
             :name="field.key"
+            :aria-invalid="errors[field.key] ? 'true' : undefined"
+            :aria-describedby="errors[field.key] ? errorId(field) : undefined"
             @change="toggle(field.key, opt, $event.target.checked)"
           />
           {{ opt }}
@@ -67,6 +70,8 @@
           <input
             :checked="otherOn[field.key]"
             type="checkbox"
+            :aria-invalid="errors[field.key] ? 'true' : undefined"
+            :aria-describedby="errors[field.key] ? errorId(field) : undefined"
             @change="toggleOther(field.key, $event.target.checked)"
           />
           Other
@@ -79,6 +84,9 @@
             :aria-label="`Other answer for ${field.label}`"
           />
         </label>
+        <p v-if="errors[field.key]" :id="errorId(field)" class="ff-error" role="alert">
+          {{ errors[field.key] }}
+        </p>
       </fieldset>
 
       <label v-else-if="field.type === 'checkbox'" class="ff-check">
@@ -95,7 +103,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { computed, nextTick, reactive, watch } from 'vue';
 import { member } from './fixtures.js';
 import { preferredName } from './state.js';
 
@@ -107,6 +115,7 @@ const props = defineProps({
 const draft = reactive({});
 const otherOn = reactive({});
 const otherText = reactive({});
+const errors = reactive({});
 const savePhone = defineModel('savePhone', { type: Boolean, default: false });
 
 const profile = computed(() => props.profile || member);
@@ -132,6 +141,9 @@ function autoOf(field) {
 function idFor(field) {
   return `ff-${field.key}`;
 }
+function errorId(field) {
+  return `ff-error-${field.key}`;
+}
 function selected(key) {
   return Array.isArray(draft[key]) ? draft[key] : [];
 }
@@ -146,7 +158,7 @@ function toggleOther(key, on) {
 
 function prefillValue(field) {
   const who = profile.value;
-  if (field.prefill === 'name') return preferredName.value || who.full_name || '';
+  if (field.prefill === 'name') return preferredName.value || '';
   if (field.prefill === 'phone') return who.phone || '';
   if (field.prefill === 'email') return who.email || '';
   if (field.type === 'checkbox') return false;
@@ -170,6 +182,31 @@ watch(
 );
 
 defineExpose({
+  async validate() {
+    for (const field of props.fields) {
+      delete errors[field.key];
+      if (!field.required) continue;
+      let valid = true;
+      if (field.type === 'multiselect') {
+        valid =
+          selected(field.key).length > 0 || (otherOn[field.key] && !!otherText[field.key]?.trim());
+      } else if (field.type === 'select' && draft[field.key] === OTHER) {
+        valid = !!otherText[field.key]?.trim();
+      } else if (field.type === 'checkbox') {
+        valid = !!draft[field.key];
+      } else {
+        valid = !!String(draft[field.key] ?? '').trim();
+      }
+      if (!valid) errors[field.key] = `${field.label} is required.`;
+    }
+    const invalid = props.fields.find((field) => errors[field.key]);
+    if (invalid) {
+      await nextTick();
+      document.getElementById(idFor(invalid))?.focus();
+      return false;
+    }
+    return true;
+  },
   answers() {
     const out = {};
     for (const field of props.fields) {
@@ -178,11 +215,11 @@ defineExpose({
       } else if (field.type === 'multiselect') {
         const chosen = [...selected(field.key)];
         if (field.allow_other && otherOn[field.key] && otherText[field.key]?.trim()) {
-          chosen.push(`Other:${otherText[field.key].trim()}`);
+          chosen.push(`Other:${otherText[field.key].trim().slice(0, 300)}`);
         }
         out[field.key] = chosen;
       } else if (field.type === 'select' && draft[field.key] === OTHER) {
-        const text = otherText[field.key]?.trim();
+        const text = otherText[field.key]?.trim().slice(0, 300);
         out[field.key] = text ? `Other:${text}` : '';
       } else {
         const v = draft[field.key];
@@ -194,3 +231,12 @@ defineExpose({
   savePhone: () => !!savePhone.value,
 });
 </script>
+
+<style scoped>
+.ff-error {
+  margin: 0;
+  color: var(--verm);
+  font-size: 13px;
+  line-height: 1.4;
+}
+</style>

@@ -44,12 +44,15 @@ const routes = [
   { path: '/study', redirect: '/resources' },
   { path: '/about', redirect: { path: '/house', hash: '#story' } },
   { path: '/meetups', redirect: { path: '/house', hash: '#regions' } },
-  { path: '/meetups/:region', redirect: { path: '/house', hash: '#regions' } },
+  {
+    path: '/meetups/:region',
+    redirect: (to) => ({ path: '/house', hash: '#regions', query: { region: to.params.region } }),
+  },
   { path: '/community', redirect: { path: '/teams', hash: '#communities' } },
   { path: '/community/technical', redirect: { path: '/events', query: { wing: 'tech' } } },
   { path: '/community/cultural', redirect: { path: '/events', query: { wing: 'cultural' } } },
   { path: '/community/esports', redirect: { path: '/events', query: { wing: 'games' } } },
-  { path: '/contact', redirect: { path: '/house', hash: '#contact' } },
+  { path: '/contact', redirect: { path: '/house', hash: '#council' } },
   { path: '/dashboard', redirect: '/lounge' },
 
   // 404 catch-all

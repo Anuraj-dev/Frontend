@@ -3,7 +3,8 @@
 // from get_my_dashboard(). Imported first by main.js so a Google redirect is handled before the
 // router reads the URL. supabase-js is loaded only when a member page or a Google redirect needs
 // it, so the public pages stay light.
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
+import { createProfileSession } from './auth-profile.js';
 
 let client;
 const sb = async () => (client ??= (await import('./supabase.js')).supabase);
@@ -72,33 +73,7 @@ function clearCodeFromUrl() {
   history.replaceState(history.state, '', `${url.origin}${url.pathname}${url.search}${url.hash}`);
 }
 
-async function loadProfile() {
-  const supabase = await sb();
-  const uid = auth.session?.user?.id;
-  if (!uid) {
-    auth.profile = auth.dashboard = null;
-    return;
-  }
-  const [dash, me] = await Promise.all([
-    supabase.rpc('get_my_dashboard'),
-    supabase
-      .from('members')
-      .select(
-        'id, member_code, full_name, preferred_name, email, phone, region_id, tour_seen_at, certificate_name, certificate_name_confirmed_at, cohort, region:regions(code, name)'
-      )
-      .eq('id', uid)
-      .maybeSingle(),
-  ]);
-  if (dash.error || me.error || !me.data) {
-    // Signed in to Auth but not an active member: never leave a half-open session behind.
-    auth.error = friendly(dash.error?.message || me.error?.message || 'Account is not active');
-    await supabase.auth.signOut({ scope: 'local' });
-    auth.session = auth.profile = auth.dashboard = null;
-    return;
-  }
-  auth.dashboard = dash.data;
-  auth.profile = me.data;
-}
+const profiles = createProfileSession(auth, sb, friendly);
 
 let readyPromise;
 export function authReady() {
@@ -106,18 +81,16 @@ export function authReady() {
     const supabase = await sb();
     const { data, error } = await supabase.auth.getSession();
     if (error && callback === 'code') auth.error = friendly(error.message);
-    auth.session = data?.session ?? null;
+    profiles.adopt(data?.session ?? null);
     if (callback === 'code') clearCodeFromUrl();
-    await loadProfile();
+    await profiles.ready();
     auth.ready = true;
-    supabase.auth.onAuthStateChange((event, session) => {
-      const before = auth.session?.user?.id;
-      auth.session = session;
-      if (event === 'SIGNED_OUT') auth.profile = auth.dashboard = null;
-      else if (session?.user?.id !== before) loadProfile();
+    supabase.auth.onAuthStateChange((_event, session) => {
+      // Do not await Supabase calls inside its auth callback (the auth client holds a lock).
+      profiles.adopt(session);
     });
   })();
-  return readyPromise;
+  return readyPromise.then(() => profiles.ready());
 }
 
 export function takeNext() {
@@ -156,7 +129,7 @@ export async function signOut() {
   const supabase = await sb();
   // This device only; a member signed in elsewhere stays signed in there.
   await supabase.auth.signOut({ scope: 'local' });
-  auth.session = auth.profile = auth.dashboard = null;
+  profiles.adopt(null);
 }
 
 // Error text from an RPC, ready to show (the database writes them for people).
@@ -175,4 +148,23 @@ function hasSavedSession() {
     return false;
   }
 }
-if (callback || hasSavedSession()) authReady();
+const savedSession = hasSavedSession();
+// True from the first paint for a returning member, before their session is verified: a saved
+// session on this device is the hint. The navbar shows "Lounge" and the avatar at once, then
+// settles on the verified answer (no session or no member row flips it to "Sign in").
+export const signedIn = computed(() =>
+  auth.ready ? Boolean(auth.session && auth.profile) : savedSession
+);
+if (callback || savedSession) authReady();
+
+// The Google profile photo, when Google gave one. Only https; a photo that fails to load
+// falls back to initials or the crest everywhere it is shown.
+const photoBroken = ref(false);
+export const avatarUrl = computed(() => {
+  const meta = auth.session?.user?.user_metadata ?? {};
+  const url = meta.avatar_url || meta.picture || '';
+  return !photoBroken.value && url.startsWith('https://') ? url : '';
+});
+export const avatarFailed = () => {
+  photoBroken.value = true;
+};

@@ -17,8 +17,10 @@
           <b>{{ f.title }}</b>
           <div class="adm-meta">
             <span>{{ scopeOf(f) }}</span>
-            <span v-if="!f.published_at" class="adm-badge">draft</span>
-            <span v-else-if="f.is_open" class="adm-badge mari">open</span>
+            <span v-if="f.archived_at" class="adm-badge">archived</span>
+            <span v-else-if="formStatus(f) === 'draft'" class="adm-badge">draft</span>
+            <span v-else-if="formStatus(f) === 'scheduled'" class="adm-badge">scheduled</span>
+            <span v-else-if="formStatus(f) === 'open'" class="adm-badge mari">open</span>
             <span v-else class="adm-badge">closed</span>
             <span v-if="f.event_id" class="adm-badge">event registration</span>
           </div>
@@ -27,6 +29,9 @@
           <button type="button" class="adm-btn ghost small" @click="edit(f)">Edit</button>
           <button type="button" class="adm-btn ghost small" @click="openResponses(f)">
             Responses
+          </button>
+          <button type="button" class="adm-btn ghost small" @click="archive(f)">
+            {{ f.archived_at ? 'Restore' : 'Archive' }}
           </button>
         </div>
       </li>
@@ -49,6 +54,26 @@
           <span>Description</span>
           <textarea v-model.trim="form.description" class="adm-input" maxlength="4000" />
         </label>
+        <label class="adm-field">
+          <span>Form kind</span>
+          <select v-model="form.form_kind" class="adm-input">
+            <option value="general">General form</option>
+            <option value="group">Group application</option>
+            <option value="recruitment">Recruitment</option>
+          </select>
+        </label>
+        <label v-if="form.form_kind === 'group'" class="adm-field">
+          <span>Group label</span>
+          <input v-model.trim="form.group_label" class="adm-input" maxlength="80" />
+        </label>
+        <label v-if="form.form_kind === 'group'" class="adm-field wide">
+          <span>Group purpose</span>
+          <input v-model.trim="form.group_purpose" class="adm-input" maxlength="300" />
+          <small>Use verified source copy; applicants see this beside the group label.</small>
+        </label>
+        <p v-if="form.archived_at" class="adm-note wide">
+          Archived forms stay available to organizers and can be restored.
+        </p>
         <label class="adm-field">
           <span>Scope</span>
           <select v-model="form.scope" class="adm-input" @change="onScope">
@@ -73,7 +98,9 @@
         <label v-if="form.scope === 'event'" class="adm-field">
           <span>Event</span>
           <select v-model="form.event_id" class="adm-input">
-            <option v-for="e in events" :key="e.id" :value="e.id">{{ e.name }}</option>
+            <option v-for="e in eventOptions" :key="e.id" :value="e.id">
+              {{ e.name }} · {{ eventStatus(e) }}
+            </option>
           </select>
         </label>
         <label class="adm-field">
@@ -100,12 +127,20 @@
             v-model.trim="form.invite_url"
             class="adm-input"
             type="url"
+            :disabled="form.remove_invite"
             placeholder="https://chat.whatsapp.com/…"
           />
           <small>
             Students see this only after they submit. Use a chat.whatsapp.com or wa.me HTTPS link.
             Saved invites stay private; enter a URL here to set or replace one.
           </small>
+        </label>
+
+        <label v-if="form.id" class="adm-field wide">
+          <span>
+            <input v-model="form.remove_invite" type="checkbox" />
+            Remove the saved WhatsApp invite
+          </span>
         </label>
 
         <div class="wide fields">
@@ -224,7 +259,7 @@
             <tr v-for="r in responses" :key="r.id">
               <td class="mono">{{ r.email }}</td>
               <td class="mono">{{ day(r.submitted_at) }}</td>
-              <td v-for="f in responseFields" :key="f.key">{{ answerText(r, f.key) }}</td>
+              <td v-for="f in responseFields" :key="f.identity">{{ answerText(r, f) }}</td>
             </tr>
           </tbody>
         </table>
@@ -251,6 +286,7 @@ import { auth, errorText, isRc, isSuperAdmin } from '../../lib/auth.js';
 import {
   FORM_FIELD_TYPES,
   PREFILL_KEYS,
+  canManageEvent,
   downloadCsv,
   exportFormResponses,
   fieldKeyFromLabel,
@@ -284,12 +320,42 @@ const respError = ref('');
 let fieldN = 0;
 
 const mine = computed(() => forms.value.filter((f) => f.can_manage !== false));
+const eventOptions = computed(() => {
+  const manageable = events.value.filter(canManageEvent);
+  const eligible = manageable.filter(
+    (event) =>
+      !event.archive &&
+      !event.cancelled_at &&
+      event.published_at &&
+      event.ends_at &&
+      new Date(event.ends_at) > new Date()
+  );
+  const selected = manageable.find((event) => event.id === form.value?.event_id);
+  return selected && !eligible.some((event) => event.id === selected.id)
+    ? [selected, ...eligible]
+    : eligible;
+});
+const eventStatus = (event) => {
+  if (!event.published_at) return 'draft';
+  if (event.cancelled_at) return 'cancelled';
+  if (event.archive) return 'archive';
+  if (event.ends_at && new Date(event.ends_at) <= new Date()) return 'past';
+  return 'upcoming';
+};
 const scopeOf = (f) => {
   if (f.event_id) return 'Event form';
   if (f.community_id)
     return `${props.lookups.communities.find((c) => c.id === f.community_id)?.name ?? ''} community`;
   if (f.region_id) return props.lookups.regions.find((r) => r.id === f.region_id)?.name ?? 'Region';
   return 'House-wide';
+};
+const formStatus = (f) => {
+  if (!f.published_at) return 'draft';
+  const now = Date.now();
+  if (f.opens_at && new Date(f.opens_at).getTime() > now) return 'scheduled';
+  if (f.closes_at && new Date(f.closes_at).getTime() <= now) return 'closed';
+  if (f.is_open === false) return 'closed';
+  return f.accepting_responses === false ? 'closed' : 'open';
 };
 const day = (iso) =>
   iso
@@ -368,7 +434,11 @@ function edit(f) {
       ...f,
       description: f.description ?? '',
       invite_url: '',
+      remove_invite: false,
       audience_cohorts: f.audience_cohorts ?? [],
+      form_kind: f.form_kind || 'general',
+      group_label: f.group_label || '',
+      group_purpose: f.group_purpose || '',
       is_open: f.is_open !== false,
       opens: toLocal(f.opens_at),
       closes: toLocal(f.closes_at),
@@ -379,7 +449,11 @@ function edit(f) {
     form.value = {
       title: '',
       description: '',
+      form_kind: 'general',
+      group_label: '',
+      group_purpose: '',
       invite_url: '',
+      remove_invite: false,
       is_open: true,
       audience_cohorts: [],
       opens: '',
@@ -479,8 +553,14 @@ async function save(mode) {
       opens_at: fromLocal(form.value.opens),
       closes_at: fromLocal(form.value.closes),
       audience_cohorts: form.value.audience_cohorts ?? [],
+      form_kind: form.value.form_kind || 'general',
+      group_label: form.value.form_kind === 'group' ? form.value.group_label || null : null,
+      group_purpose: form.value.form_kind === 'group' ? form.value.group_purpose || null : null,
+      archived_at: form.value.archived_at || null,
+      source_url: form.value.source_url || null,
     };
-    if (form.value.invite_url) payload.invite_url = form.value.invite_url;
+    if (form.value.remove_invite) payload.invite_url = null;
+    else if (form.value.invite_url) payload.invite_url = form.value.invite_url;
     await saveForm(payload);
     dlg.value?.close();
     notice.value = mode === 'publish' ? 'Published.' : 'Saved.';
@@ -493,8 +573,28 @@ async function save(mode) {
   }
 }
 
-function answerText(row, key) {
-  const value = row.answers?.[key];
+async function archive(f) {
+  const archived_at = f.archived_at ? null : new Date().toISOString();
+  busy.value = true;
+  error.value = '';
+  try {
+    await saveForm({ ...f, archived_at });
+    notice.value = archived_at ? 'Archived. Existing responses remain available.' : 'Restored.';
+    await load();
+    emit('changed');
+  } catch (e) {
+    error.value = errorText(e);
+  } finally {
+    busy.value = false;
+  }
+}
+
+function answerText(row, field) {
+  const captured = (row.field_schema || []).find(
+    (item) => JSON.stringify([item.key, item.label || item.key, item.type || '']) === field.identity
+  );
+  if (!captured) return '–';
+  const value = row.answers?.[captured.key];
   if (Array.isArray(value)) return value.join('; ');
   if (value == null || value === '') return '–';
   return String(value);

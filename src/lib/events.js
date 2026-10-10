@@ -98,8 +98,20 @@ function fromIso(iso) {
   if (!iso) return { y: null, m: null, d: null, time: '', range: '' };
   const dt = new Date(iso);
   if (Number.isNaN(dt.getTime())) return { y: null, m: null, d: null, time: '', range: '' };
-  const time = new Intl.DateTimeFormat('en-IN', { hour: 'numeric', minute: '2-digit' }).format(dt);
-  return { y: dt.getFullYear(), m: dt.getMonth(), d: dt.getDate(), time, range: '' };
+  const options = { timeZone: 'Asia/Kolkata' };
+  const dateParts = new Intl.DateTimeFormat('en', {
+    ...options,
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  }).formatToParts(dt);
+  const part = (type) => Number(dateParts.find((p) => p.type === type)?.value);
+  const time = new Intl.DateTimeFormat('en-IN', {
+    ...options,
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(dt);
+  return { y: part('year'), m: part('month') - 1, d: part('day'), time, range: '' };
 }
 
 // Public archive cards: RPC rows first, then the local 43-event snapshot if the RPC is empty

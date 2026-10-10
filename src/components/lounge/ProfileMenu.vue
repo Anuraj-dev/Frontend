@@ -1,15 +1,23 @@
 <!--
   The profile menu from the avatar: a sheet of ghat paper with the band on top. Who you are
   (preferred name as the title, never the roll number; then roll, region and Regional
-  Coordinator), then My certificates, Edit profile, Retake the tour, the theme and Sign out.
+  Coordinator), then My certificates, Edit profile, Retake the tour and the theme. Sign out is
+  in the public site's navbar, one tap away via the Lounge header's Website link.
   Comes down from under the header on every width (the drop variant in LoungeDialog.vue).
 -->
 <template>
   <LoungeDialog ref="dlg" variant="drop" labelledby="pm-h" @close="emit('close')">
     <div class="pm">
       <div class="pm-who">
-        <span class="pm-av" :class="{ crest: !initials }" aria-hidden="true">
-          <span v-if="initials">{{ initials }}</span>
+        <span class="pm-av" :class="{ crest: !initials && !avatarUrl }" aria-hidden="true">
+          <img
+            v-if="avatarUrl"
+            :src="avatarUrl"
+            alt=""
+            referrerpolicy="no-referrer"
+            @error="avatarFailed"
+          />
+          <span v-else-if="initials">{{ initials }}</span>
           <img v-else :src="CREST" alt="" />
         </span>
         <div class="pm-id">
@@ -90,15 +98,6 @@
             <span>Admin lounge</span>
           </button>
         </li>
-        <li>
-          <button type="button" class="pm-out" @click="signOut">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" />
-              <path d="M10 8 6 12l4 4M6 12h10" />
-            </svg>
-            <span>Sign out</span>
-          </button>
-        </li>
       </ul>
     </div>
   </LoungeDialog>
@@ -112,7 +111,7 @@ import LoungeDialog from './LoungeDialog.vue';
 import * as ev from './events.js';
 import { member } from './fixtures.js';
 import { callName, initialsOf, theme } from './state.js';
-import { canAdmin, signOut as endSession } from '../../lib/auth.js';
+import { avatarFailed, avatarUrl, canAdmin } from '../../lib/auth.js';
 
 const emit = defineEmits(['close', 'edit', 'certs', 'tour', 'theme']);
 const router = useRouter();
@@ -133,11 +132,6 @@ async function leaveTo(path) {
   await dlg.value?.close();
   await backDone;
   router.push({ path });
-}
-/* Sign out ends the Supabase session, then returns to the sign-in door. */
-async function signOut() {
-  await endSession().catch(() => {});
-  await leaveTo('/login');
 }
 /* Edit and My certificates replace this menu (same Back entry); tour and theme close it. */
 async function go(what) {

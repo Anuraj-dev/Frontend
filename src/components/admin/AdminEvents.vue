@@ -51,19 +51,23 @@
           </div>
         </div>
         <div class="adm-chips">
-          <button type="button" class="adm-btn ghost small" @click="edit(e)">Edit</button>
-          <button type="button" class="adm-btn ghost small" @click="openOps(e)">Attendance</button>
-          <button
-            type="button"
-            class="adm-btn ghost small"
-            :disabled="busy"
-            @click="toggleCancel(e)"
-          >
-            {{ e.cancelled_at ? 'Restore' : 'Cancel' }}
-          </button>
-          <button type="button" class="adm-btn danger small" :disabled="busy" @click="remove(e)">
-            Remove
-          </button>
+          <template v-if="canManageEvent(e)">
+            <button type="button" class="adm-btn ghost small" @click="edit(e)">Edit</button>
+            <button type="button" class="adm-btn ghost small" @click="openOps(e)">
+              Attendance
+            </button>
+            <button
+              type="button"
+              class="adm-btn ghost small"
+              :disabled="busy"
+              @click="toggleCancel(e)"
+            >
+              {{ e.cancelled_at ? 'Restore' : 'Cancel' }}
+            </button>
+            <button type="button" class="adm-btn danger small" :disabled="busy" @click="remove(e)">
+              Remove
+            </button>
+          </template>
         </div>
       </li>
     </ul>
@@ -230,6 +234,18 @@
             unresolved. Save only after you have reviewed the lists.
           </small>
         </label>
+        <label class="adm-field">
+          <span>Import behavior</span>
+          <select v-model="attendanceMode" class="adm-input">
+            <option value="merge">Merge; keep omitted rows</option>
+            <option value="replace">Replace one named source</option>
+          </select>
+        </label>
+        <label class="adm-field">
+          <span>Source name</span>
+          <input v-model.trim="attendanceSource" class="adm-input" maxlength="120" />
+          <small>Replace affects only rows previously imported under this exact name.</small>
+        </label>
         <template v-if="attend.headers.length">
           <label class="adm-field">
             <span>Email column</span>
@@ -255,6 +271,10 @@
           {{ preview.unregistered.length }} unregistered · {{ preview.absent.length }} registered
           absent · {{ preview.unresolved.length }} unresolved
         </p>
+        <p v-if="preview && attendanceMode === 'replace'" class="adm-note">
+          Preview: {{ replaceDelta }} omitted row{{ replaceDelta === 1 ? '' : 's' }} will lose this
+          source's ownership. Rows owned by another source remain.
+        </p>
         <div v-if="preview" class="adm-table-wrap">
           <table class="adm-table">
             <thead>
@@ -266,7 +286,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="row in previewRows" :key="row.email + row.cat">
+              <tr v-for="row in previewRows" :key="row.email + row.cat + (row.source_row_id || '')">
                 <td>{{ row.cat }}</td>
                 <td class="mono">{{ row.email || '–' }}</td>
                 <td class="mono">{{ row.duration_seconds ?? '–' }}</td>
@@ -312,14 +332,18 @@ import AdminCohortSelect from './AdminCohortSelect.vue';
 import { auth, errorText, isRc, isSuperAdmin } from '../../lib/auth.js';
 import {
   applyReviewedEligibility,
+  canManageEvent,
   deleteEvent,
   downloadCsv,
   exportEventRecords,
   flattenExportRows,
   getAvailableCohorts,
   importAttendance,
+  isMaskedEmail,
   listEventRegistrations,
+  listAttendance,
   listEvents,
+  normalizeEmail,
   parseCsv,
   previewAttendance,
   releaseCertificates,
@@ -347,6 +371,23 @@ const ops = ref(null);
 const opsError = ref('');
 const opsNotice = ref('');
 const preview = ref(null);
+const existingAttendance = ref([]);
+const attendanceMode = ref('merge');
+const attendanceSource = ref('attendance-sheet-1');
+const replaceDelta = computed(() => {
+  const sourceId = attendanceSource.value.trim();
+  const keys = new Set(
+    (preview.value?.importRows ?? []).map((row) =>
+      row.email && !isMaskedEmail(normalizeEmail(row.email))
+        ? normalizeEmail(row.email)
+        : `unresolved:${sourceId}:${row.source_row_id}`
+    )
+  );
+  return existingAttendance.value.filter(
+    (row) =>
+      (row.import_sources ?? [row.import_source]).includes(sourceId) && !keys.has(row.row_key)
+  ).length;
+});
 const attend = reactive({
   headers: [],
   rows: [],
@@ -558,6 +599,12 @@ async function openOps(e) {
   preview.value = null;
   attend.headers = [];
   attend.rows = [];
+  try {
+    existingAttendance.value = await listAttendance(e.id);
+  } catch (error) {
+    existingAttendance.value = [];
+    opsError.value = errorText(error);
+  }
 }
 
 async function onAttendFile(ev) {
@@ -571,6 +618,8 @@ async function onAttendFile(ev) {
       const rows = parseCsv(String(reader.result || ''));
       attend.rows = rows;
       attend.headers = rows[0] ?? [];
+      attendanceSource.value =
+        file.name.replace(/\.[^.]+$/, '').slice(0, 120) || 'attendance-upload';
       Object.assign(attend.mapping, suggestMeetMapping(attend.headers));
       const registrations = await listEventRegistrations(ops.value.id);
       preview.value = previewAttendance({
@@ -593,11 +642,25 @@ function markEligible(email, eligible) {
 
 async function saveAttendance() {
   if (!preview.value || !ops.value) return;
+  if (!attendanceSource.value.trim()) {
+    opsError.value = 'Enter a source name before importing.';
+    return;
+  }
+  if (
+    attendanceMode.value === 'replace' &&
+    !confirm(
+      `Replace “${attendanceSource.value.trim()}” for this event? ${replaceDelta.value} omitted rows will lose this source's ownership. Rows owned by other sources remain.`
+    )
+  )
+    return;
   busy.value = true;
   opsError.value = '';
   opsNotice.value = '';
   try {
-    const result = await importAttendance(ops.value.id, preview.value.importRows);
+    const result = await importAttendance(ops.value.id, preview.value.importRows, {
+      mode: attendanceMode.value,
+      sourceId: attendanceSource.value.trim(),
+    });
     opsNotice.value = `Saved. ${result.matched ?? 0} registered, ${result.unregistered ?? 0} unregistered, ${result.unresolved ?? 0} unresolved.`;
   } catch (e) {
     opsError.value = errorText(e);

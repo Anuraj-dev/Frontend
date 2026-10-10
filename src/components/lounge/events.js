@@ -2,6 +2,7 @@
 // Lists come from session.hydrateLounge(); this file keeps the painted helpers.
 import { computed, ref } from 'vue';
 import CREST from '../../assets/crest.webp';
+import { MONTH, parseDate } from '../../lib/events.js';
 import { lounge, dismissNotice, readAllNotices, readNotice } from './session.js';
 import { liveOn } from './state.js';
 
@@ -65,11 +66,20 @@ export const eventById = (id) => lounge.events.find((e) => e.id === id);
 
 /* Reads the minute clock, so lists move an event from Upcoming to Live to Past by themselves. */
 export function status(e, now = clock.value) {
+  if (e?.cancelled_at || e?.cancelled || e?.archive) return 'past';
+  const start = Date.parse(e?.starts_at);
+  const end = Date.parse(e?.ends_at);
+  if (Number.isFinite(start) && Number.isFinite(end)) {
+    if (now >= end) return 'past';
+    if (now >= start) return 'live';
+    return 'upcoming';
+  }
+  if (Number.isFinite(end) && now >= end) return 'past';
+  if (Number.isFinite(start)) return now >= start ? 'live' : 'upcoming';
   if (e?.stage === 'past' || e?.stage === 'live' || e?.stage === 'upcoming') return e.stage;
-  if (e?.archive) return 'past';
   if (!e?.ends_at || !e?.starts_at) return e?.ends_at ? 'past' : 'upcoming';
-  if (now >= Date.parse(e.ends_at)) return 'past';
-  if (now >= Date.parse(e.starts_at)) return 'live';
+  if (now >= end) return 'past';
+  if (now >= start) return 'live';
   return 'upcoming';
 }
 
@@ -91,7 +101,7 @@ export const ATTEND_MIN = 20;
 export function minutesOf(e) {
   const sec = e?.attendance?.duration_seconds;
   if (sec == null) return 0;
-  return Math.round(Number(sec) / 60);
+  return Math.floor(Number(sec) / 60);
 }
 
 export function markOf(e) {
@@ -103,8 +113,7 @@ export function markOf(e) {
   const m = minutesOf(e);
   const meetOk = e?.attendance_mode !== 'reviewed' && (a?.duration_seconds ?? 0) >= 1200;
   const reviewedOk = e?.attendance_mode === 'reviewed' && a?.reviewed_eligible;
-  if (meetOk || reviewedOk || m >= ATTEND_MIN)
-    return { kind: 'attended', text: 'Attended', minutes: m || ATTEND_MIN };
+  if (meetOk || reviewedOk) return { kind: 'attended', text: 'Attended', minutes: m };
   if (m > 0) return { kind: 'early', text: 'Left early', minutes: m };
   if (e?.registration) return { kind: 'missed', text: 'Missed' };
   return null;
@@ -167,9 +176,12 @@ export const bannerNotice = computed(
   () =>
     notices.value.find((n) => {
       if (n.show_banner === false || n.dismissed_at) return false;
-      if (n.show_banner === true) return true;
       const posted = n.starts_at || n.posted_at;
-      return posted && clock.value - Date.parse(posted) < 72 * 3_600_000;
+      const timestamp = Date.parse(posted);
+      if (!Number.isFinite(timestamp) || timestamp > clock.value) return false;
+      const end = n.ends_at ? Date.parse(n.ends_at) : null;
+      if (Number.isFinite(end) && end <= clock.value) return false;
+      return n.show_banner === true || clock.value - timestamp < 72 * 3_600_000;
     }) ?? null
 );
 export function dismissBanner(n) {
@@ -183,36 +195,70 @@ export function resetDemo() {
 
 /* ---------- Words for dates ---------- */
 
+const DATE_ZONE = 'Asia/Kolkata';
 const fmtDay = new Intl.DateTimeFormat('en-IN', {
   weekday: 'short',
   day: 'numeric',
   month: 'short',
+  timeZone: DATE_ZONE,
 });
 const fmtDate = new Intl.DateTimeFormat('en-IN', {
   day: 'numeric',
   month: 'short',
   year: 'numeric',
+  timeZone: DATE_ZONE,
 });
 const fmtLong = new Intl.DateTimeFormat('en-IN', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
+  timeZone: DATE_ZONE,
 });
-const fmtMonth = new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric' });
-const fmtTime = new Intl.DateTimeFormat('en-IN', { hour: 'numeric', minute: '2-digit' });
+const fmtMonth = new Intl.DateTimeFormat('en-IN', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: DATE_ZONE,
+});
+const fmtTime = new Intl.DateTimeFormat('en-IN', {
+  hour: 'numeric',
+  minute: '2-digit',
+  timeZone: DATE_ZONE,
+});
 
 export const timeOf = (iso) => fmtTime.format(new Date(iso)).toLowerCase().replace(' ', ' ');
-export const thisYear = (iso) => new Date(iso).getFullYear() === new Date().getFullYear();
+const yearInIndia = (date) =>
+  Number(new Intl.DateTimeFormat('en-IN', { year: 'numeric', timeZone: DATE_ZONE }).format(date));
+export const thisYear = (iso) => !!iso && yearInIndia(new Date(iso)) === yearInIndia(new Date());
+
+function archiveParts(e) {
+  if (e?.starts_at && Number.isFinite(Date.parse(e.starts_at))) {
+    const date = new Date(e.starts_at);
+    return {
+      year: yearInIndia(date),
+      month:
+        Number(
+          new Intl.DateTimeFormat('en-IN', { month: 'numeric', timeZone: DATE_ZONE }).format(date)
+        ) - 1,
+      day: Number(
+        new Intl.DateTimeFormat('en-IN', { day: 'numeric', timeZone: DATE_ZONE }).format(date)
+      ),
+    };
+  }
+  const { y: year, m: month, d: day } = parseDate(e?.display_date || '');
+  return { year, month, day };
+}
+export const eventYear = (event) => archiveParts(event).year;
 
 /* "Thu, 8 Oct · 8:30 pm" for this year, "15 Feb 2025" for older, "May 2026" for month-only. */
 export function whenOf(e) {
-  if (e.display_date && !e.starts_at) return e.display_date;
+  if (!e.starts_at) return e.display_date || 'Date not recorded';
   if (!e.starts_at) return '';
   if (e.precision === 'month') return fmtMonth.format(new Date(e.starts_at));
   if (status(e) === 'past' && !thisYear(e.starts_at)) return fmtDate.format(new Date(e.starts_at));
   return `${fmtDay.format(new Date(e.starts_at))} · ${timeOf(e.starts_at)}`;
 }
 export function spanOf(e) {
+  if (!e.starts_at) return e.display_date || 'Date not recorded';
   if (e.precision === 'month') return fmtMonth.format(new Date(e.starts_at));
   const d = new Date(e.starts_at);
   const day = thisYear(e.starts_at) ? fmtDay.format(d) : fmtLong.format(d);
@@ -221,15 +267,18 @@ export function spanOf(e) {
     : `${day}, ${timeOf(e.starts_at)} to ${timeOf(e.ends_at)}`;
 }
 export const longDate = (e) =>
-  e.precision === 'month'
-    ? fmtMonth.format(new Date(e.starts_at))
-    : fmtLong.format(new Date(e.starts_at));
+  !e.starts_at
+    ? e.display_date || 'Date not recorded'
+    : e.precision === 'month'
+      ? fmtMonth.format(new Date(e.starts_at))
+      : fmtLong.format(new Date(e.starts_at));
 export const tile = (e) => {
-  const d = new Date(e.starts_at);
+  const { year, month, day } = archiveParts(e);
+  if (year == null || month == null) return { day: '', mon: 'Archive', yr: '' };
   return {
-    day: e.precision === 'month' ? '' : String(d.getDate()),
-    mon: d.toLocaleString('en-IN', { month: 'short' }),
-    yr: thisYear(e.starts_at) ? '' : String(d.getFullYear()).slice(2),
+    day: day == null ? '' : String(day),
+    mon: MONTH[month] || 'Archive',
+    yr: yearInIndia(new Date()) === year ? '' : String(year).slice(-2),
   };
 };
 

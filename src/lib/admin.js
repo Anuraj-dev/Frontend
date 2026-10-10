@@ -3,6 +3,7 @@
 // Changes to a student's record are requests; a different Super Admin approves them.
 // Student region corrections are reviewed by the current-region RC or a Super Admin (Q15).
 import { supabase } from './supabase.js';
+import { auth, isHead, isRc, isSuperAdmin } from './auth.js';
 import {
   exportEventRecords as loungeExportEventRecords,
   exportFormResponses as loungeExportFormResponses,
@@ -240,6 +241,7 @@ export function parseRosterPaste(text, regions) {
       full_name: full_name || null,
       phone: phone || null,
       region_id: regionIdFrom(region, regions),
+      region_error: region && !regionIdFrom(region, regions) ? `Unknown region: ${region}` : null,
       gender: gender || null,
     }));
 }
@@ -318,11 +320,14 @@ export function rowsFromRosterCsv(rows, mapping, regions) {
   for (const line of body) {
     const email = col('email', line).toLowerCase();
     if (!email) continue;
+    const rawRegion = col('region', line);
     const row = {
       email,
       full_name: col('full_name', line) || null,
       phone: col('phone', line) || null,
-      region_id: regionIdFrom(col('region', line), regions),
+      region_id: regionIdFrom(rawRegion, regions),
+      region_error:
+        rawRegion && !regionIdFrom(rawRegion, regions) ? `Unknown region: ${rawRegion}` : null,
       gender: col('gender', line) || null,
       _headers: headers,
       _raw: line,
@@ -348,7 +353,12 @@ export function toCsv(rows, columns) {
   const cols = columns ?? [
     ...new Set(rows.flatMap((r) => (r && typeof r === 'object' ? Object.keys(r) : []))),
   ];
-  return [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r?.[c])).join(','))].join('\n');
+  const columnKey = (column) => (typeof column === 'object' ? column.key : column);
+  const columnLabel = (column) => (typeof column === 'object' ? column.label : column);
+  return [
+    cols.map((column) => esc(columnLabel(column))).join(','),
+    ...rows.map((r) => cols.map((column) => esc(r?.[columnKey(column)])).join(',')),
+  ].join('\n');
 }
 
 export function downloadCsv(filename, rows, columns) {
@@ -387,19 +397,39 @@ const EVENT_COLS =
 
 export async function listEvents({ view = 'upcoming' } = {}) {
   const now = new Date().toISOString();
-  let q = supabase.from('events').select(EVENT_COLS).is('deleted_at', null).limit(200);
+  let q = supabase.from('events').select(EVENT_COLS).is('deleted_at', null);
   if (view === 'drafts') {
-    q = q.is('published_at', null).order('updated_at', { ascending: false });
-    return unwrap(await q);
+    q = q.is('published_at', null).order('updated_at', { ascending: false }).order('id');
+  } else if (view === 'past') {
+    q = q.not('published_at', 'is', null).order('starts_at', { ascending: false }).order('id');
+  } else {
+    q = q
+      .not('published_at', 'is', null)
+      .eq('archive', false)
+      .gte('ends_at', now)
+      .order('starts_at')
+      .order('id');
   }
-  if (view === 'past') {
-    const rows = unwrap(
-      await q.not('published_at', 'is', null).order('starts_at', { ascending: false })
-    );
-    return rows.filter((e) => e.archive || (e.ends_at && e.ends_at < now));
+  const rows = [];
+  for (let from = 0; ; from += 200) {
+    const page = unwrap(await q.range(from, from + 199));
+    rows.push(...page);
+    if (page.length < 200) break;
   }
-  q = q.not('published_at', 'is', null).eq('archive', false).gte('ends_at', now).order('starts_at');
-  return unwrap(await q);
+  const visible =
+    view === 'past' ? rows.filter((e) => e.archive || (e.ends_at && e.ends_at < now)) : rows;
+  return visible.map((event) => ({ ...event, can_manage: canManageEvent(event) }));
+}
+
+// RLS can expose events to members who may read public history. Keep organizer actions
+// aligned with the dashboard scope while the RPC remains the authoritative write check.
+export function canManageEvent(event) {
+  if (!event || !auth.dashboard) return false;
+  if (isSuperAdmin.value) return true;
+  if (isRc.value) return event.region_id === auth.dashboard.region_id && event.community_id == null;
+  if (isHead.value)
+    return event.community_id === auth.dashboard.community_id && event.region_id == null;
+  return false;
 }
 
 export async function saveEvent(event, { publish = false, unpublish = false } = {}) {
@@ -424,7 +454,7 @@ export async function saveEvent(event, { publish = false, unpublish = false } = 
     location: event.location || null,
     image_width: event.image_width || null,
     image_height: event.image_height || null,
-    attendee_count: event.attendee_count || null,
+    attendee_count: event.attendee_count ?? null,
     attendee_display: event.attendee_display || null,
   };
   if (publish) row.published_at = new Date().toISOString();
@@ -449,13 +479,7 @@ export async function setEventCancelled(id, cancelled) {
 }
 
 export async function deleteEvent(id) {
-  return unwrap(
-    await supabase
-      .from('events')
-      .update({ deleted_at: new Date().toISOString() })
-      .eq('id', id)
-      .select('id')
-  );
+  return unwrap(await supabase.rpc('soft_delete_event', { p_event_id: id, p_deleted: true }));
 }
 
 export async function uploadCertificateTemplate(eventId, file) {
@@ -543,20 +567,49 @@ export async function exportFormResponses(formId) {
 export function formResponsesToCsv(payload) {
   const rows = asList(payload);
   const fields = [];
-  const seen = new Set();
+  const byIdentity = new Map();
   for (const row of rows) {
     for (const field of row.field_schema || []) {
-      if (!field?.key || seen.has(field.key)) continue;
-      seen.add(field.key);
-      fields.push({ key: field.key, label: field.label || field.key });
+      if (!field?.key) continue;
+      const identity = JSON.stringify([field.key, field.label || field.key, field.type || '']);
+      if (byIdentity.has(identity)) continue;
+      const column = `answer:${identity}`;
+      const entry = { key: field.key, identity, column, label: field.label || field.key };
+      byIdentity.set(identity, entry);
+      fields.push(entry);
     }
   }
-  const columns = ['email', 'submitted_at', ...fields.map((f) => f.label)];
+  const usedLabels = new Set(['email', 'submitted_at']);
+  const labelCounts = new Map();
+  for (const field of fields) {
+    const base = String(field.label || field.key);
+    labelCounts.set(base, (labelCounts.get(base) ?? 0) + 1);
+  }
+  for (const field of fields) {
+    const base = String(field.label || field.key);
+    let label = labelCounts.get(base) > 1 || usedLabels.has(base) ? `${base} [${field.key}]` : base;
+    let suffix = 2;
+    while (usedLabels.has(label)) label = `${base} [${field.key}-${suffix++}]`;
+    field.label = label;
+    usedLabels.add(label);
+  }
+  const columns = [
+    { key: 'email', label: 'email' },
+    { key: 'submitted_at', label: 'submitted_at' },
+    ...fields.map((field) => ({ key: field.column, label: field.label })),
+  ];
   const csvRows = rows.map((row) => {
     const out = { email: row.email, submitted_at: row.submitted_at };
-    for (const field of fields) {
-      const value = row.answers?.[field.key];
-      out[field.label] = Array.isArray(value) ? value.join('; ') : (value ?? '');
+    for (const captured of row.field_schema || []) {
+      const identity = JSON.stringify([
+        captured.key,
+        captured.label || captured.key,
+        captured.type || '',
+      ]);
+      const field = byIdentity.get(identity);
+      if (!field) continue;
+      const value = row.answers?.[captured.key];
+      out[field.column] = Array.isArray(value) ? value.join('; ') : (value ?? '');
     }
     return out;
   });
@@ -576,7 +629,11 @@ export async function listAttendance(eventId) {
   return asList(await loungeListAttendance(eventId));
 }
 
-export const importAttendance = (eventId, rows) => loungeImportAttendance(eventId, rows);
+export const importAttendance = (
+  eventId,
+  rows,
+  options = { mode: 'merge', sourceId: 'admin-upload' }
+) => loungeImportAttendance(eventId, rows, options);
 
 export const releaseCertificates = (eventId) => loungeReleaseCertificates(eventId);
 
@@ -670,8 +727,9 @@ export function previewAttendance({
   const unregistered = [];
   const unresolved = [];
   const importMap = new Map();
+  const unresolvedImportRows = [];
 
-  for (const line of body) {
+  for (const [index, line] of body.entries()) {
     const email = normalizeEmail(col('email', line));
     const duration_seconds = parseDurationSeconds(col('duration', line));
     const item = {
@@ -683,7 +741,9 @@ export function previewAttendance({
       exited: col('exited', line),
     };
     if (isMaskedEmail(email)) {
+      const itemRow = { ...item, eligible: false, source_row_id: String(index + 1) };
       unresolved.push(item);
+      unresolvedImportRows.push(itemRow);
       continue;
     }
     const eligible =
@@ -716,7 +776,7 @@ export function previewAttendance({
     unregistered,
     absent,
     unresolved,
-    importRows: [...importMap.values()],
+    importRows: [...importMap.values(), ...unresolvedImportRows],
   };
 }
 
@@ -730,7 +790,7 @@ export function applyReviewedEligibility(preview, email, eligible) {
 
 // Notices (organizer)
 
-export async function listNoticesAdmin() {
+export async function listNoticesAdmin({ page = 0 } = {}) {
   return unwrap(
     await supabase
       .from('announcements')
@@ -738,7 +798,8 @@ export async function listNoticesAdmin() {
         'id, title, body, link, region_id, community_id, audience_cohorts, starts_at, ends_at, created_at'
       )
       .order('starts_at', { ascending: false })
-      .limit(200)
+      .order('id')
+      .range(page * PAGE, page * PAGE + PAGE - 1)
   );
 }
 

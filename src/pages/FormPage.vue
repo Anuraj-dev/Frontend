@@ -1,52 +1,90 @@
 <!-- Member form on its own route. Same field renderer as the Lounge dialog. -->
 <template>
-  <main class="wrap">
-    <header class="head rise" style="--i: 0">
-      <p class="kicker">House form</p>
-      <h1>{{ form?.title || 'Form' }}</h1>
-      <p class="sub">
-        {{ form?.description || 'Signed-in members only. Answers are saved on your account.' }}
-      </p>
-    </header>
-
-    <p v-if="loadError" class="msg err" role="alert">{{ loadError }}</p>
-    <p v-else-if="!ready" class="msg" role="status">Opening the form…</p>
-    <p v-else-if="!form" class="msg err" role="alert">
-      This form is closed or outside your audience.
-    </p>
-
-    <form v-else class="slip rise" style="--i: 1" @submit.prevent="send">
-      <p v-if="form.submitted" class="msg" role="status">You already sent this one.</p>
-      <FormFields
-        v-else
-        ref="fieldsEl"
-        v-model:save-phone="savePhone"
-        :fields="form.fields || []"
-      />
-      <p v-if="error" class="msg err" role="alert">{{ error }}</p>
-      <p v-if="invite" class="msg" role="status">
-        WhatsApp invite:
-        <a :href="invite" target="_blank" rel="noopener noreferrer">Open the group</a>. Request
-        entry there. An admin checks house membership (and region, for regional groups) before they
-        add you. Sending this form is not admission.
-      </p>
-      <p v-else-if="done" class="msg" role="status">
-        Saved. If this form has a WhatsApp group, the invite appears after the database confirms
-        your response.
-      </p>
-      <div class="acts">
-        <button v-if="!form.submitted && !done" class="go" type="submit" :disabled="busy">
-          {{ busy ? 'Sending…' : 'Send' }}
+  <div class="lounge-form-shell">
+    <header class="lounge-form-nav">
+      <RouterLink class="lounge-brand" to="/lounge"
+        >Sundarbans House <span>· The Lounge</span></RouterLink
+      >
+      <div class="lounge-form-nav-actions">
+        <RouterLink class="lounge-back" to="/lounge">Back to the Lounge</RouterLink>
+        <button class="lounge-theme" type="button" @click="toggleTheme">
+          {{ theme === 'dark' ? 'Switch to day' : 'Switch to night' }}
         </button>
-        <RouterLink class="ghost" to="/lounge">Back to the Lounge</RouterLink>
       </div>
-    </form>
-  </main>
+    </header>
+    <main id="main-content" class="wrap">
+      <header class="head">
+        <p class="kicker">House form</p>
+        <h1>{{ form?.group_label || form?.title || 'Form' }}</h1>
+        <p class="sub">
+          {{
+            form?.group_purpose ||
+            form?.description ||
+            'Signed-in members only. Answers are saved on your account.'
+          }}
+        </p>
+      </header>
+
+      <p v-if="loadError" class="msg err" role="alert">{{ loadError }}</p>
+      <p v-else-if="!ready" class="msg" role="status">Opening the form…</p>
+      <p v-else-if="!form" class="msg err" role="alert">
+        This form is closed or outside your audience.
+      </p>
+
+      <form v-else class="slip" @submit.prevent="send">
+        <p v-if="form.submitted" class="msg" role="status">
+          Your application is saved. Sending this form is not WhatsApp admission.
+        </p>
+        <FormFields
+          v-else-if="canSubmit"
+          ref="fieldsEl"
+          v-model:save-phone="savePhone"
+          :fields="form.fields || []"
+        />
+        <p v-else class="msg" role="status">This form is not accepting responses.</p>
+        <p v-if="error" class="msg err" role="alert">{{ error }}</p>
+        <p v-if="invite" class="msg" role="status">
+          WhatsApp invite:
+          <a :href="invite" target="_blank" rel="noopener noreferrer">Open the group</a>. Request
+          entry there. An admin checks house membership (and region, for regional groups) before
+          they add you. Sending this form is not admission.
+        </p>
+        <p v-else-if="form.submitted && inviteError" class="msg err" role="alert">
+          {{ inviteError }}
+          <button class="text-action" type="button" @click="loadInvite">Try again</button>
+        </p>
+        <p v-else-if="form.submitted && form.form_kind === 'group'" class="msg" role="status">
+          No invite link is available for this group yet. Your application remains saved; an
+          application does not confirm admission.
+        </p>
+        <p v-else-if="done" class="msg" role="status">
+          Saved. If this form has a WhatsApp group, the invite appears after the database confirms
+          your response.
+        </p>
+        <div class="acts">
+          <button
+            v-if="!form.submitted && !done && canSubmit"
+            class="go"
+            type="submit"
+            :disabled="busy"
+          >
+            {{ busy ? 'Sending…' : 'Send' }}
+          </button>
+          <RouterLink class="ghost" to="/lounge">Back to the Lounge</RouterLink>
+        </div>
+      </form>
+    </main>
+  </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
+import { onBeforeRouteLeave, useRoute } from 'vue-router';
+import { store, theme } from '../components/lounge/state.js';
+import { theme as siteTheme } from '../lib/theme.js';
+import '../components/lounge/lounge.css';
+import '../components/lounge/panels.css';
+import '../components/lounge/tokens.css';
 import FormFields from '../components/lounge/FormFields.vue';
 import {
   fetchInvite,
@@ -58,6 +96,9 @@ import {
 import { auth, errorText } from '../lib/auth.js';
 
 const route = useRoute();
+const root = document.documentElement;
+root.classList.add('lounge-active');
+root.dataset.theme = theme.value;
 const ready = ref(false);
 const loadError = ref('');
 const fieldsEl = ref(null);
@@ -66,13 +107,36 @@ const busy = ref(false);
 const error = ref('');
 const done = ref(false);
 const invite = ref('');
+const inviteError = ref('');
 
 const form = computed(() => formById(route.params.id));
+const canSubmit = computed(
+  () => !!form.value && (form.value.accepting_responses ?? form.value.is_open ?? false)
+);
+
+function toggleTheme() {
+  theme.value = theme.value === 'dark' ? 'light' : 'dark';
+  root.dataset.theme = theme.value;
+  store('lounge-e-theme', theme.value);
+}
+
+onBeforeRouteLeave((to) => {
+  if (to.name === 'Lounge' || to.name === 'LoungeForm') return;
+  root.classList.remove('lounge-active');
+  root.dataset.theme = siteTheme.value;
+});
+
+onBeforeUnmount(() => {
+  if (route.name === 'Lounge' || route.name === 'LoungeForm') return;
+  root.classList.remove('lounge-active');
+  root.dataset.theme = siteTheme.value;
+});
 
 onMounted(async () => {
   if (!auth.session || !auth.profile) return;
   try {
     if (!lounge.ready) await hydrateLounge();
+    if (form.value?.submitted) await loadInvite();
   } catch (err) {
     loadError.value = errorText(err);
   } finally {
@@ -80,8 +144,19 @@ onMounted(async () => {
   }
 });
 
+async function loadInvite() {
+  if (!form.value?.submitted) return;
+  inviteError.value = '';
+  try {
+    invite.value = (await fetchInvite(form.value.id)) || '';
+  } catch (err) {
+    inviteError.value = errorText(err) || 'The invite could not be loaded.';
+  }
+}
+
 async function send() {
-  if (busy.value || !form.value || form.value.submitted) return;
+  if (busy.value || !form.value || form.value.submitted || !canSubmit.value) return;
+  if (!(await fieldsEl.value?.validate())) return;
   busy.value = true;
   error.value = '';
   try {
@@ -93,7 +168,7 @@ async function send() {
     done.value = true;
     invite.value = result?.invite_url || '';
     if (!invite.value && result?.response_id) {
-      invite.value = (await fetchInvite(form.value.id).catch(() => '')) || '';
+      await loadInvite();
     }
   } catch (err) {
     error.value = errorText(err);
@@ -104,6 +179,60 @@ async function send() {
 </script>
 
 <style scoped>
+.lounge-form-shell {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--t-1);
+  font-family: var(--font);
+  --r: var(--r-sheet);
+}
+.lounge-form-nav {
+  position: relative;
+  z-index: 2;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px clamp(16px, 4vw, 48px);
+  background: var(--bg);
+  border-bottom: var(--kw) solid var(--keyline);
+}
+.lounge-brand,
+.lounge-back {
+  color: var(--t-1);
+  font-weight: 700;
+  text-decoration: none;
+}
+.lounge-brand span {
+  color: var(--t-2);
+  font-weight: 500;
+}
+.lounge-form-nav-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.lounge-theme {
+  min-height: 44px;
+  padding: 0 14px;
+  border: var(--kw) solid var(--keyline);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--t-1);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+.lounge-form-shell a:focus-visible,
+.lounge-form-shell button:focus-visible,
+.lounge-form-shell input:focus-visible,
+.lounge-form-shell select:focus-visible,
+.lounge-form-shell textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
 .wrap {
   max-width: 760px;
   margin: 0 auto;
@@ -150,6 +279,17 @@ h1 {
 }
 .msg.err {
   color: var(--verm);
+}
+.text-action {
+  margin-left: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .acts {
   display: flex;
@@ -231,6 +371,14 @@ h1 {
   color: var(--ink);
 }
 @media (max-width: 760px) {
+  .lounge-form-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .lounge-form-nav-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
   .wrap {
     padding: 24px 16px 40px;
   }

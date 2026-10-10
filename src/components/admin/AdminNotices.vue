@@ -27,6 +27,11 @@
       </li>
     </ul>
     <p v-else-if="!loading" class="adm-empty">No notices yet.</p>
+    <div v-if="hasMore" class="row-end">
+      <button type="button" class="adm-btn ghost" :disabled="loading" @click="loadMore">
+        {{ loading ? 'Loading…' : 'Load older notices' }}
+      </button>
+    </div>
 
     <AdminDialog
       v-if="form"
@@ -106,6 +111,8 @@ const isHead = computed(
   () => auth.dashboard?.position === 'head' || auth.dashboard?.position === 'co_head'
 );
 const rows = ref([]);
+const page = ref(0);
+const hasMore = ref(false);
 const cohorts = ref(null);
 const loading = ref(false);
 const busy = ref(false);
@@ -118,8 +125,9 @@ const dlg = ref(null);
 const regionOf = (id) => props.lookups.regions.find((r) => r.id === id)?.name ?? 'region';
 const communityOf = (id) => props.lookups.communities.find((c) => c.id === id)?.name ?? 'community';
 const scopeOf = (n) => {
-  if (n.community_id) return `${communityOf(n.community_id)} community`;
-  if (n.region_id) return regionOf(n.region_id);
+  if (n.community_id)
+    return `${communityOf(n.community_id)} publisher · all matching house members`;
+  if (n.region_id) return `${regionOf(n.region_id)} members`;
   return 'House-wide';
 };
 const day = (iso) =>
@@ -136,12 +144,18 @@ const toLocal = (iso) => {
 };
 const fromLocal = (v) => (v ? new Date(v).toISOString() : null);
 
-async function load() {
+async function load(more = false) {
   loading.value = true;
   error.value = '';
   try {
-    const [list, coh] = await Promise.all([listNoticesAdmin(), getAvailableCohorts()]);
-    rows.value = list;
+    const nextPage = more ? page.value + 1 : 0;
+    const [list, coh] = await Promise.all([
+      listNoticesAdmin({ page: nextPage }),
+      getAvailableCohorts(),
+    ]);
+    rows.value = more ? [...rows.value, ...list] : list;
+    page.value = nextPage;
+    hasMore.value = list.length === 50;
     cohorts.value = coh;
   } catch (e) {
     error.value = errorText(e);
@@ -149,6 +163,7 @@ async function load() {
     loading.value = false;
   }
 }
+const loadMore = () => load(true);
 onMounted(load);
 
 function defaultScope() {

@@ -62,9 +62,12 @@
           <span class="pe-v">{{ member.region.name || 'Not set' }}</span>
         </div>
         <p class="pe-wrong">
-          <template v-if="!member.region_id"
-            >Pick your region once. It is saved immediately.</template
-          >
+          <template v-if="!member.region_id">
+            Pick your region once. It is saved immediately.
+            <button type="button" class="gp-link" @click="regionOpen = true">
+              Choose your region
+            </button>
+          </template>
           <template v-else>
             Region changes need approval from {{ member.coordinator.name }}.
             <button type="button" class="gp-link" @click="regionOpen = true">

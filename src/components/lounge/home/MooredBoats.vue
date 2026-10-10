@@ -95,7 +95,7 @@
                 <b>{{ g.label }}</b>
                 <small>{{ g.why }}</small>
               </span>
-              <span class="mb-go">Apply</span>
+              <span class="mb-go">{{ g.applied ? 'Applied' : 'Apply' }}</span>
             </span>
           </RouterLink>
         </li>
@@ -119,19 +119,31 @@ const boats = computed(() => {
   const joined = lounge.groups.map((g) => ({
     id: g.id,
     label: g.name || g.label,
-    why: g.purpose || g.why || 'WhatsApp group after you apply.',
+    why: [
+      g.purpose,
+      g.invite_error
+        ? 'Invite link could not be loaded. Open to retry.'
+        : !g.invite_url && g.applied
+          ? 'No invite link is available yet. Your application is saved.'
+          : '',
+    ]
+      .filter(Boolean)
+      .join(' '),
     href: g.invite_url || g.href,
+    to: `/lounge/forms/${g.id}`,
+    applied: true,
     kind: g.community_id ? 'community' : g.region_id ? 'region' : 'house',
   }));
   const apply = openGroupForms.value.map((f) => ({
     id: f.id,
-    label: f.title,
-    why: f.description || 'Send the form to request this group.',
+    label: f.group_label || f.title,
+    why: f.group_purpose || '',
     href: '',
     to: `/lounge/forms/${f.id}`,
+    applied: false,
     kind: f.community_id ? 'community' : f.region_id ? 'region' : 'house',
   }));
-  return [...apply, ...joined].slice(0, 5);
+  return [...apply, ...joined];
 });
 
 const kick = (g) =>
@@ -139,7 +151,7 @@ const kick = (g) =>
     ? 'Start here'
     : g.kind === 'region'
       ? 'Your region'
-      : g.href
+      : g.applied
         ? 'You applied'
         : 'Apply';
 
@@ -275,6 +287,7 @@ function splash(ev) {
 }
 .moor-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 18px;
   margin: 0;
@@ -283,7 +296,7 @@ function splash(ev) {
 }
 .moor-row li {
   display: flex;
-  flex: 1 1 0;
+  flex: 1 1 180px;
   min-width: 0;
   max-width: 214px;
 }

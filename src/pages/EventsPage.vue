@@ -3,7 +3,7 @@
   members inside the House lounge. Swell chart → month-by-month log. (Meetups live on House.)
 -->
 <template>
-  <main class="wrap">
+  <main id="main-content" class="wrap" tabindex="-1">
     <header class="head rise" style="--i: 0">
       <h1>Events</h1>
       <dl class="stats">
@@ -83,7 +83,7 @@
     <section class="chart rise" style="--i: 2" aria-label="Events over time">
       <SwellChart
         ref="chart"
-        :list="dated"
+        :list="chartEvents"
         :active="activeIds"
         @open="(id, e) => openEvent(id, e)"
         @jump="jump"
@@ -132,7 +132,7 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
 import SwellChart from '../components/site/SwellChart.vue';
 import EventCard from '../components/site/EventCard.vue';
@@ -153,15 +153,22 @@ import {
 
 // A wing filter arrives from a Teams community card (ev.wing) or an old /community/* link (?wing=).
 const route = useRoute();
+const router = useRouter();
 const wing = ref(ev.wing ?? (WINGS[route.query.wing] ? route.query.wing : 'all'));
 ev.wing = null;
-const q = ref('');
-const regionId = ref('all');
+const q = ref(typeof route.query.q === 'string' ? route.query.q : '');
+const regionId = ref(typeof route.query.region === 'string' ? route.query.region : 'all');
 const findEl = ref(null);
 const chart = ref(null);
 
 const dated = computed(() => events.filter((e) => e.at));
 const first = computed(() => dated.value.at(-1));
+// The swell chart shows last calendar year and this year up to today; the log below keeps the full archive.
+const chartEvents = computed(() => {
+  const now = new Date();
+  const since = new Date(now.getFullYear() - 1, 0, 1);
+  return dated.value.filter((e) => e.at >= since && e.at <= now);
+});
 
 const inWing = (e) => wing.value === 'all' || e.wing === wing.value;
 const inRegion = (e) => regionId.value === 'all' || String(e.region_id) === regionId.value;
@@ -178,7 +185,9 @@ const regionChips = computed(() => {
   ];
 });
 const activeIds = computed(() =>
-  wing.value === 'all' && !q.value.trim() ? null : new Set(visible.value.map((e) => e.id))
+  wing.value === 'all' && regionId.value === 'all' && !q.value.trim()
+    ? null
+    : new Set(visible.value.map((e) => e.id))
 );
 const groups = computed(() => groupByMonth(visible.value));
 
@@ -204,6 +213,33 @@ async function placePill() {
     pill.value = { width: `${el.offsetWidth}px`, transform: `translateX(${el.offsetLeft}px)` };
 }
 watch(wing, placePill);
+
+watch(
+  () => [wing.value, regionId.value, q.value],
+  ([nextWing, nextRegion, nextQuery]) => {
+    const query = { ...route.query };
+    if (nextWing === 'all') delete query.wing;
+    else query.wing = nextWing;
+    if (nextRegion === 'all') delete query.region;
+    else query.region = nextRegion;
+    if (nextQuery) query.q = nextQuery;
+    else delete query.q;
+    if (
+      query.wing !== route.query.wing ||
+      query.region !== route.query.region ||
+      query.q !== route.query.q
+    )
+      router.replace({ query });
+  }
+);
+watch(
+  () => [route.query.wing, route.query.region, route.query.q],
+  ([nextWing, nextRegion, nextQuery]) => {
+    wing.value = WINGS[nextWing] ? nextWing : 'all';
+    regionId.value = typeof nextRegion === 'string' ? nextRegion : 'all';
+    q.value = typeof nextQuery === 'string' ? nextQuery : '';
+  }
+);
 
 const STATS = computed(() => [
   { key: 'events', label: 'events', to: events.length },
@@ -285,7 +321,7 @@ onBeforeUnmount(() => {
 }
 .head {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: end;
   gap: 4px 28px;
 }
@@ -481,7 +517,7 @@ h1 {
 .month {
   position: relative;
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 150px minmax(0, 1fr);
   gap: 24px;
   padding: 16px 0 26px;
   scroll-margin-top: calc(var(--nav-h) + 16px);
@@ -535,7 +571,7 @@ h1 {
 }
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
   gap: 26px 20px;
   align-items: start;
 }
@@ -580,7 +616,7 @@ h1 {
 
 @media (max-width: 900px) {
   .head {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .stats {
     justify-content: flex-start;
@@ -625,7 +661,7 @@ h1 {
     display: none;
   }
   .month {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 12px;
     padding: 10px 0 18px;
   }
@@ -646,7 +682,7 @@ h1 {
     margin: 0 0 0 auto;
   }
   .cards {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px 12px;
   }
 }

@@ -3,15 +3,22 @@
   <LoungeDialog ref="dlg" labelledby="ff-h" @close="emit('close')">
     <form class="evd-form" @submit.prevent="send">
       <p class="gp-kicker">{{ kicker }}</p>
-      <h2 id="ff-h" class="evd-h">{{ form.title }}</h2>
-      <p v-if="form.description" class="evd-desc">{{ form.description }}</p>
-      <p v-if="form.submitted" class="evd-done">You already sent this one.</p>
+      <h2 id="ff-h" class="evd-h">{{ form.group_label || form.title }}</h2>
+      <p v-if="form.group_purpose || form.description" class="evd-desc">
+        {{ form.group_purpose || form.description }}
+      </p>
+      <p v-if="form.submitted" class="evd-done">
+        Your application is saved. Sending this form is not WhatsApp admission.
+      </p>
       <FormFields
-        v-else
+        v-else-if="canSubmit"
         ref="fieldsEl"
         v-model:save-phone="savePhone"
         :fields="form.fields || []"
       />
+      <p v-else-if="!form.submitted" class="evd-plain" role="status">
+        This form is not accepting responses.
+      </p>
       <p v-if="error" class="ff-err" role="alert">{{ error }}</p>
       <p v-if="invite" class="ff-invite" role="status">
         WhatsApp invite:
@@ -25,7 +32,7 @@
       </p>
       <div class="evd-acts">
         <button
-          v-if="!form.submitted && !done"
+          v-if="!form.submitted && !done && canSubmit"
           type="submit"
           class="gp-btn is-big"
           :disabled="busy"
@@ -41,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { errorText } from '../../lib/auth.js';
 import FormFields from './FormFields.vue';
 import LoungeDialog from './LoungeDialog.vue';
@@ -55,6 +62,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'done']);
 
 const dlg = ref(null);
+const canSubmit = computed(() => props.form.accepting_responses ?? props.form.is_open ?? false);
 const fieldsEl = ref(null);
 const savePhone = ref(false);
 const busy = ref(false);
@@ -63,7 +71,8 @@ const done = ref(false);
 const invite = ref('');
 
 async function send() {
-  if (busy.value || props.form.submitted) return;
+  if (busy.value || props.form.submitted || !canSubmit.value) return;
+  if (!(await fieldsEl.value?.validate())) return;
   busy.value = true;
   error.value = '';
   try {

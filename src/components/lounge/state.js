@@ -6,15 +6,20 @@ import { member } from './fixtures.js';
 import { boot } from './boot.js';
 export { boot };
 
+// Document lifetime only: route returns stay settled; a browser refresh replays arrival.
+export const loungeArrived = ref(false);
+// True while the sign-in door still covers the Lounge. The Lounge (or its tour) is mounted and
+// rests in its first pose underneath; it starts moving when this turns false.
+export const doorHold = ref(false);
 export const theme = ref(boot.theme);
 export const rosterName = computed(() => member.full_name ?? '');
-export const preferredName = ref('');
+export const preferredName = ref(null);
 export const certName = ref('');
 export const cleanName = (v) => (v ?? '').trim().replace(/\s+/g, ' ');
 
 export function applyProfile(profile) {
   if (!profile) return;
-  preferredName.value = profile.preferred_name ?? '';
+  preferredName.value = profile.preferred_name ?? null;
   certName.value = profile.certificate_name ?? '';
   tourSeen.value = !!profile.tour_seen_at;
 }
@@ -33,9 +38,7 @@ export async function savePreferredName(v, phone) {
 export const nameOn = ref(true);
 export const liveOn = ref(true);
 export const customName = preferredName;
-export const shownName = computed(() =>
-  nameOn.value ? preferredName.value || rosterName.value : ''
-);
+export const shownName = computed(() => (nameOn.value ? preferredName.value || '' : ''));
 export const hasName = computed(() => !!shownName.value);
 export const firstName = computed(() => shownName.value.split(' ')[0] || '');
 export const callName = computed(() => shownName.value);

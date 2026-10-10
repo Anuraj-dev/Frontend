@@ -66,6 +66,9 @@
       <p class="adm-note wide">
         {{ parsed.length }} student{{ parsed.length === 1 ? '' : 's' }} found.
       </p>
+      <p v-if="parsed.some((r) => r.region_error)" class="adm-msg err wide" role="alert">
+        Fix unknown region labels before adding students.
+      </p>
       <ul v-if="bulkResult" class="results wide">
         <li v-for="r in bulkResult.filter((x) => !x.ok)" :key="r.email">
           <span class="mono">{{ r.email || '(no email)' }}</span> — {{ r.error }}
@@ -78,7 +81,9 @@
         <button
           type="submit"
           class="adm-btn"
-          :disabled="busy || !parsed.length || parsed.length > 500"
+          :disabled="
+            busy || !parsed.length || parsed.length > 500 || parsed.some((r) => r.region_error)
+          "
         >
           Add {{ parsed.length || '' }} to roster
         </button>
@@ -104,7 +109,7 @@
           </select>
         </label>
         <p class="adm-note wide">
-          {{ csvRows.length }} unique row{{ csvRows.length === 1 ? '' : 's' }} after de-duplicating
+          {{ uniqueCsv.length }} row{{ uniqueCsv.length === 1 ? '' : 's' }} after de-duplicating
           this file. {{ csvRows.filter((r) => r.duplicate).length }} duplicate line{{
             csvRows.filter((r) => r.duplicate).length === 1 ? '' : 's'
           }}
@@ -123,12 +128,15 @@
               <tr v-for="r in csvPreview" :key="r.email">
                 <td class="mono">{{ r.email }}</td>
                 <td>{{ r.full_name || '–' }}</td>
-                <td>{{ r.region_id ? regionOf(r.region_id) : '–' }}</td>
+                <td>{{ r.region_error || (r.region_id ? regionOf(r.region_id) : '–') }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </template>
+      <p v-if="uniqueCsv.some((r) => r.region_error)" class="adm-msg err wide" role="alert">
+        Fix unknown region labels before importing.
+      </p>
       <ul v-if="csvResult" class="results wide">
         <li v-for="r in csvResult.filter((x) => !x.ok)" :key="r.email">
           <span class="mono">{{ r.email || '(no email)' }}</span> — {{ r.error }}
@@ -141,7 +149,12 @@
         <button
           type="submit"
           class="adm-btn mari"
-          :disabled="busy || !uniqueCsv.length || uniqueCsv.length > 500"
+          :disabled="
+            busy ||
+            !uniqueCsv.length ||
+            uniqueCsv.length > 500 ||
+            uniqueCsv.some((r) => r.region_error)
+          "
         >
           Import {{ uniqueCsv.length || '' }}
         </button>
@@ -325,11 +338,18 @@ function summarize(result) {
   const rows = Array.isArray(result) ? result : [];
   const n = (cat) =>
     rows.filter((r) => r.category === cat || (cat === 'added' && r.ok && !r.category)).length;
-  const added = n('added') || rows.filter((r) => r.ok && r.category !== 'existing').length;
+  const added = n('added');
+  const processed = n('processed');
   const existing = n('existing');
   const invalid = n('invalid') || rows.filter((r) => !r.ok && r.category !== 'conflict').length;
   const conflict = n('conflict');
-  return { rows, added, existing, invalid, conflict };
+  return { rows, added, existing, processed, invalid, conflict };
+}
+
+function summaryText(s) {
+  if (!isSuperAdmin.value)
+    return `${s.processed} processed, ${s.invalid} invalid. Existing identities are preserved.`;
+  return `${s.added} added, ${s.existing} already present, ${s.invalid} invalid, ${s.conflict} conflicting.`;
 }
 
 async function addOne() {
@@ -359,7 +379,7 @@ async function addMany() {
     const s = summarize(result);
     bulkResult.value = s.rows;
     bulkOk.value = s.invalid + s.conflict === 0;
-    bulkMsg.value = `${s.added} added, ${s.existing} already present, ${s.invalid} invalid, ${s.conflict} conflicting.`;
+    bulkMsg.value = summaryText(s);
     if (bulkOk.value) paste.value = '';
     await load();
     emit('changed');
@@ -406,7 +426,7 @@ async function importCsv() {
     const s = summarize(result);
     csvResult.value = s.rows;
     csvOk.value = s.invalid + s.conflict === 0;
-    csvMsg.value = `${s.added} added, ${s.existing} already present, ${s.invalid} invalid, ${s.conflict} conflicting.`;
+    csvMsg.value = summaryText(s);
     await load();
     emit('changed');
   } catch (e) {

@@ -30,7 +30,7 @@ export async function loadLounge() {
     listCertificates(),
     listRegionRequests(),
   ]);
-  return { profile, events, forms, notices, certificates, regionRequests };
+  return { uid, profile, events, forms, notices, certificates, regionRequests };
 }
 export const updateProfile = ({ preferred_name = null, phone = null }) =>
   rpc('update_my_profile', { p_preferred_name: preferred_name, p_phone: phone });
@@ -56,24 +56,11 @@ export const saveForm = (form) => rpc('save_lounge_form', { p_form: form });
 export const submitForm = (id, answers, savePhone = false) =>
   rpc('submit_lounge_form', { p_form_id: id, p_answers: answers, p_save_phone: savePhone });
 export const getFormInvite = (id) => rpc('get_lounge_form_invite', { p_form_id: id });
-// An application reveals an invite; it does not imply that WhatsApp admission was approved.
-// Source-backed membership forms only. Council/core-team recruitment can share the same scope.
-const groupFormIds = new Set([
-  '2fe75761-88af-5422-a3c7-d8e86830d3e2', // Technical
-  '5a905465-ec6c-50f2-9503-40cc2e97d00d', // Cultural
-  '4f142402-d390-512b-89e3-8193705b809e', // Esports
-  '1cb30c9f-d48a-5fc4-b1db-5cb6f99cfb74', // Bengaluru
-  '7bf59906-1960-5c2a-93c9-8624d70ac42e', // Chandigarh
-  '67e5b09c-2b8a-52a0-b326-01d0a2bf54cb', // Chennai
-  '0add795d-a412-5c49-bf58-bfad378e80ad', // Delhi
-  '14cec811-73a5-54ef-a8f1-7b8222fbc691', // Kolkata
-  '6d4f1bee-33f2-5f0f-a97b-4866993d7a39', // Mumbai
-  'ef6e5e79-5ea5-56dc-b81e-b5c75373694c', // Patna
-]);
 export const groupFormsForMember = (forms, regionId) =>
   forms.filter(
     (form) =>
-      groupFormIds.has(form.id) &&
+      form.form_kind === 'group' &&
+      !form.archived_at &&
       !form.event_id &&
       (form.region_id == null || form.region_id === regionId)
   );
@@ -82,17 +69,34 @@ export async function listGroups(forms = null, regionId = null) {
   const submitted = groupFormsForMember(forms ?? (await listForms()), regionId).filter(
     (form) => form.submitted
   );
-  const groups = await Promise.all(
-    submitted.map(async (form) => ({
-      id: form.id,
-      name: form.title,
-      purpose: form.description,
-      invite_url: await getFormInvite(form.id),
-      region_id: form.region_id,
-      community_id: form.community_id,
-    }))
+  return Promise.all(
+    submitted.map(async (form) => {
+      try {
+        const invite = await getFormInvite(form.id);
+        return {
+          id: form.id,
+          name: form.group_label || form.title,
+          purpose: form.group_purpose || '',
+          invite_url: invite || '',
+          invite_unavailable: !invite,
+          applied: true,
+          region_id: form.region_id,
+          community_id: form.community_id,
+        };
+      } catch (error) {
+        return {
+          id: form.id,
+          name: form.group_label || form.title,
+          purpose: form.group_purpose || '',
+          invite_url: '',
+          invite_error: error?.message || 'Invite link is not available yet.',
+          applied: true,
+          region_id: form.region_id,
+          community_id: form.community_id,
+        };
+      }
+    })
   );
-  return groups.filter((group) => group.invite_url);
 }
 export const listNotices = () => rpc('list_my_notices');
 export const setNoticeState = (id, { read = true, dismiss = false } = {}) =>
@@ -117,15 +121,22 @@ export const reviewCertificateNameRequest = (id, approve, note = '') =>
     p_note: note || null,
   });
 export const verifyCertificate = (id) => rpc('verify_issued_certificate', { p_id: id });
-export const importAttendance = (eventId, rows) =>
-  rpc('import_event_attendance', { p_event_id: eventId, p_rows: rows });
+export const importAttendance = (eventId, rows, options = {}) =>
+  rpc('import_event_attendance', {
+    p_event_id: eventId,
+    p_rows: rows,
+    p_mode: options.mode ?? 'merge',
+    p_source_id: options.sourceId ?? 'default',
+  });
 export async function listAttendance(eventId) {
   return unwrap(
     await (
       await sb()
     )
       .from('event_attendance')
-      .select('*')
+      .select(
+        'event_id,row_key,import_source,import_sources,email,member_id,duration_seconds,reviewed_eligible,category,imported_at'
+      )
       .eq('event_id', eventId)
       .order('category')
       .order('email')
