@@ -5,6 +5,9 @@ export const TESTING_EMAILS = [
   'sundarbans-sec@ds.study.iitm.ac.in',
   'sundarbans-ds@ds.study.iitm.ac.in',
   '24f2008153@ds.study.iitm.ac.in',
+  '23f3001340@ds.study.iitm.ac.in',
+  '24f3004018@ds.study.iitm.ac.in',
+  '26f2300048@ae.study.iitm.ac.in',
   'rushabhkapse32@gmail.com',
 ];
 
