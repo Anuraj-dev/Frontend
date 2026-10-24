@@ -298,6 +298,26 @@ function regionIdFrom(value, regions) {
   return byCode.get(key) ?? byName.get(key) ?? null;
 }
 
+// Gender is stored as Female or Male (members_gender_choice). Spreadsheets say it many ways.
+export const GENDER_OPTIONS = [
+  { value: '', label: 'Not set' },
+  { value: 'Female', label: 'Female' },
+  { value: 'Male', label: 'Male' },
+];
+const GENDER_WORDS = {
+  f: 'Female',
+  female: 'Female',
+  girl: 'Female',
+  m: 'Male',
+  male: 'Male',
+  boy: 'Male',
+};
+// '' and unknown words both give null; gender_error names the unknown one.
+const genderFields = (raw) => {
+  const gender = raw ? (GENDER_WORDS[raw.toLowerCase()] ?? null) : null;
+  return { gender, gender_error: raw && !gender ? `Unknown gender: ${raw}` : null };
+};
+
 // One student per line, tab- or comma-separated: email[, full name][, phone][, region][, gender].
 // Name, phone, region and gender may be left empty. Spreadsheet copies paste as tabs.
 export function parseRosterPaste(text, regions) {
@@ -314,7 +334,7 @@ export function parseRosterPaste(text, regions) {
         isSuperAdmin.value && region && !regionIdFrom(region, regions)
           ? `Unknown region: ${region}`
           : null,
-      gender: gender || null,
+      ...genderFields(gender),
     }));
 }
 
@@ -402,7 +422,7 @@ export function rowsFromRosterCsv(rows, mapping, regions) {
         isSuperAdmin.value && rawRegion && !regionIdFrom(rawRegion, regions)
           ? `Unknown region: ${rawRegion}`
           : null,
-      gender: col('gender', line) || null,
+      ...genderFields(col('gender', line)),
       _headers: headers,
       _raw: line,
     };

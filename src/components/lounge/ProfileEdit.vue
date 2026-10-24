@@ -1,6 +1,7 @@
 <!--
-  The name card. A member edits only the preferred name and optional phone (spec 002 §2); roll
-  and region come from the roster and the coordinator fixes them.
+  The name card. A member edits the preferred name and optional phone (spec 002 §2); roll and
+  region come from the roster and the coordinator fixes them. Full name and gender are asked
+  here only while empty, and set once (complete_my_profile); after that an admin corrects them.
   - variant 'profile': "Edit profile" from the profile menu.
   - variant 'ghat': the ghat name card reopened over the Lounge (openNameCard() in state.js:
     the lantern's "Name your lantern" chip, the crest face). The same band card and fields
@@ -26,6 +27,36 @@
           <component :is="Beacon" :name="draftClean" :cta="false" :halo="false" :tappable="false" />
         </div>
       </div>
+
+      <label v-if="need.name" class="pe-field">
+        <span>Full name</span>
+        <input
+          ref="fullEl"
+          v-model="fullDraft"
+          aria-required="true"
+          maxlength="200"
+          autocomplete="name"
+          placeholder="As on your IITM records"
+          aria-describedby="pe-full-help"
+        />
+        <small id="pe-full-help">Set once. Your Regional Coordinator corrects mistakes.</small>
+      </label>
+
+      <label v-if="need.gender" class="pe-field">
+        <span>Gender</span>
+        <select
+          v-model="genderDraft"
+          :aria-describedby="need.name ? 'pe-full-help' : 'pe-gender-help'"
+        >
+          <option value="">Choose</option>
+          <option>Female</option>
+          <option>Male</option>
+        </select>
+        <!-- The full name's note above covers both when both are asked. -->
+        <small v-if="!need.name" id="pe-gender-help"
+          >Set once. Your Regional Coordinator corrects mistakes.</small
+        >
+      </label>
 
       <label class="pe-field">
         <span>{{ ghat ? 'Your name' : 'Name in the Lounge' }}</span>
@@ -53,6 +84,14 @@
       </label>
 
       <div class="pe-ro gp-inset">
+        <div v-if="!need.name && member.full_name">
+          <span class="pe-k">Full name</span>
+          <span class="pe-v">{{ member.full_name }}</span>
+        </div>
+        <div v-if="!need.gender && member.gender">
+          <span class="pe-k">Gender</span>
+          <span class="pe-v">{{ member.gender }}</span>
+        </div>
         <div>
           <span class="pe-k">Roll</span>
           <span class="pe-v tnum">{{ member.roll }}</span>
@@ -117,7 +156,7 @@ import { errorText } from '../../lib/auth.js';
 import LoungeDialog from './LoungeDialog.vue';
 import RegionSelect from './RegionSelect.vue';
 import { member } from './fixtures.js';
-import { lounge, refreshLounge } from './session.js';
+import { lounge, missingDetails, refreshLounge, saveMyDetails } from './session.js';
 import {
   certName,
   cleanName,
@@ -133,6 +172,11 @@ const emit = defineEmits(['close']);
 const ghat = computed(() => props.variant === 'ghat');
 const dlg = ref(null);
 const nameEl = ref(null);
+const fullEl = ref(null);
+// Asked once per opening: the fields stay put while this card is open, even after they save.
+const need = ghat.value ? { name: false, gender: false } : { ...missingDetails.value };
+const fullDraft = ref('');
+const genderDraft = ref('');
 const draft = ref(preferredName.value);
 const phoneDraft = ref(member.phone || '');
 const draftClean = computed(() => cleanName(draft.value));
@@ -177,15 +221,25 @@ if (beacons['./home/NameBeacon.vue']) {
 
 onMounted(() => {
   if (!ghat.value) void refreshLounge();
-  nextTick(() => nameEl.value?.focus());
+  nextTick(() => (fullEl.value ?? nameEl.value)?.focus());
 });
 
 async function save() {
   if (busy.value) return;
-  busy.value = true;
   error.value = '';
+  const fullName = need.name ? cleanName(fullDraft.value) : null;
+  const gender = (need.gender && genderDraft.value) || null;
+  if (need.name && fullName.length < 2) {
+    error.value = 'Add your full name as on your IITM records.';
+    fullEl.value?.focus();
+    return;
+  }
+  busy.value = true;
   const from = nameEl.value?.getBoundingClientRect();
   try {
+    // Details first: if they are refused, nothing else is saved. Resending them after a later
+    // failure is harmless.
+    if (fullName || gender) await saveMyDetails({ full_name: fullName, gender });
     await savePreferredName(draft.value, phoneDraft.value.trim() || null);
     nameOn.value = true;
     if (preferredName.value) {
