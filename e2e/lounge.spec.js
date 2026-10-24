@@ -64,7 +64,7 @@ test('Skipping the tour leaves it unseen, entering marks it seen, and name edits
   await expect.poll(() => tourRpcs(calls)).toEqual([{ p_seen: true }]);
   await page.getByRole('button', { name: /^Your profile/ }).click();
   await page.getByRole('button', { name: 'Edit profile', exact: true }).click();
-  await page.getByLabel(/^Name in the Lounge/).fill('Riya');
+  await page.getByLabel(/^Your full name/).fill('Riya');
   await page.getByRole('button', { name: 'Save', exact: true }).click();
   await expect(page.locator('dialog[open]')).toHaveCount(0);
   const saves = calls

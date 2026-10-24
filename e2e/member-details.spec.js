@@ -16,30 +16,35 @@ test('a member without a full name or gender is asked once, from the strip', asy
 
   await strip(page).getByRole('button').click();
   const dialog = page.getByRole('dialog', { name: 'What should we call you?' });
-  await expect(dialog.getByLabel('Full name')).toBeFocused();
+  // One name box: the Lounge name is the full name.
+  const name = dialog.getByLabel('Your full name');
+  await expect(name).toBeFocused();
+  await expect(name).toHaveValue('Riya');
   // An empty full name is stopped before anything is sent.
+  await name.fill('');
   await dialog.getByRole('button', { name: 'Save', exact: true }).click();
   await expect(dialog.getByRole('alert')).toHaveText('Add your full name as on your IITM records.');
   expect(rpcs(calls, 'complete_my_profile')).toHaveLength(0);
   expect(rpcs(calls, 'update_my_profile')).toHaveLength(0);
 
-  await dialog.getByLabel('Full name').fill('  Riya   Venkataraman ');
+  await name.fill('  Riya   Venkataraman ');
   await dialog.getByLabel('Gender').selectOption('Female');
   await dialog.getByRole('button', { name: 'Save', exact: true }).click();
   const call = await callTo(calls, '/rest/v1/rpc/complete_my_profile');
   expect(JSON.parse(call.body)).toEqual({ p_full_name: 'Riya Venkataraman', p_gender: 'Female' });
+  const profile = await callTo(calls, '/rest/v1/rpc/update_my_profile');
+  expect(JSON.parse(profile.body)).toMatchObject({ p_preferred_name: 'Riya Venkataraman' });
   await expect(page.locator('dialog[open]')).toHaveCount(0);
   await expect(strip(page)).toHaveCount(0);
   await expect(page.locator('html.has-banner')).toHaveCount(0);
 
-  // Once set, both read as facts and are no longer fields.
+  // Once set, gender reads as a fact; the name stays the one box.
   await page.getByRole('button', { name: /^Your profile/ }).click();
   await page.getByRole('button', { name: 'Edit profile', exact: true }).click();
   const again = page.getByRole('dialog', { name: 'What should we call you?' });
-  await expect(again.getByLabel('Name in the Lounge')).toBeFocused();
-  await expect(again.getByLabel('Full name')).toHaveCount(0);
+  await expect(again.getByLabel('Your full name')).toBeFocused();
+  await expect(again.getByLabel('Your full name')).toHaveValue('Riya Venkataraman');
   await expect(again.getByLabel('Gender')).toHaveCount(0);
-  await expect(again.getByText('Riya Venkataraman')).toBeVisible();
   await expect(again.getByText('Female', { exact: true })).toBeVisible();
 });
 
@@ -49,8 +54,7 @@ test('a member with only gender missing may save without it; the strip stays', a
   await expect(strip(page)).toContainText('Add your gender.');
   await strip(page).getByRole('button').click();
   const dialog = page.getByRole('dialog', { name: 'What should we call you?' });
-  await expect(dialog.getByLabel('Full name')).toHaveCount(0);
-  await expect(dialog.getByText('Riya Venkataraman')).toBeVisible();
+  await expect(dialog.getByLabel('Your full name')).toHaveValue('Riya');
   await dialog.getByLabel('Phone').fill('+919990000099');
   await dialog.getByRole('button', { name: 'Save', exact: true }).click();
   await callTo(calls, '/rest/v1/rpc/update_my_profile');
