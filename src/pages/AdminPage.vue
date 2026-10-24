@@ -15,7 +15,7 @@
       <aside class="sidebar" aria-label="Admin navigation">
         <nav class="desk-nav" aria-label="Admin sections">
           <template v-for="item in tabs" :key="item.id">
-            <p v-if="item.id === 'positions'" class="nav-label">Administration</p>
+            <p v-if="item.id === 'directory'" class="nav-label">Administration</p>
             <button :aria-current="tab === item.id ? 'page' : undefined" @click="navigate(item.id)">
               <LineIcon :name="item.icon" />{{ item.label
               }}<span
