@@ -478,6 +478,18 @@ const ACTIONS = {
       note: nv(r).found ? `Found · ${nv(r).source}` : 'Not found',
     }),
   ],
+  'data.directory_search': [
+    'data',
+    'Directory searched',
+    (r) => ({
+      parts: [
+        actor(r),
+        ' searched the directory for ',
+        { record: true, text: nv(r).query || 'a student' },
+      ],
+      note: nv(r).results != null ? `${nv(r).results} found` : null,
+    }),
+  ],
 };
 
 // Category for any action, catalogued or not: by exact name, then by prefix.

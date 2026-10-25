@@ -164,6 +164,11 @@ export async function lookupEmail(email) {
   return unwrap(await supabase.rpc('admin_lookup_email', { p_email: email }));
 }
 
+// Super Admin search of the student directory (name, email or phone). Audited by the database.
+export async function searchDirectory(query) {
+  return unwrap(await supabase.rpc('search_student_directory', { p_query: query }));
+}
+
 export async function getMember(id) {
   const [m, pos, reg] = await Promise.all([
     supabase.from('members').select(MEMBER_COLS).eq('id', id).maybeSingle(),
