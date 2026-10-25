@@ -22,6 +22,7 @@ export const CATEGORIES = [
       'member.contact_change',
       'member.hard_delete',
       'member.group_forms_hidden',
+      'member.self_profile',
       'members.update',
     ],
   },
@@ -227,6 +228,17 @@ const ACTIONS = {
     'people',
     'Reinstated',
     (r) => ({ parts: [actor(r), ' reinstated ', subject(r)], note: reason(nv(r)) }),
+  ],
+  'member.self_profile': [
+    'people',
+    'Filled in their details',
+    (r) => ({
+      parts: [actor(r), ' filled in their own details'],
+      note: ['full_name', 'gender']
+        .filter((k) => k in nv(r))
+        .map((k) => `${k === 'full_name' ? 'full name' : k} ${nv(r)[k]}`)
+        .join(' · '),
+    }),
   ],
   'member.contact_change': [
     'people',
