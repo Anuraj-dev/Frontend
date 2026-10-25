@@ -1,6 +1,7 @@
 <!-- Super Admin search of the student directory: name, phone and the rest for every student in
-     the house upload, signed in or not. Search only, at most 50 rows; the database records every
-     search in the activity log. -->
+     the house upload, signed in or not. Each student shows the live record (their member row once
+     signed in, else their roster row) beside the upload, with the fields that disagree marked.
+     Search only, at most 50 rows; the database records every search in the activity log. -->
 <template>
   <div>
     <form class="adm-toolbar directory-form" novalidate @submit.prevent="search">
@@ -35,38 +36,53 @@
 
     <template v-else-if="result">
       <p class="adm-note directory-count" role="status">
-        {{ countText }}
+        {{ countText }} Highlighted rows disagree between the live record and the upload.
       </p>
-      <div class="adm-card adm-table-wrap directory-table">
-        <table class="adm-table stack">
-          <thead>
-            <tr>
-              <th scope="col">Student</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Region</th>
-              <th scope="col">Term</th>
-              <th scope="col">Gender</th>
-              <th scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="s in result.rows" :key="s.email">
-              <td>
-                <b>{{ s.full_name || 'Name not set' }}</b>
-                <small class="directory-email">{{ s.email }}</small>
-              </td>
-              <td data-label="Phone" class="mono">{{ s.phone || '–' }}</td>
-              <td data-label="Region">{{ s.region_name || '–' }}</td>
-              <td data-label="Term" class="mono">{{ s.term || '–' }}</td>
-              <td data-label="Gender">{{ s.gender || '–' }}</td>
-              <td data-label="Status">
-                <span class="adm-badge" :class="s.signed_in ? '' : 'mari'">{{
-                  s.signed_in ? 'Signed in' : 'Not signed in'
-                }}</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="adm-stack">
+        <article
+          v-for="(s, i) in result.rows"
+          :key="s.email"
+          class="adm-card directory-student"
+          :aria-labelledby="`directory-${i}`"
+        >
+          <header class="directory-head">
+            <div>
+              <h3 :id="`directory-${i}`">
+                {{ s.full_name || s.live?.full_name || 'Name not set' }}
+              </h3>
+              <small class="directory-email">{{ s.email }}</small>
+            </div>
+            <span class="adm-badge" :class="s.signed_in ? '' : 'mari'">{{
+              s.signed_in ? 'Signed in' : 'Not signed in'
+            }}</span>
+          </header>
+          <div class="adm-table-wrap">
+            <table class="adm-table directory-compare">
+              <thead>
+                <tr>
+                  <th scope="col"><span class="visually-hidden">Field</span></th>
+                  <th scope="col">{{ liveHeading(s.live) }}</th>
+                  <th scope="col">Upload, 23 Oct</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="f in FIELDS" :key="f.key" :class="{ differs: differs(f, s.live, s) }">
+                  <th scope="row">{{ f.label }}</th>
+                  <td :class="{ mono: f.mono }">
+                    {{ (s.live && s.live[f.key]) || '–' }}
+                    <small
+                      v-if="f.key === 'full_name' && loungeName(s.live)"
+                      class="directory-lounge"
+                      >Lounge: {{ loungeName(s.live) }}</small
+                    >
+                    <span v-if="differs(f, s.live, s)" class="visually-hidden">, differs</span>
+                  </td>
+                  <td :class="{ mono: f.mono }">{{ s[f.key] || '–' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
       </div>
     </template>
   </div>
@@ -85,11 +101,31 @@ const invalid = ref('');
 const result = ref(null);
 let sequence = 0;
 
+const FIELDS = [
+  { key: 'full_name', label: 'Name' },
+  { key: 'phone', label: 'Phone', mono: true },
+  { key: 'region_name', label: 'Region' },
+  { key: 'gender', label: 'Gender' },
+  { key: 'term', label: 'Term', mono: true },
+];
+const SOURCES = { member: 'Live, member', roster: 'Live, roster' };
+const liveHeading = (live) => SOURCES[live?.source] || 'Live, not on roster';
+
+// Only two filled values that disagree count; an empty live field is the clean-up, not a clash.
+const norm = (key, v) =>
+  key === 'phone'
+    ? String(v).replace(/[^0-9]/g, '')
+    : String(v).trim().replace(/\s+/g, ' ').toLowerCase();
+const differs = (f, live, upload) =>
+  !!(live?.[f.key] && upload[f.key]) && norm(f.key, live[f.key]) !== norm(f.key, upload[f.key]);
+const loungeName = (live) =>
+  live?.preferred_name && live.preferred_name !== live.full_name ? live.preferred_name : '';
+
 const countText = computed(() => {
   const { total, rows } = result.value;
   if (total > rows.length)
     return `Showing the first ${rows.length} of ${total}. Type more to narrow it.`;
-  return total === 1 ? '1 student' : `${total} students`;
+  return total === 1 ? '1 student.' : `${total} students.`;
 });
 
 // Typing again clears the last answer, so nothing stale sits beside a new search.
@@ -137,8 +173,52 @@ onBeforeUnmount(() => sequence++);
 .directory-count {
   margin: 16px 0 8px;
 }
-.directory-table td b {
+.directory-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-bottom: 10px;
+}
+.directory-head h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.directory-compare {
+  table-layout: fixed;
+}
+.directory-compare thead th:first-child {
+  width: 76px;
+}
+.directory-compare td {
+  overflow-wrap: anywhere;
+}
+.directory-compare tbody th {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.directory-compare tr.differs td {
+  background: color-mix(in srgb, var(--mari-soft) 55%, transparent);
+  color: var(--mari-ink);
+  font-weight: 650;
+}
+@media (max-width: 560px) {
+  .directory-student {
+    padding: 14px;
+  }
+  .directory-compare thead th:first-child {
+    width: 60px;
+  }
+}
+.directory-lounge {
   display: block;
+  color: var(--ink-3);
+  font-size: 12px;
+  font-weight: 500;
 }
 .directory-email {
   color: var(--ink-3);

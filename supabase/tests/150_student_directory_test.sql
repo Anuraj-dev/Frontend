@@ -53,6 +53,14 @@ select is(public.search_student_directory('0000007')->>'total', '1', 'A phone fr
 select is(public.search_student_directory('99f195')->>'total', '3', 'A shared prefix finds everyone');
 select is(public.search_student_directory('00%')->>'total', '1', 'Percent is a plain character, not a wildcard');
 select is(public.search_student_directory('nobody here')->'rows', '[]'::jsonb, 'No match is an empty list');
+-- The live record sits beside the upload: the member row once signed in, else the roster row.
+select is(public.search_student_directory('signed in')->'rows'->0->'live'->>'source', 'member', 'A signed-in student shows their member row');
+select is(public.search_student_directory('signed in')->'rows'->0->'live'->>'term', '99F1', 'The member row carries the cohort as the term');
+select is(public.search_student_directory('signed in')->'rows'->0->'live'->>'region_name', (select name from public.regions where id = 2), 'The member row carries the live region');
+select is(public.search_student_directory('asha')->'rows'->0->'live'->>'source', 'roster', 'A roster student shows their roster row');
+select is(public.search_student_directory('asha')->'rows'->0->'live'->>'full_name', null, 'The cleaned roster row has no name');
+select is(public.search_student_directory('asha')->'rows'->0->>'full_name', 'Asha Waiting', 'The upload keeps the name');
+select is(public.search_student_directory('ravi')->'rows'->0->'live', 'null'::jsonb, 'A student on neither has no live record');
 select throws_ok($$select public.search_student_directory('as')$$, '22023', 'Type at least 3 characters', 'Two characters are too few');
 select throws_ok($$select public.search_student_directory(null)$$, '22023', 'Type at least 3 characters', 'Null is too few');
 reset role;

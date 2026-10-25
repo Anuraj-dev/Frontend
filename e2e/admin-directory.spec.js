@@ -13,6 +13,16 @@ const ROWS = [
     region_id: 9,
     region_name: 'Chennai',
     signed_in: false,
+    live: {
+      source: 'roster',
+      full_name: null,
+      preferred_name: null,
+      phone: null,
+      term: null,
+      gender: null,
+      region_id: 9,
+      region_name: 'Chennai',
+    },
   },
   {
     email: '24f2000021@ds.study.iitm.ac.in',
@@ -23,6 +33,16 @@ const ROWS = [
     region_id: 6,
     region_name: 'Hyderabad',
     signed_in: true,
+    live: {
+      source: 'member',
+      full_name: 'Ashok Kumar Rao',
+      preferred_name: 'Ashok',
+      phone: '+91 98100 00021',
+      term: '24F2',
+      gender: 'Male',
+      region_id: 7,
+      region_name: 'Bengaluru',
+    },
   },
 ];
 const directory = (args) =>
@@ -49,7 +69,9 @@ test('a Super Admin opens Directory to an empty search', async ({ page }) => {
   await expect(page.getByRole('table')).toHaveCount(0);
 });
 
-test('a search lists name, phone, region and sign-in status', async ({ page }) => {
+test('a search shows the live record beside the upload and marks what disagrees', async ({
+  page,
+}) => {
   const calls = await mockSupabase(page, {
     as: 'sa',
     data: { search_student_directory: directory },
@@ -57,13 +79,24 @@ test('a search lists name, phone, region and sign-in status', async ({ page }) =
   await page.goto('/#/admin?tab=directory');
   await page.getByLabel('Name, email or phone').fill('  Ash ');
   await page.getByRole('button', { name: 'Search', exact: true }).click();
-  const table = page.getByRole('table');
-  await expect(table.getByText('Asha Menon')).toBeVisible();
-  await expect(table.getByText('+919810000020')).toBeVisible();
-  await expect(table.getByText('Chennai')).toBeVisible();
-  await expect(table.getByText('Not signed in')).toBeVisible();
-  await expect(table.getByText('Signed in', { exact: true })).toBeVisible();
-  await expect(page.getByText('2 students')).toBeVisible();
+  const asha = page.getByRole('article', { name: 'Asha Menon' });
+  await expect(asha.getByText('Not signed in')).toBeVisible();
+  await expect(asha.getByRole('columnheader', { name: 'Live, roster' })).toBeVisible();
+  // The cleaned roster row is empty where the upload has the name and phone; that is no clash.
+  const ashaPhone = asha.getByRole('row', { name: /^Phone/ });
+  await expect(ashaPhone.getByRole('cell').nth(0)).toHaveText('–');
+  await expect(ashaPhone.getByRole('cell').nth(1)).toHaveText('+919810000020');
+  await expect(asha.locator('tr.differs')).toHaveCount(0);
+
+  const ashok = page.getByRole('article', { name: 'Ashok Rao' });
+  await expect(ashok.getByText('Signed in', { exact: true })).toBeVisible();
+  await expect(ashok.getByRole('columnheader', { name: 'Live, member' })).toBeVisible();
+  await expect(ashok.getByText('Lounge: Ashok')).toBeVisible();
+  // Name and region disagree; the phone matches once spacing is ignored.
+  await expect(ashok.locator('tr.differs th')).toHaveText(['Name', 'Region']);
+  await expect(ashok.getByRole('row', { name: /^Region/ })).toContainText('Bengaluru');
+  await expect(ashok.getByRole('row', { name: /^Region/ })).toContainText('Hyderabad');
+  await expect(page.getByText('2 students', { exact: false })).toBeVisible();
   const call = await callTo(calls, '/rest/v1/rpc/search_student_directory');
   expect(JSON.parse(call.body)).toEqual({ p_query: 'Ash' });
 });
